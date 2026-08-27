@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BARRACAS-CENOP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070d;
+  --bg-panel:#0a0f1e;
+  --bg-elevated:#0f1730;
+  --bg-input:#0a1122;
+  --cyan:#00eaff;
+  --magenta:#ff2ec4;
+  --green:#39ff88;
+  --orange:#ffa629;
+  --red:#ff3355;
+  --text:#d9f6ff;
+  --text-dim:#6f89a8;
+  --border:#1c2b4a;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(0,234,255,0.08), transparent 60%),
+    radial-gradient(ellipse 900px 500px at 85% 110%, rgba(255,46,196,0.08), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* ambient scanline grid, very subtle, static-ish */
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    linear-gradient(rgba(0,234,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,234,255,0.035) 1px, transparent 1px);
+  background-size:42px 42px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 20%, black 0%, transparent 75%);
+}
+.wrap{position:relative; z-index:1; max-width:1280px; margin:0 auto; padding:28px 22px 80px;}
+
+/* HEADER */
+header{text-align:center; margin-bottom:26px;}
+h1.brand{
+  font-family:'Orbitron',sans-serif; font-weight:900; letter-spacing:4px;
+  font-size:clamp(28px,5vw,46px); margin:0; color:#fff;
+  text-shadow:0 0 6px var(--cyan), 0 0 22px rgba(0,234,255,0.7), 0 0 46px rgba(255,46,196,0.35);
+  animation:flicker 6s infinite;
+}
+@keyframes flicker{
+  0%,96%,100%{opacity:1;}
+  97%{opacity:0.85;}
+  97.5%{opacity:1;}
+  98%{opacity:0.9;}
+}
+.brand-sub{
+  font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:5px; color:var(--magenta);
+  text-shadow:0 0 8px rgba(255,46,196,0.6); margin-top:6px;
+}
+.motto{font-size:13px; letter-spacing:2px; color:var(--text-dim); margin-top:10px;}
+
+/* TOOLBAR */
+.toolbar{
+  display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:center;
+  margin:24px 0 20px;
+}
+.btn{
+  font-family:'Rajdhani',sans-serif; font-weight:700; letter-spacing:1.5px; font-size:14px;
+  text-transform:uppercase; cursor:pointer; border-radius:8px; padding:11px 20px;
+  background:var(--bg-elevated); color:var(--text); border:1px solid var(--border);
+  transition:all .25s ease; position:relative;
+}
+.btn:hover{transform:translateY(-1px);}
+.btn-cyan{border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 10px rgba(0,234,255,0.15);}
+.btn-cyan:hover{box-shadow:0 0 18px rgba(0,234,255,0.5); background:rgba(0,234,255,0.08);}
+.btn-magenta{border-color:var(--magenta); color:var(--magenta); box-shadow:0 0 10px rgba(255,46,196,0.15);}
+.btn-magenta:hover{box-shadow:0 0 18px rgba(255,46,196,0.5); background:rgba(255,46,196,0.08);}
+.btn-ghost{border-color:var(--border); color:var(--text-dim); font-size:12px; padding:9px 14px;}
+.btn-ghost:hover{color:var(--text); border-color:var(--text-dim);}
+.btn-danger{border-color:var(--red); color:var(--red);}
+.btn-danger:hover{box-shadow:0 0 16px rgba(255,51,85,0.5); background:rgba(255,51,85,0.08);}
+
+/* FILTER PILLS */
+.filters{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:22px;}
+.pill{
+  font-size:12px; letter-spacing:1px; padding:7px 14px; border-radius:20px; cursor:pointer;
+  border:1px solid var(--border); color:var(--text-dim); background:var(--bg-panel); transition:.2s;
+}
+.pill.active{color:#fff; border-color:currentColor;}
+.pill[data-f="all"].active{color:var(--cyan); box-shadow:0 0 10px rgba(0,234,255,0.4);}
+.pill[data-f="rojo"].active{color:var(--red); box-shadow:0 0 10px rgba(255,51,85,0.4);}
+.pill[data-f="naranja"].active{color:var(--orange); box-shadow:0 0 10px rgba(255,166,41,0.4);}
+.pill[data-f="verde"].active{color:var(--green); box-shadow:0 0 10px rgba(57,255,136,0.4);}
+
+/* SUMMARY BAR */
+.summary{
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-bottom:26px;
+  font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:1px;
+}
+.summary .chip{
+  padding:8px 16px; border-radius:8px; background:var(--bg-panel); border:1px solid var(--border);
+}
+.summary .chip b{font-size:15px; margin-right:6px;}
+.chip.c-red b{color:var(--red);} .chip.c-orange b{color:var(--orange);}
+.chip.c-green b{color:var(--green);} .chip.c-total b{color:var(--cyan);}
+
+/* GRID */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:20px;}
+
+.card{
+  background:var(--bg-panel); border-radius:14px; padding:16px 16px 14px;
+  border:1px solid var(--border); position:relative; overflow:hidden;
+}
+.card-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;}
+.card-head .num{
+  font-family:'Orbitron',sans-serif; font-weight:700; font-size:15px; color:#fff; letter-spacing:1px;
+}
+.card-head .num span{color:var(--cyan); text-shadow:0 0 8px rgba(0,234,255,0.6);}
+.del-alo{
+  background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:16px; line-height:1;
+  opacity:.5; transition:.2s;
+}
+.del-alo:hover{opacity:1; color:var(--red);}
+
+.ala{
+  border-radius:10px; padding:12px 13px; margin-bottom:10px; cursor:pointer;
+  background:var(--bg-elevated); border:1px solid var(--border); position:relative;
+  transition:transform .2s ease;
+}
+.ala:last-child{margin-bottom:0;}
+.ala:hover{transform:translateY(-2px);}
+.ala::before{
+  content:""; position:absolute; inset:0; border-radius:10px; padding:1px;
+  background:conic-gradient(from var(--ang,0deg), transparent 0 70%, var(--glow) 85%, transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  animation:spin 5s linear infinite; opacity:.55; pointer-events:none;
+}
+@keyframes spin{to{--ang:360deg;}}
+@property --ang{syntax:'<angle>'; inherits:true; initial-value:0deg;}
+
+.ala.rojo{--glow:var(--red);}
+.ala.naranja{--glow:var(--orange);}
+.ala.verde{--glow:var(--green);}
+
+.ala-row{display:flex; justify-content:space-between; align-items:center; font-size:13px;}
+.ala-name{font-weight:700; letter-spacing:1px; text-transform:uppercase; font-size:12.5px; color:var(--text-dim);}
+.dot{width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:7px; position:relative; top:1px;}
+.dot.rojo{background:var(--red); box-shadow:0 0 8px var(--red), 0 0 16px var(--red);}
+.dot.naranja{background:var(--orange); box-shadow:0 0 8px var(--orange), 0 0 16px var(--orange);}
+.dot.verde{background:var(--green); box-shadow:0 0 8px var(--green), 0 0 16px var(--green);}
+.ala-meta{font-size:11.5px; color:var(--text-dim); margin-top:6px; display:flex; justify-content:space-between;}
+.ala-meta b{color:var(--text); font-weight:600;}
+
+/* MODAL */
+.overlay{
+  position:fixed; inset:0; background:rgba(2,4,10,0.78); backdrop-filter:blur(3px);
+  display:none; align-items:flex-start; justify-content:center; z-index:50; padding:30px 14px; overflow-y:auto;
+}
+.overlay.show{display:flex;}
+.modal{
+  background:var(--bg-panel); border:1px solid var(--cyan); border-radius:16px;
+  box-shadow:0 0 30px rgba(0,234,255,0.25), 0 0 80px rgba(255,46,196,0.08);
+  max-width:640px; width:100%; padding:24px 24px 20px; margin-top:10px;
+}
+.modal.report{border-color:var(--magenta); box-shadow:0 0 30px rgba(255,46,196,0.25);}
+.modal h2{
+  font-family:'Orbitron',sans-serif; font-size:16px; letter-spacing:2px; margin:0 0 4px;
+  color:#fff;
+}
+.modal .sub{font-size:12px; color:var(--text-dim); letter-spacing:1px; margin-bottom:18px;}
+.form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px 14px;}
+.field{display:flex; flex-direction:column; gap:5px;}
+.field.full{grid-column:1/-1;}
+label{font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); font-weight:600;}
+input[type=text],input[type=number],input[type=tel],select,textarea{
+  background:var(--bg-input); border:1px solid var(--border); color:var(--text);
+  border-radius:7px; padding:9px 10px; font-family:'Rajdhani',sans-serif; font-size:14.5px; font-weight:600;
+  outline:none; transition:.2s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan); box-shadow:0 0 8px rgba(0,234,255,0.35);}
+select{cursor:pointer;}
+.parte-row{display:flex; gap:6px;}
+.parte-row input{width:100%; text-align:center;}
+.checks{display:flex; gap:14px; flex-wrap:wrap; padding-top:2px;}
+.checks label{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text); cursor:pointer; text-transform:none; letter-spacing:0;}
+.checks input[type=checkbox]{accent-color:var(--cyan); width:15px; height:15px;}
+.modal-actions{display:flex; justify-content:space-between; gap:10px; margin-top:20px;}
+.modal-actions .left{display:flex; gap:10px;}
+
+/* REPORT */
+#reportText{
+  width:100%; min-height:340px; background:var(--bg-input); border:1px solid var(--border);
+  color:var(--text); border-radius:10px; padding:14px; font-family:'Rajdhani',sans-serif;
+  font-size:13.5px; line-height:1.55; white-space:pre-wrap; resize:vertical;
+}
+.copied-msg{font-size:12px; color:var(--green); letter-spacing:1px; visibility:hidden;}
+.copied-msg.show{visibility:visible;}
+
+::-webkit-scrollbar{width:9px;}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:6px;}
+
+footer{
+  text-align:center; margin-top:50px; font-size:11px; letter-spacing:3px; color:var(--text-dim);
+  text-transform:uppercase;
+}
+.saving-indicator{
+  position:fixed; bottom:16px; right:18px; font-size:11px; color:var(--text-dim);
+  letter-spacing:1px; opacity:0; transition:opacity .3s; z-index:60;
+}
+.saving-indicator.show{opacity:1;}
+
+@media (max-width:520px){
+  .form-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 class="brand">BARRACAS-CENOP</h1>
+    <div class="brand-sub">SISTEMA DE ADMINISTRACIÓN DE ALOJAMIENTOS</div>
+    <div class="motto">"LEALTAD, VALOR, ABNEGACIÓN"</div>
+  </header>
+
+  <div class="toolbar">
+    <button class="btn btn-magenta" id="btnReport">📋 Generar parte general</button>
+    <button class="btn btn-cyan" id="btnAdd">＋ Añadir alojamiento</button>
+    <button class="btn btn-ghost" id="btnResetAll">Restablecer todo</button>
+  </div>
+
+  <div class="filters" id="filters">
+    <div class="pill active" data-f="all">TODOS</div>
+    <div class="pill" data-f="rojo">🔴 LLENO</div>
+    <div class="pill" data-f="naranja">🟠 PARCIAL</div>
+    <div class="pill" data-f="verde">🟢 DISPONIBLE</div>
+  </div>
+
+  <div class="summary" id="summary"></div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>CENOP &middot; Dios y Patria</footer>
+</div>
+
+<div class="saving-indicator" id="savingIndicator">Guardando...</div>
+
+<!-- MODAL EDICIÓN -->
+<div class="overlay" id="editOverlay">
+  <div class="modal" id="editModal"></div>
+</div>
+
+<!-- MODAL REPORTE -->
+<div class="overlay" id="reportOverlay">
+  <div class="modal report">
+    <h2>PARTE GENERAL DE BARRACAS</h2>
+    <div class="sub">Listo para copiar y enviar por WhatsApp</div>
+    <textarea id="reportText" readonly></textarea>
+    <div class="modal-actions">
+      <span class="copied-msg" id="copiedMsg">✔ Copiado al portapapeles</span>
+      <div class="left">
+        <button class="btn btn-ghost" id="btnCloseReport">Cerrar</button>
+        <button class="btn btn-cyan" id="btnCopyReport">Copiar texto</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const GRUPOS = ["GRANADEROS","COR","TIRO","GOER","JUNGLA","UNDMO","COPES","OTRO"];
+const FFMM = ["EJERCITO","ARMADA","F. AEREA"];
+const STORAGE_KEY = "barracas-cenop-data";
+
+let state = { alojamientos: [], nextNum: 13 };
+
+function defaultAla(){
+  return {
+    capacidad:"", curso:"", grupo:"", grupoOtro:"", cdte:"", tel:"", fe:"",
+    parte:["0","0","0","0","0"], hombres:"", mujeres:"",
+    ffmm:[], cti:"", inpec:"", extPais:"", extCant:"", otro:"",
+    updated:null
+  };
+}
+function defaultAlojamiento(numero){
+  return { numero, izquierda:defaultAla(), derecha:defaultAla() };
+}
+
+function num(v){ const n = parseInt(v,10); return isNaN(n) ? 0 : n; }
+
+function ocupados(ala){
+  return num(ala.hombres)+num(ala.mujeres)+num(ala.cti)+num(ala.inpec)+num(ala.extCant);
+}
+function status(ala){
+  const cap = num(ala.capacidad);
+  const oc = ocupados(ala);
+  if(cap<=0) return "verde";
+  if(oc<=0) return "verde";
+  if(oc>=cap) return "rojo";
+  return "naranja";
+}
+function statusEmoji(s){ return s==="rojo"?"🔴":s==="naranja"?"🟠":"🟢"; }
+function statusLabel(s){ return s==="rojo"?"LLENO":s==="naranja"?"PARCIAL":"DISPONIBLE"; }
+
+let saveTimer=null;
+async function persist(){
+  const el = document.getElementById('savingIndicator');
+  el.classList.add('show');
+  try{
+    await window.storage.set(STORAGE_KEY, JSON.stringify(state), false);
+  }catch(e){ console.error("Error guardando:", e); }
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>el.classList.remove('show'), 700);
+}
+
+async function load(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, false);
+    if(res && res.value){
+      state = JSON.parse(res.value);
+    } else {
+      seedDefault();
+      await persist();
+    }
+  }catch(e){
+    seedDefault();
+    await persist();
+  }
+  render();
+}
+
+function seedDefault(){
+  state.alojamientos = [];
+  for(let i=1;i<=12;i++) state.alojamientos.push(defaultAlojamiento(i));
+  state.nextNum = 13;
+}
+
+let currentFilter = "all";
+
+function alaMatchesFilter(ala){
+  if(currentFilter==="all") return true;
+  return status(ala)===currentFilter;
+}
+
+function render(){
+  renderSummary();
+  const grid = document.getElementById('grid');
+  grid.innerHTML = "";
+  state.alojamientos.forEach(alo=>{
+    const card = document.createElement('div');
+    card.className = "card";
+    const showIzq = alaMatchesFilter(alo.izquierda);
+    const showDer = alaMatchesFilter(alo.derecha);
+    if(!showIzq && !showDer && currentFilter!=="all") { return; }
+    card.innerHTML = `
+      <div class="card-head">
+        <div class="num">ALOJAMIENTO <span>N° ${alo.numero}</span></div>
+        <button class="del-alo" title="Eliminar alojamiento" data-del="${alo.numero}">✕</button>
+      </div>
+      ${showIzq ? alaHtml(alo.numero,'izquierda',alo.izquierda,'ALA IZQUIERDA') : ''}
+      ${showDer ? alaHtml(alo.numero,'derecha',alo.derecha,'ALA DERECHA') : ''}
+    `;
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('[data-open]').forEach(elm=>{
+    elm.addEventListener('click', ()=>{
+      const [n,side] = elm.getAttribute('data-open').split('|');
+      openEdit(parseInt(n,10), side);
+    });
+  });
+  grid.querySelectorAll('[data-del]').forEach(elm=>{
+    elm.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const n = parseInt(elm.getAttribute('data-del'),10);
+      if(confirm(`¿Eliminar el alojamiento N° ${n}? Esta acción no se puede deshacer.`)){
+        state.alojamientos = state.alojamientos.filter(a=>a.numero!==n);
+        persist(); render();
+      }
+    });
+  });
+}
+
+function alaHtml(numero, side, ala, label){
+  const s = status(ala);
+  const cap = ala.capacidad || 0;
+  const oc = ocupados(ala);
+  return `
+    <div class="ala ${s}" data-open="${numero}|${side}">
+      <div class="ala-row">
+        <span class="ala-name"><span class="dot ${s}"></span>${label}</span>
+        <span style="font-size:11px;color:var(--text-dim);">${statusLabel(s)}</span>
+      </div>
+      <div class="ala-meta">
+        <span>Cap: <b>${cap||'-'}</b></span>
+        <span>Ocup: <b>${oc}</b></span>
+        <span>${ala.grupo ? (ala.grupo==='OTRO'? (ala.grupoOtro||'OTRO') : ala.grupo) : '-'}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderSummary(){
+  let rojo=0,naranja=0,verde=0,capTotal=0,ocTotal=0;
+  state.alojamientos.forEach(a=>{
+    [a.izquierda,a.derecha].forEach(ala=>{
+      const s = status(ala);
+      if(s==="rojo") rojo++; else if(s==="naranja") naranja++; else verde++;
+      capTotal += num(ala.capacidad);
+      ocTotal += ocupados(ala);
+    });
+  });
+  document.getElementById('summary').innerHTML = `
+    <div class="chip c-red"><b>${rojo}</b>llenas</div>
+    <div class="chip c-orange"><b>${naranja}</b>parciales</div>
+    <div class="chip c-green"><b>${verde}</b>disponibles</div>
+    <div class="chip c-total"><b>${ocTotal}/${capTotal}</b>ocupación total</div>
+  `;
+}
+
+document.getElementById('filters').addEventListener('click', (e)=>{
+  const p = e.target.closest('.pill');
+  if(!p) return;
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active');
+  currentFilter = p.getAttribute('data-f');
+  render();
+});
+
+/* ------- EDIT MODAL ------- */
+const editOverlay = document.getElementById('editOverlay');
+const editModal = document.getElementById('editModal');
+
+function openEdit(numero, side){
+  const alo = state.alojamientos.find(a=>a.numero===numero);
+  const ala = alo[side];
+  const label = side==='izquierda' ? 'ALA IZQUIERDA' : 'ALA DERECHA';
+
+  editModal.innerHTML = `
+    <h2>ALOJAMIENTO N° ${numero} &middot; ${label}</h2>
+    <div class="sub">Solo se guarda al presionar "Guardar cambios"</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Capacidad personal</label>
+        <input type="number" min="0" id="f_capacidad" value="${ala.capacidad}">
+      </div>
+      <div class="field">
+        <label>Curso</label>
+        <input type="text" id="f_curso" value="${ala.curso}">
+      </div>
+      <div class="field">
+        <label>Grupo</label>
+        <select id="f_grupo">
+          <option value="">-- Seleccionar --</option>
+          ${GRUPOS.map(g=>`<option value="${g}" ${ala.grupo===g?'selected':''}>${g}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field" id="grupoOtroWrap" style="${ala.grupo==='OTRO'?'':'display:none;'}">
+        <label>¿Cuál grupo?</label>
+        <input type="text" id="f_grupoOtro" value="${ala.grupoOtro||''}">
+      </div>
+      <div class="field">
+        <label>CDTE asignación barraca</label>
+        <input type="text" id="f_cdte" value="${ala.cdte}">
+      </div>
+      <div class="field">
+        <label>Tel</label>
+        <input type="tel" id="f_tel" value="${ala.tel}">
+      </div>
+      <div class="field">
+        <label>FE</label>
+        <input type="text" id="f_fe" value="${ala.fe}">
+      </div>
+      <div class="field full">
+        <label>Parte (0-0-0-0-0)</label>
+        <div class="parte-row">
+          ${[0,1,2,3,4].map(i=>`<input type="number" min="0" class="f_parte" data-i="${i}" value="${ala.parte[i]}">`).join('')}
+        </div>
+      </div>
+      <div class="field">
+        <label>Hombres</label>
+        <input type="number" min="0" id="f_hombres" value="${ala.hombres}">
+      </div>
+      <div class="field">
+        <label>Mujeres</label>
+        <input type="number" min="0" id="f_mujeres" value="${ala.mujeres}">
+      </div>
+      <div class="field full">
+        <label>FF.MM</label>
+        <div class="checks">
+          ${FFMM.map(f=>`<label><input type="checkbox" class="f_ffmm" value="${f}" ${ala.ffmm.includes(f)?'checked':''}> ${f}</label>`).join('')}
+        </div>
+      </div>
+      <div class="field">
+        <label>CTI</label>
+        <input type="number" min="0" id="f_cti" value="${ala.cti}">
+      </div>
+      <div class="field">
+        <label>INPEC</label>
+        <input type="number" min="0" id="f_inpec" value="${ala.inpec}">
+      </div>
+      <div class="field">
+        <label>Extranjeros — país</label>
+        <input type="text" id="f_extPais" value="${ala.extPais}">
+      </div>
+      <div class="field">
+        <label>Extranjeros — cantidad</label>
+        <input type="number" min="0" id="f_extCant" value="${ala.extCant}">
+      </div>
+      <div class="field full">
+        <label>Otro</label>
+        <input type="text" id="f_otro" value="${ala.otro}">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btnClearAla">Limpiar campos</button>
+      <div class="left">
+        <button class="btn btn-ghost" id="btnCancelEdit">Cancelar</button>
+        <button class="btn btn-cyan" id="btnSaveEdit">Guardar cambios</button>
+      </div>
+    </div>
+  `;
+
+  editModal.querySelector('#f_grupo').addEventListener('change', (e)=>{
+    editModal.querySelector('#grupoOtroWrap').style.display = e.target.value==='OTRO' ? '' : 'none';
+  });
+
+  editModal.querySelector('#btnCancelEdit').addEventListener('click', closeEdit);
+  editModal.querySelector('#btnClearAla').addEventListener('click', ()=>{
+    if(confirm('¿Limpiar todos los campos de esta ala?')){
+      alo[side] = defaultAla();
+      persist(); render(); closeEdit();
+    }
+  });
+  editModal.querySelector('#btnSaveEdit').addEventListener('click', ()=>{
+    ala.capacidad = editModal.querySelector('#f_capacidad').value;
+    ala.curso = editModal.querySelector('#f_curso').value;
+    ala.grupo = editModal.querySelector('#f_grupo').value;
+    ala.grupoOtro = editModal.querySelector('#f_grupoOtro') ? editModal.querySelector('#f_grupoOtro').value : '';
+    ala.cdte = editModal.querySelector('#f_cdte').value;
+    ala.tel = editModal.querySelector('#f_tel').value;
+    ala.fe = editModal.querySelector('#f_fe').value;
+    ala.parte = Array.from(editModal.querySelectorAll('.f_parte')).map(i=>i.value || "0");
+    ala.hombres = editModal.querySelector('#f_hombres').value;
+    ala.mujeres = editModal.querySelector('#f_mujeres').value;
+    ala.ffmm = Array.from(editModal.querySelectorAll('.f_ffmm:checked')).map(c=>c.value);
+    ala.cti = editModal.querySelector('#f_cti').value;
+    ala.inpec = editModal.querySelector('#f_inpec').value;
+    ala.extPais = editModal.querySelector('#f_extPais').value;
+    ala.extCant = editModal.querySelector('#f_extCant').value;
+    ala.otro = editModal.querySelector('#f_otro').value;
+    ala.updated = new Date().toISOString();
+    persist();
+    render();
+    closeEdit();
+  });
+
+  editOverlay.classList.add('show');
+}
+function closeEdit(){ editOverlay.classList.remove('show'); }
+editOverlay.addEventListener('click',(e)=>{ if(e.target===editOverlay) closeEdit(); });
+
+/* ------- ADD / RESET ------- */
+document.getElementById('btnAdd').addEventListener('click', ()=>{
+  state.alojamientos.push(defaultAlojamiento(state.nextNum));
+  state.nextNum++;
+  persist();
+  render();
+});
+document.getElementById('btnResetAll').addEventListener('click', ()=>{
+  if(confirm('Esto borrará TODOS los datos de todos los alojamientos y volverá a 12 por defecto. ¿Continuar?')){
+    seedDefault();
+    persist();
+    render();
+  }
+});
+
+/* ------- REPORTE ------- */
+const reportOverlay = document.getElementById('reportOverlay');
+document.getElementById('btnReport').addEventListener('click', ()=>{
+  document.getElementById('reportText').value = buildReport();
+  document.getElementById('copiedMsg').classList.remove('show');
+  reportOverlay.classList.add('show');
+});
+document.getElementById('btnCloseReport').addEventListener('click', ()=>reportOverlay.classList.remove('show'));
+reportOverlay.addEventListener('click',(e)=>{ if(e.target===reportOverlay) reportOverlay.classList.remove('show'); });
+
+document.getElementById('btnCopyReport').addEventListener('click', async ()=>{
+  const txt = document.getElementById('reportText').value;
+  try{
+    await navigator.clipboard.writeText(txt);
+  }catch(e){
+    const ta = document.getElementById('reportText');
+    ta.select();
+    document.execCommand('copy');
+  }
+  const msg = document.getElementById('copiedMsg');
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'), 2500);
+});
+
+function fmtDate(){
+  const d = new Date();
+  const opts = {day:'2-digit',month:'2-digit',year:'numeric'};
+  const fecha = d.toLocaleDateString('es-CO', opts);
+  const hora = d.toLocaleTimeString('es-CO', {hour:'2-digit',minute:'2-digit'});
+  return `${fecha} - ${hora}`;
+}
+
+function buildReport(){
+  let rojo=0,naranja=0,verde=0,capTotal=0,ocTotal=0;
+  const bloques = [];
+
+  state.alojamientos.forEach(alo=>{
+    [['izquierda','ALA IZQUIERDA'],['derecha','ALA DERECHA']].forEach(([side,label])=>{
+      const ala = alo[side];
+      const s = status(ala);
+      if(s==='rojo') rojo++; else if(s==='naranja') naranja++; else verde++;
+      capTotal += num(ala.capacidad);
+      ocTotal += ocupados(ala);
+
+      const grupo = ala.grupo === 'OTRO' ? (ala.grupoOtro || 'OTRO') : (ala.grupo || '-');
+      const ffmm = ala.ffmm && ala.ffmm.length ? ala.ffmm.join(', ') : '-';
+      const ext = (ala.extPais || ala.extCant) ? `${ala.extPais||'-'} (${ala.extCant||0})` : '-';
+
+      bloques.push(
+`${statusEmoji(s)} *ALOJAMIENTO N° ${alo.numero} - ${label}*
+• Capacidad personal: ${ala.capacidad || 0}
+• Curso: ${ala.curso || '-'}
+• GRUPO: ${grupo}
+• CDTE ASIGNACIÓN BARRACA: ${ala.cdte || '-'}
+• Tel: ${ala.tel || '-'}
+• FE: ${ala.fe || '-'}
+• Parte: ${ala.parte.join('-')}
+• HOMBRES: ${ala.hombres || 0}
+• MUJERES: ${ala.mujeres || 0}
+• FF.MM: ${ffmm}
+• CTI: ${ala.cti || 0}
+• INPEC: ${ala.inpec || 0}
+• EXTRANJEROS: PAÍS: ${ext}
+• OTRO: ${ala.otro || '-'}`
+      );
+    });
+  });
+
+  const header = `Dios y patria, respetuosamente envío parte de las Barracas o alojamientos CENOP así:\n(${fmtDate()})\n\nResumen: 🔴 ${rojo} llenas | 🟠 ${naranja} parciales | 🟢 ${verde} disponibles | Ocupación: ${ocTotal}/${capTotal}\n`;
+  const footer = `\n"LEALTAD, VALOR, ABNEGACIÓN"`;
+
+  return header + "\n" + bloques.join("\n\n") + footer;
+}
+
+load();
+</script>
+</body>
+</html>
