@@ -194,6 +194,32 @@ select{cursor:pointer;}
 .modal-actions{display:flex; justify-content:space-between; gap:10px; margin-top:20px;}
 .modal-actions .left{display:flex; gap:10px;}
 
+/* CURSOS DENTRO DE UN ALA */
+.cap-field{margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border);}
+.curso-block{
+  border:1px solid var(--border); border-radius:10px; padding:14px 14px 4px; margin-bottom:16px;
+  background:rgba(0,234,255,0.02); position:relative;
+}
+.curso-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;}
+.curso-title{
+  font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:2px; color:var(--cyan);
+  text-shadow:0 0 6px rgba(0,234,255,0.5);
+}
+.btn-remove-curso{
+  background:none; border:1px solid var(--red); color:var(--red); font-size:11px; letter-spacing:1px;
+  border-radius:6px; padding:4px 9px; cursor:pointer; transition:.2s;
+}
+.btn-remove-curso:hover{background:rgba(255,51,85,0.12); box-shadow:0 0 8px rgba(255,51,85,0.4);}
+.btn-add-curso{
+  width:100%; margin-bottom:18px; border:1px dashed var(--cyan); color:var(--cyan); background:none;
+  border-radius:10px; padding:12px; font-family:'Rajdhani',sans-serif; font-weight:700; letter-spacing:1.5px;
+  font-size:13px; text-transform:uppercase; cursor:pointer; transition:.2s;
+}
+.btn-add-curso:hover{background:rgba(0,234,255,0.08); box-shadow:0 0 12px rgba(0,234,255,0.35);}
+.btn-add-curso:disabled{opacity:.35; cursor:not-allowed; border-style:solid;}
+.curso-list{font-size:11.5px; color:var(--text); margin-top:8px; line-height:1.5;}
+.curso-list .sep{color:var(--text-dim); margin:0 4px;}
+
 /* REPORT */
 #reportText{
   width:100%; min-height:340px; background:var(--bg-input); border:1px solid var(--border);
@@ -279,22 +305,42 @@ const STORAGE_KEY = "barracas-cenop-data";
 
 let state = { alojamientos: [], nextNum: 13 };
 
-function defaultAla(){
+const MAX_CURSOS = 3;
+
+function defaultCurso(){
   return {
-    capacidad:"", curso:"", grupo:"", grupoOtro:"", cdte:"", tel:"", fe:"",
+    curso:"", grupo:"", grupoOtro:"", cdte:"", tel:"", fe:"",
     parte:["0","0","0","0","0"], hombres:"", mujeres:"",
-    ffmm:[], cti:"", inpec:"", extPais:"", extCant:"", otro:"",
-    updated:null
+    ffmm:[], cti:"", inpec:"", extPais:"", extCant:"", otro:""
   };
+}
+function defaultAla(){
+  return { capacidad:"", cursos:[defaultCurso()], updated:null };
 }
 function defaultAlojamiento(numero){
   return { numero, izquierda:defaultAla(), derecha:defaultAla() };
 }
 
+/* convierte alas guardadas en el formato anterior (un solo curso por ala)
+   al nuevo formato con lista de cursos */
+function migrateAla(ala){
+  if(!ala) return defaultAla();
+  if(Array.isArray(ala.cursos)) return ala;
+  const curso = {
+    curso: ala.curso||'', grupo: ala.grupo||'', grupoOtro: ala.grupoOtro||'',
+    cdte: ala.cdte||'', tel: ala.tel||'', fe: ala.fe||'',
+    parte: ala.parte || ["0","0","0","0","0"],
+    hombres: ala.hombres||'', mujeres: ala.mujeres||'',
+    ffmm: ala.ffmm||[], cti: ala.cti||'', inpec: ala.inpec||'',
+    extPais: ala.extPais||'', extCant: ala.extCant||'', otro: ala.otro||''
+  };
+  return { capacidad: ala.capacidad||'', cursos:[curso], updated: ala.updated||null };
+}
+
 function num(v){ const n = parseInt(v,10); return isNaN(n) ? 0 : n; }
 
 function ocupados(ala){
-  return num(ala.hombres)+num(ala.mujeres)+num(ala.cti)+num(ala.inpec)+num(ala.extCant);
+  return ala.cursos.reduce((acc,c)=> acc + num(c.hombres)+num(c.mujeres)+num(c.cti)+num(c.inpec)+num(c.extCant), 0);
 }
 function status(ala){
   const cap = num(ala.capacidad);
@@ -323,6 +369,13 @@ async function load(){
     const res = await window.storage.get(STORAGE_KEY, false);
     if(res && res.value){
       state = JSON.parse(res.value);
+      let migrated = false;
+      state.alojamientos.forEach(a=>{
+        const izq = migrateAla(a.izquierda), der = migrateAla(a.derecha);
+        if(izq!==a.izquierda){ a.izquierda = izq; migrated = true; }
+        if(der!==a.derecha){ a.derecha = der; migrated = true; }
+      });
+      if(migrated) await persist();
     } else {
       seedDefault();
       await persist();
@@ -390,17 +443,21 @@ function alaHtml(numero, side, ala, label){
   const s = status(ala);
   const cap = ala.capacidad || 0;
   const oc = ocupados(ala);
+  const cursosResumen = ala.cursos.map(c=>{
+    const g = c.grupo === 'OTRO' ? (c.grupoOtro||'OTRO') : (c.grupo||'-');
+    return `${c.curso||'Sin curso'} <span style="color:var(--text-dim)">(${g})</span>`;
+  }).join('<span class="sep">&middot;</span>');
   return `
     <div class="ala ${s}" data-open="${numero}|${side}">
       <div class="ala-row">
         <span class="ala-name"><span class="dot ${s}"></span>${label}</span>
-        <span style="font-size:11px;color:var(--text-dim);">${statusLabel(s)}</span>
+        <span style="font-size:11px;color:var(--text-dim);">${statusLabel(s)}${ala.cursos.length>1 ? ` &middot; ${ala.cursos.length} cursos` : ''}</span>
       </div>
       <div class="ala-meta">
         <span>Cap: <b>${cap||'-'}</b></span>
         <span>Ocup: <b>${oc}</b></span>
-        <span>${ala.grupo ? (ala.grupo==='OTRO'? (ala.grupoOtro||'OTRO') : ala.grupo) : '-'}</span>
       </div>
+      <div class="curso-list">${cursosResumen}</div>
     </div>
   `;
 }
@@ -436,87 +493,132 @@ document.getElementById('filters').addEventListener('click', (e)=>{
 const editOverlay = document.getElementById('editOverlay');
 const editModal = document.getElementById('editModal');
 
-function openEdit(numero, side){
-  const alo = state.alojamientos.find(a=>a.numero===numero);
-  const ala = alo[side];
+let editState = null; // { numero, side, capacidad, cursos:[...] }
+
+function cursoBlockHtml(curso, idx, canRemove){
+  return `
+    <div class="curso-block" data-idx="${idx}">
+      <div class="curso-head">
+        <span class="curso-title">CURSO ${idx+1}</span>
+        ${canRemove ? `<button type="button" class="btn-remove-curso" data-idx="${idx}">✕ Quitar curso</button>` : ''}
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Curso</label>
+          <input type="text" class="c_curso" value="${curso.curso||''}">
+        </div>
+        <div class="field">
+          <label>Grupo</label>
+          <select class="c_grupo">
+            <option value="">-- Seleccionar --</option>
+            ${GRUPOS.map(g=>`<option value="${g}" ${curso.grupo===g?'selected':''}>${g}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field grupoOtroWrap" style="${curso.grupo==='OTRO'?'':'display:none;'}">
+          <label>¿Cuál grupo?</label>
+          <input type="text" class="c_grupoOtro" value="${curso.grupoOtro||''}">
+        </div>
+        <div class="field">
+          <label>CDTE asignación barraca</label>
+          <input type="text" class="c_cdte" value="${curso.cdte||''}">
+        </div>
+        <div class="field">
+          <label>Tel</label>
+          <input type="tel" class="c_tel" value="${curso.tel||''}">
+        </div>
+        <div class="field">
+          <label>FE</label>
+          <input type="text" class="c_fe" value="${curso.fe||''}">
+        </div>
+        <div class="field full">
+          <label>Parte (0-0-0-0-0)</label>
+          <div class="parte-row">
+            ${[0,1,2,3,4].map(i=>`<input type="number" min="0" class="c_parte" data-i="${i}" value="${curso.parte[i]}">`).join('')}
+          </div>
+        </div>
+        <div class="field">
+          <label>Hombres</label>
+          <input type="number" min="0" class="c_hombres" value="${curso.hombres||''}">
+        </div>
+        <div class="field">
+          <label>Mujeres</label>
+          <input type="number" min="0" class="c_mujeres" value="${curso.mujeres||''}">
+        </div>
+        <div class="field full">
+          <label>FF.MM</label>
+          <div class="checks">
+            ${FFMM.map(f=>`<label><input type="checkbox" class="c_ffmm" value="${f}" ${curso.ffmm.includes(f)?'checked':''}> ${f}</label>`).join('')}
+          </div>
+        </div>
+        <div class="field">
+          <label>CTI</label>
+          <input type="number" min="0" class="c_cti" value="${curso.cti||''}">
+        </div>
+        <div class="field">
+          <label>INPEC</label>
+          <input type="number" min="0" class="c_inpec" value="${curso.inpec||''}">
+        </div>
+        <div class="field">
+          <label>Extranjeros — país</label>
+          <input type="text" class="c_extPais" value="${curso.extPais||''}">
+        </div>
+        <div class="field">
+          <label>Extranjeros — cantidad</label>
+          <input type="number" min="0" class="c_extCant" value="${curso.extCant||''}">
+        </div>
+        <div class="field full">
+          <label>Otro</label>
+          <input type="text" class="c_otro" value="${curso.otro||''}">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* lee lo que hay actualmente en el DOM del modal y lo guarda en editState,
+   para no perder ediciones al anexar/quitar un curso o al guardar */
+function syncEditStateFromDOM(){
+  if(!editState) return;
+  const capInput = editModal.querySelector('#f_capacidad');
+  if(capInput) editState.capacidad = capInput.value;
+  const blocks = Array.from(editModal.querySelectorAll('.curso-block'));
+  editState.cursos = blocks.map(block=>{
+    return {
+      curso: block.querySelector('.c_curso').value,
+      grupo: block.querySelector('.c_grupo').value,
+      grupoOtro: block.querySelector('.c_grupoOtro') ? block.querySelector('.c_grupoOtro').value : '',
+      cdte: block.querySelector('.c_cdte').value,
+      tel: block.querySelector('.c_tel').value,
+      fe: block.querySelector('.c_fe').value,
+      parte: Array.from(block.querySelectorAll('.c_parte')).map(i=>i.value || "0"),
+      hombres: block.querySelector('.c_hombres').value,
+      mujeres: block.querySelector('.c_mujeres').value,
+      ffmm: Array.from(block.querySelectorAll('.c_ffmm:checked')).map(c=>c.value),
+      cti: block.querySelector('.c_cti').value,
+      inpec: block.querySelector('.c_inpec').value,
+      extPais: block.querySelector('.c_extPais').value,
+      extCant: block.querySelector('.c_extCant').value,
+      otro: block.querySelector('.c_otro').value
+    };
+  });
+}
+
+function renderEditModal(){
+  const { numero, side, capacidad, cursos } = editState;
   const label = side==='izquierda' ? 'ALA IZQUIERDA' : 'ALA DERECHA';
+  const canRemove = cursos.length > 1;
 
   editModal.innerHTML = `
     <h2>ALOJAMIENTO N° ${numero} &middot; ${label}</h2>
-    <div class="sub">Solo se guarda al presionar "Guardar cambios"</div>
-    <div class="form-grid">
-      <div class="field">
-        <label>Capacidad personal</label>
-        <input type="number" min="0" id="f_capacidad" value="${ala.capacidad}">
-      </div>
-      <div class="field">
-        <label>Curso</label>
-        <input type="text" id="f_curso" value="${ala.curso}">
-      </div>
-      <div class="field">
-        <label>Grupo</label>
-        <select id="f_grupo">
-          <option value="">-- Seleccionar --</option>
-          ${GRUPOS.map(g=>`<option value="${g}" ${ala.grupo===g?'selected':''}>${g}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field" id="grupoOtroWrap" style="${ala.grupo==='OTRO'?'':'display:none;'}">
-        <label>¿Cuál grupo?</label>
-        <input type="text" id="f_grupoOtro" value="${ala.grupoOtro||''}">
-      </div>
-      <div class="field">
-        <label>CDTE asignación barraca</label>
-        <input type="text" id="f_cdte" value="${ala.cdte}">
-      </div>
-      <div class="field">
-        <label>Tel</label>
-        <input type="tel" id="f_tel" value="${ala.tel}">
-      </div>
-      <div class="field">
-        <label>FE</label>
-        <input type="text" id="f_fe" value="${ala.fe}">
-      </div>
-      <div class="field full">
-        <label>Parte (0-0-0-0-0)</label>
-        <div class="parte-row">
-          ${[0,1,2,3,4].map(i=>`<input type="number" min="0" class="f_parte" data-i="${i}" value="${ala.parte[i]}">`).join('')}
-        </div>
-      </div>
-      <div class="field">
-        <label>Hombres</label>
-        <input type="number" min="0" id="f_hombres" value="${ala.hombres}">
-      </div>
-      <div class="field">
-        <label>Mujeres</label>
-        <input type="number" min="0" id="f_mujeres" value="${ala.mujeres}">
-      </div>
-      <div class="field full">
-        <label>FF.MM</label>
-        <div class="checks">
-          ${FFMM.map(f=>`<label><input type="checkbox" class="f_ffmm" value="${f}" ${ala.ffmm.includes(f)?'checked':''}> ${f}</label>`).join('')}
-        </div>
-      </div>
-      <div class="field">
-        <label>CTI</label>
-        <input type="number" min="0" id="f_cti" value="${ala.cti}">
-      </div>
-      <div class="field">
-        <label>INPEC</label>
-        <input type="number" min="0" id="f_inpec" value="${ala.inpec}">
-      </div>
-      <div class="field">
-        <label>Extranjeros — país</label>
-        <input type="text" id="f_extPais" value="${ala.extPais}">
-      </div>
-      <div class="field">
-        <label>Extranjeros — cantidad</label>
-        <input type="number" min="0" id="f_extCant" value="${ala.extCant}">
-      </div>
-      <div class="field full">
-        <label>Otro</label>
-        <input type="text" id="f_otro" value="${ala.otro}">
-      </div>
+    <div class="sub">Solo se guarda al presionar "Guardar cambios" &middot; hasta ${MAX_CURSOS} cursos por ala</div>
+    <div class="field cap-field">
+      <label>Capacidad personal (del ala)</label>
+      <input type="number" min="0" id="f_capacidad" value="${capacidad}">
     </div>
+    ${cursos.map((c,idx)=>cursoBlockHtml(c, idx, canRemove)).join('')}
+    <button type="button" class="btn-add-curso" id="btnAddCurso" ${cursos.length>=MAX_CURSOS?'disabled':''}>
+      ＋ Anexar curso ${cursos.length>=MAX_CURSOS ? '(máximo alcanzado)' : ''}
+    </button>
     <div class="modal-actions">
       <button class="btn btn-ghost" id="btnClearAla">Limpiar campos</button>
       <div class="left">
@@ -526,43 +628,66 @@ function openEdit(numero, side){
     </div>
   `;
 
-  editModal.querySelector('#f_grupo').addEventListener('change', (e)=>{
-    editModal.querySelector('#grupoOtroWrap').style.display = e.target.value==='OTRO' ? '' : 'none';
+  editModal.querySelectorAll('.c_grupo').forEach(sel=>{
+    sel.addEventListener('change',(e)=>{
+      const wrap = e.target.closest('.curso-block').querySelector('.grupoOtroWrap');
+      wrap.style.display = e.target.value==='OTRO' ? '' : 'none';
+    });
+  });
+
+  editModal.querySelectorAll('.btn-remove-curso').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      syncEditStateFromDOM();
+      const idx = parseInt(btn.getAttribute('data-idx'),10);
+      if(editState.cursos.length<=1) return;
+      editState.cursos.splice(idx,1);
+      renderEditModal();
+    });
+  });
+
+  editModal.querySelector('#btnAddCurso').addEventListener('click', ()=>{
+    syncEditStateFromDOM();
+    if(editState.cursos.length>=MAX_CURSOS) return;
+    editState.cursos.push(defaultCurso());
+    renderEditModal();
   });
 
   editModal.querySelector('#btnCancelEdit').addEventListener('click', closeEdit);
+
   editModal.querySelector('#btnClearAla').addEventListener('click', ()=>{
-    if(confirm('¿Limpiar todos los campos de esta ala?')){
-      alo[side] = defaultAla();
+    if(confirm('¿Limpiar todos los campos de esta ala (incluyendo todos sus cursos)?')){
+      const alo = state.alojamientos.find(a=>a.numero===editState.numero);
+      alo[editState.side] = defaultAla();
       persist(); render(); closeEdit();
     }
   });
+
   editModal.querySelector('#btnSaveEdit').addEventListener('click', ()=>{
-    ala.capacidad = editModal.querySelector('#f_capacidad').value;
-    ala.curso = editModal.querySelector('#f_curso').value;
-    ala.grupo = editModal.querySelector('#f_grupo').value;
-    ala.grupoOtro = editModal.querySelector('#f_grupoOtro') ? editModal.querySelector('#f_grupoOtro').value : '';
-    ala.cdte = editModal.querySelector('#f_cdte').value;
-    ala.tel = editModal.querySelector('#f_tel').value;
-    ala.fe = editModal.querySelector('#f_fe').value;
-    ala.parte = Array.from(editModal.querySelectorAll('.f_parte')).map(i=>i.value || "0");
-    ala.hombres = editModal.querySelector('#f_hombres').value;
-    ala.mujeres = editModal.querySelector('#f_mujeres').value;
-    ala.ffmm = Array.from(editModal.querySelectorAll('.f_ffmm:checked')).map(c=>c.value);
-    ala.cti = editModal.querySelector('#f_cti').value;
-    ala.inpec = editModal.querySelector('#f_inpec').value;
-    ala.extPais = editModal.querySelector('#f_extPais').value;
-    ala.extCant = editModal.querySelector('#f_extCant').value;
-    ala.otro = editModal.querySelector('#f_otro').value;
-    ala.updated = new Date().toISOString();
+    syncEditStateFromDOM();
+    const alo = state.alojamientos.find(a=>a.numero===editState.numero);
+    alo[editState.side] = {
+      capacidad: editState.capacidad,
+      cursos: editState.cursos,
+      updated: new Date().toISOString()
+    };
     persist();
     render();
     closeEdit();
   });
+}
 
+function openEdit(numero, side){
+  const alo = state.alojamientos.find(a=>a.numero===numero);
+  const ala = alo[side];
+  editState = {
+    numero, side,
+    capacidad: ala.capacidad,
+    cursos: JSON.parse(JSON.stringify(ala.cursos))
+  };
+  renderEditModal();
   editOverlay.classList.add('show');
 }
-function closeEdit(){ editOverlay.classList.remove('show'); }
+function closeEdit(){ editOverlay.classList.remove('show'); editState = null; }
 editOverlay.addEventListener('click',(e)=>{ if(e.target===editOverlay) closeEdit(); });
 
 /* ------- ADD / RESET ------- */
@@ -624,26 +749,33 @@ function buildReport(){
       capTotal += num(ala.capacidad);
       ocTotal += ocupados(ala);
 
-      const grupo = ala.grupo === 'OTRO' ? (ala.grupoOtro || 'OTRO') : (ala.grupo || '-');
-      const ffmm = ala.ffmm && ala.ffmm.length ? ala.ffmm.join(', ') : '-';
-      const ext = (ala.extPais || ala.extCant) ? `${ala.extPais||'-'} (${ala.extCant||0})` : '-';
+      const multi = ala.cursos.length > 1;
+      const cursosTxt = ala.cursos.map((c,idx)=>{
+        const grupo = c.grupo === 'OTRO' ? (c.grupoOtro || 'OTRO') : (c.grupo || '-');
+        const ffmm = c.ffmm && c.ffmm.length ? c.ffmm.join(', ') : '-';
+        const ext = (c.extPais || c.extCant) ? `${c.extPais||'-'} (${c.extCant||0})` : '-';
+        const encabezadoCurso = multi ? `  — Curso ${idx+1} —\n` : '';
+        return `${encabezadoCurso}• Curso: ${c.curso || '-'}
+• GRUPO: ${grupo}
+• CDTE ASIGNACIÓN BARRACA: ${c.cdte || '-'}
+• Tel: ${c.tel || '-'}
+• FE: ${c.fe || '-'}
+• Parte: ${c.parte.join('-')}
+• HOMBRES: ${c.hombres || 0}
+• MUJERES: ${c.mujeres || 0}
+• FF.MM: ${ffmm}
+• CTI: ${c.cti || 0}
+• INPEC: ${c.inpec || 0}
+• EXTRANJEROS: PAÍS: ${ext}
+• OTRO: ${c.otro || '-'}`;
+      }).join('\n\n');
 
       bloques.push(
 `${statusEmoji(s)} *ALOJAMIENTO N° ${alo.numero} - ${label}*
 • Capacidad personal: ${ala.capacidad || 0}
-• Curso: ${ala.curso || '-'}
-• GRUPO: ${grupo}
-• CDTE ASIGNACIÓN BARRACA: ${ala.cdte || '-'}
-• Tel: ${ala.tel || '-'}
-• FE: ${ala.fe || '-'}
-• Parte: ${ala.parte.join('-')}
-• HOMBRES: ${ala.hombres || 0}
-• MUJERES: ${ala.mujeres || 0}
-• FF.MM: ${ffmm}
-• CTI: ${ala.cti || 0}
-• INPEC: ${ala.inpec || 0}
-• EXTRANJEROS: PAÍS: ${ext}
-• OTRO: ${ala.otro || '-'}`
+• Ocupación del ala: ${ocupados(ala)}
+
+${cursosTxt}`
       );
     });
   });
