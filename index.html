@@ -8,44 +8,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#05070d;
-  --bg-panel:#0a0f1e;
-  --bg-elevated:#0f1730;
-  --bg-input:#0a1122;
-  --cyan:#00eaff;
-  --magenta:#ff2ec4;
-  --green:#39ff88;
-  --orange:#ffa629;
-  --red:#ff3355;
-  --yellow:#ffe033;
-  --text:#d9f6ff;
-  --text-dim:#6f89a8;
-  --border:#1c2b4a;
+  --bg:#05070d;--bg-panel:#0a0f1e;--bg-elevated:#0f1730;--bg-input:#0a1122;
+  --cyan:#00eaff;--magenta:#ff2ec4;--green:#39ff88;--orange:#ffa629;
+  --red:#ff3355;--yellow:#ffe033;--text:#d9f6ff;--text-dim:#6f89a8;--border:#1c2b4a;
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
-  background:
-    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(0,234,255,0.08), transparent 60%),
-    radial-gradient(ellipse 900px 500px at 85% 110%, rgba(255,46,196,0.08), transparent 60%),
-    var(--bg);
-  color:var(--text);
-  font-family:'Rajdhani',sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
+  background:radial-gradient(ellipse 900px 500px at 15% -10%,rgba(0,234,255,0.08),transparent 60%),
+    radial-gradient(ellipse 900px 500px at 85% 110%,rgba(255,46,196,0.08),transparent 60%),var(--bg);
+  color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;
 }
 body::before{
-  content:"";
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(rgba(0,234,255,0.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,234,255,0.035) 1px,transparent 1px);
-  background-size:42px 42px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 20%,black 0%,transparent 75%);
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(0,234,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,234,255,0.035) 1px,transparent 1px);
+  background-size:42px 42px;mask-image:radial-gradient(ellipse 80% 80% at 50% 20%,black 0%,transparent 75%);
 }
 .wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:28px 22px 80px;}
-
-/* HEADER */
 header{text-align:center;margin-bottom:26px;}
 h1.brand{
   font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:4px;
@@ -56,21 +35,17 @@ h1.brand{
 @keyframes flicker{0%,96%,100%{opacity:1;}97%{opacity:0.85;}97.5%{opacity:1;}98%{opacity:0.9;}}
 .brand-sub{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:5px;color:var(--magenta);text-shadow:0 0 8px rgba(255,46,196,0.6);margin-top:6px;}
 .motto{font-size:13px;letter-spacing:2px;color:var(--text-dim);margin-top:10px;}
-
 .storage-warning{
   display:none;margin:0 auto 18px;max-width:820px;text-align:center;
   border:1px solid var(--orange);color:var(--orange);background:rgba(255,166,41,0.07);
-  border-radius:10px;padding:10px 14px;font-size:12.5px;letter-spacing:.5px;
+  border-radius:10px;padding:10px 14px;font-size:12.5px;
 }
 .storage-warning.show{display:block;}
-
-/* TOOLBAR */
 .toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin:24px 0 18px;}
 .btn{
   font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1.5px;font-size:14px;
   text-transform:uppercase;cursor:pointer;border-radius:8px;padding:11px 20px;
-  background:var(--bg-elevated);color:var(--text);border:1px solid var(--border);
-  transition:all .25s ease;
+  background:var(--bg-elevated);color:var(--text);border:1px solid var(--border);transition:all .25s ease;
 }
 .btn:hover{transform:translateY(-1px);}
 .btn-cyan{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.15);}
@@ -84,29 +59,20 @@ h1.brand{
 .btn-danger{border-color:var(--red);color:var(--red);}
 .btn-danger:hover{box-shadow:0 0 16px rgba(255,51,85,0.5);background:rgba(255,51,85,0.08);}
 .btn:disabled{opacity:.4;cursor:not-allowed;}
-
-/* BUSCADOR */
 .searchbar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
 .searchbar input{
   width:min(460px,100%);background:var(--bg-input);border:1px solid var(--border);color:var(--text);
-  border-radius:20px;padding:10px 18px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;
-  outline:none;transition:.2s;
+  border-radius:20px;padding:10px 18px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;outline:none;transition:.2s;
 }
 .searchbar input:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.35);}
-
-/* PILLS */
 .filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
-.pill{
-  font-size:12px;letter-spacing:1px;padding:7px 14px;border-radius:20px;cursor:pointer;
-  border:1px solid var(--border);color:var(--text-dim);background:var(--bg-panel);transition:.2s;
-}
+.pill{font-size:12px;letter-spacing:1px;padding:7px 14px;border-radius:20px;cursor:pointer;border:1px solid var(--border);color:var(--text-dim);background:var(--bg-panel);transition:.2s;}
 .pill.active{color:#fff;border-color:currentColor;}
 .pill[data-f="all"].active{color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.4);}
 .pill[data-f="rojo"].active{color:var(--red);box-shadow:0 0 10px rgba(255,51,85,0.4);}
 .pill[data-f="naranja"].active{color:var(--orange);box-shadow:0 0 10px rgba(255,166,41,0.4);}
 .pill[data-f="verde"].active{color:var(--green);box-shadow:0 0 10px rgba(57,255,136,0.4);}
 .pill[data-f="atencion"].active{color:var(--yellow);box-shadow:0 0 10px rgba(255,224,51,0.5);}
-
 /* ALERT BANNER */
 .alert-banner{
   display:none;margin:0 auto 20px;
@@ -119,129 +85,52 @@ h1.brand{
   0%,100%{box-shadow:0 0 10px rgba(255,224,51,0.3),0 0 30px rgba(255,224,51,0.1);}
   50%{box-shadow:0 0 24px rgba(255,224,51,0.8),0 0 60px rgba(255,224,51,0.3);}
 }
-.alert-banner h4{
-  font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;color:var(--yellow);
-  margin:0 0 10px;text-shadow:0 0 10px rgba(255,224,51,0.8);
-}
-.alert-item{
-  font-size:12.5px;color:var(--text);padding:5px 0;
-  border-bottom:1px dashed rgba(255,224,51,0.2);display:flex;align-items:flex-start;gap:8px;
-}
+.alert-banner h4{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;color:var(--yellow);margin:0 0 10px;text-shadow:0 0 10px rgba(255,224,51,0.8);}
+.alert-item{font-size:12.5px;color:var(--text);padding:5px 0;border-bottom:1px dashed rgba(255,224,51,0.2);display:flex;align-items:flex-start;gap:8px;}
 .alert-item:last-child{border-bottom:none;}
 .alert-item .ai-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
 .alert-item .ai-text{flex:1;line-height:1.4;}
-.alert-item .ai-dias{
-  font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;
-  padding:2px 8px;border-radius:10px;border:1px solid var(--yellow);color:var(--yellow);
-  flex-shrink:0;white-space:nowrap;
-}
+.alert-item .ai-dias{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;padding:2px 8px;border-radius:10px;border:1px solid var(--yellow);color:var(--yellow);flex-shrink:0;white-space:nowrap;}
 .alert-item .ai-dias.vencido{border-color:var(--red);color:var(--red);}
-
-/* PANEL RESUMEN TEXTO */
-.resumen-panel{
-  background:var(--bg-panel);border:1px solid var(--cyan);border-radius:14px;
-  margin-bottom:26px;overflow:hidden;
-  box-shadow:0 0 18px rgba(0,234,255,0.1);
-}
-.resumen-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;
-  user-select:none;
-}
-.resumen-header h3{
-  font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;color:var(--cyan);
-  margin:0;text-shadow:0 0 8px rgba(0,234,255,0.5);
-}
-.resumen-toggle{
-  font-size:11px;letter-spacing:1px;color:var(--text-dim);
-  background:none;border:1px solid var(--border);border-radius:6px;
-  padding:4px 10px;cursor:pointer;transition:.2s;font-family:'Rajdhani',sans-serif;font-weight:600;
-}
+/* RESUMEN */
+.resumen-panel{background:var(--bg-panel);border:1px solid var(--cyan);border-radius:14px;margin-bottom:26px;overflow:hidden;box-shadow:0 0 18px rgba(0,234,255,0.1);}
+.resumen-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
+.resumen-header h3{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;color:var(--cyan);margin:0;text-shadow:0 0 8px rgba(0,234,255,0.5);}
+.resumen-toggle{font-size:11px;letter-spacing:1px;color:var(--text-dim);background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;transition:.2s;font-family:'Rajdhani',sans-serif;font-weight:600;}
 .resumen-toggle:hover{color:var(--cyan);border-color:var(--cyan);}
-.resumen-body{
-  padding:18px 22px;display:none;
-}
+.resumen-body{padding:18px 22px;display:none;}
 .resumen-body.open{display:block;}
-.resumen-texto{
-  font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.9;
-  color:var(--text);white-space:pre-wrap;margin:0;
-  background:none;border:none;width:100%;resize:none;outline:none;
-  cursor:default;
-}
-.resumen-acciones{
-  display:flex;gap:10px;margin-top:14px;padding-top:12px;
-  border-top:1px dashed var(--border);flex-wrap:wrap;
-}
-
-/* GRID BARRACAS */
+.resumen-texto{font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.9;color:var(--text);white-space:pre-wrap;margin:0;background:none;border:none;width:100%;resize:none;outline:none;cursor:default;}
+.resumen-acciones{display:flex;gap:10px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);flex-wrap:wrap;}
+/* GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px;}
-.empty-msg{
-  grid-column:1/-1;text-align:center;color:var(--text-dim);font-size:14px;letter-spacing:1px;
-  border:1px dashed var(--border);border-radius:12px;padding:34px 18px;
-}
-.card{
-  background:var(--bg-panel);border-radius:14px;padding:16px 16px 14px;
-  border:1px solid var(--border);position:relative;overflow:hidden;
-}
+.empty-msg{grid-column:1/-1;text-align:center;color:var(--text-dim);font-size:14px;letter-spacing:1px;border:1px dashed var(--border);border-radius:12px;padding:34px 18px;}
+.card{background:var(--bg-panel);border-radius:14px;padding:16px 16px 14px;border:1px solid var(--border);}
 .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px;}
-.card-head .num{
-  font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:1px;
-}
+.card-head .num{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:1px;}
 .card-head .num span{color:var(--cyan);text-shadow:0 0 8px rgba(0,234,255,0.6);}
 .card-head .tools{display:flex;align-items:center;gap:6px;}
-
-/* CAPACIDAD BARRACA */
-.cap-barraca-row{
-  display:flex;align-items:center;gap:10px;margin-bottom:12px;
-  padding:8px 10px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border);
-}
-.cap-barraca-row label{
-  font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);
-  font-weight:600;white-space:nowrap;margin:0;
-}
-.cap-barraca-input{
-  width:80px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);
-  border-radius:6px;padding:5px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;
-  outline:none;transition:.2s;text-align:center;
-}
+.cap-barraca-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 10px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border);}
+.cap-barraca-row label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;white-space:nowrap;margin:0;}
+.cap-barraca-input{width:80px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;outline:none;transition:.2s;text-align:center;}
 .cap-barraca-input:focus{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
 .cap-barraca-info{font-size:12px;color:var(--text-dim);flex:1;}
 .cap-barraca-info b{color:var(--green);}
 .cap-barraca-info b.malo{color:var(--red);}
-.btn-save-cap{
-  background:none;border:1px solid var(--cyan);color:var(--cyan);
-  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;
-  border-radius:6px;padding:5px 10px;cursor:pointer;transition:.2s;white-space:nowrap;
-}
+.btn-save-cap{background:none;border:1px solid var(--cyan);color:var(--cyan);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;border-radius:6px;padding:5px 10px;cursor:pointer;transition:.2s;white-space:nowrap;}
 .btn-save-cap:hover{background:rgba(0,234,255,0.1);box-shadow:0 0 8px rgba(0,234,255,0.4);}
-
-.mini-btn{
-  background:none;border:1px solid var(--border);color:var(--text-dim);
-  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;
-  border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;white-space:nowrap;
-}
+.mini-btn{background:none;border:1px solid var(--border);color:var(--text-dim);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;white-space:nowrap;}
 .mini-btn:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
 .mini-btn.magenta:hover{color:var(--magenta);border-color:var(--magenta);}
-.del-alo{
-  background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;line-height:1;
-  opacity:.5;transition:.2s;
-}
+.del-alo{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;line-height:1;opacity:.5;transition:.2s;}
 .del-alo:hover{opacity:1;color:var(--red);}
-
 /* ALAS */
-.ala{
-  border-radius:10px;padding:12px 13px;margin-bottom:10px;cursor:pointer;
-  background:var(--bg-elevated);border:1px solid var(--border);position:relative;
-  transition:transform .2s ease;overflow:hidden;
-}
+.ala{border-radius:10px;padding:12px 13px;margin-bottom:10px;cursor:pointer;background:var(--bg-elevated);border:1px solid var(--border);position:relative;transition:transform .2s ease;overflow:hidden;}
 .ala:last-child{margin-bottom:0;}
 .ala:hover{transform:translateY(-2px);}
 .ala::before{
-  content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;
-  opacity:.55;border:1px solid transparent;
-  background:
-    linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,
-    conic-gradient(from 0deg,transparent 0 70%,var(--glow,var(--cyan)) 85%,transparent 100%) border-box;
+  content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;opacity:.55;border:1px solid transparent;
+  background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 0deg,transparent 0 70%,var(--glow,var(--cyan)) 85%,transparent 100%) border-box;
   animation:spin-border 5s linear infinite;
 }
 @keyframes spin-border{
@@ -255,7 +144,6 @@ h1.brand{
 .ala.naranja{--glow:var(--orange);}
 .ala.verde{--glow:var(--green);}
 .ala.amarillo{--glow:var(--yellow);}
-
 .ala-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:8px;}
 .ala-name{font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:12.5px;color:var(--text-dim);}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px;position:relative;top:1px;}
@@ -264,16 +152,13 @@ h1.brand{
 .dot.verde{background:var(--green);box-shadow:0 0 8px var(--green),0 0 16px var(--green);}
 .dot.amarillo{background:var(--yellow);box-shadow:0 0 8px var(--yellow),0 0 16px var(--yellow);}
 .ala-state{font-size:11px;color:var(--text-dim);letter-spacing:.5px;text-align:right;}
-
 .ala-meta{font-size:11.5px;color:var(--text-dim);margin-top:7px;display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;}
 .ala-meta b{color:var(--text);font-weight:600;}
-
 .bar{height:6px;border-radius:4px;background:#060b16;border:1px solid var(--border);overflow:hidden;margin-top:8px;}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .35s ease;}
 .ala.rojo .bar i{background:linear-gradient(90deg,var(--orange),var(--red));}
 .ala.naranja .bar i{background:linear-gradient(90deg,var(--cyan),var(--orange));}
 .ala.amarillo .bar i{background:linear-gradient(90deg,var(--cyan),var(--yellow));}
-
 .warn-line{margin-top:8px;font-size:11.5px;color:var(--orange);letter-spacing:.5px;}
 .sin-datos{margin-top:8px;font-size:11.5px;color:var(--text-dim);letter-spacing:.3px;font-style:italic;}
 .curso-list{font-size:11.5px;color:var(--text);margin-top:8px;line-height:1.55;}
@@ -282,21 +167,12 @@ h1.brand{
 .ala-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
 .fecha-chip{font-size:11px;color:var(--text-dim);letter-spacing:.3px;}
 .badge{font-size:10.5px;letter-spacing:.8px;padding:2px 8px;border-radius:20px;border:1px solid currentColor;margin-left:6px;white-space:nowrap;}
-.badge.cyan{color:var(--cyan);}.badge.green{color:var(--green);}
-.badge.orange{color:var(--orange);}.badge.gris{color:var(--text-dim);}
-.badge.magenta{color:var(--magenta);}.badge.yellow{color:var(--yellow);}
-
+.badge.cyan{color:var(--cyan);}.badge.green{color:var(--green);}.badge.orange{color:var(--orange);}
+.badge.gris{color:var(--text-dim);}.badge.magenta{color:var(--magenta);}.badge.yellow{color:var(--yellow);}
 /* MODAL */
-.overlay{
-  position:fixed;inset:0;background:rgba(2,4,10,0.78);backdrop-filter:blur(3px);
-  display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 14px;overflow-y:auto;
-}
+.overlay{position:fixed;inset:0;background:rgba(2,4,10,0.78);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 14px;overflow-y:auto;}
 .overlay.show{display:flex;}
-.modal{
-  background:var(--bg-panel);border:1px solid var(--cyan);border-radius:16px;
-  box-shadow:0 0 30px rgba(0,234,255,0.25),0 0 80px rgba(255,46,196,0.08);
-  max-width:680px;width:100%;padding:24px 24px 20px;margin-top:10px;
-}
+.modal{background:var(--bg-panel);border:1px solid var(--cyan);border-radius:16px;box-shadow:0 0 30px rgba(0,234,255,0.25),0 0 80px rgba(255,46,196,0.08);max-width:680px;width:100%;padding:24px 24px 20px;margin-top:10px;}
 .modal.report{border-color:var(--magenta);box-shadow:0 0 30px rgba(255,46,196,0.25);max-width:760px;}
 .modal.confirm{border-color:var(--orange);box-shadow:0 0 30px rgba(255,166,41,0.22);max-width:460px;}
 .modal.help{border-color:var(--green);box-shadow:0 0 30px rgba(57,255,136,0.2);max-width:680px;}
@@ -307,9 +183,8 @@ h1.brand{
 .field.full{grid-column:1/-1;}
 label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
 input[type=text],input[type=number],input[type=tel],input[type=date],input[type=search],select,textarea{
-  background:var(--bg-input);border:1px solid var(--border);color:var(--text);
-  border-radius:7px;padding:9px 10px;font-family:'Rajdhani',sans-serif;font-size:14.5px;font-weight:600;
-  outline:none;transition:.2s;color-scheme:dark;
+  background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:9px 10px;
+  font-family:'Rajdhani',sans-serif;font-size:14.5px;font-weight:600;outline:none;transition:.2s;color-scheme:dark;
 }
 input[type=date]{cursor:pointer;}
 input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
@@ -319,93 +194,40 @@ select{cursor:pointer;}
 .hint{font-size:11px;color:var(--text-dim);letter-spacing:.5px;margin-top:2px;}
 .hint.bad{color:var(--red);}.hint.ok{color:var(--green);}
 .dates-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.chk-line{
-  display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text);cursor:pointer;
-  text-transform:none;letter-spacing:.3px;margin-top:16px;border:1px dashed var(--border);
-  border-radius:8px;padding:9px 12px;
-}
+.chk-line{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text);cursor:pointer;text-transform:none;letter-spacing:.3px;margin-top:16px;border:1px dashed var(--border);border-radius:8px;padding:9px 12px;}
 .chk-line input[type=checkbox]{accent-color:var(--magenta);width:16px;height:16px;}
-
-/* RADIO GÉNERO */
 .genero-radio{display:flex;gap:20px;padding-top:4px;flex-wrap:wrap;}
-.genero-radio label{
-  display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;
-  color:var(--text);text-transform:none;letter-spacing:0;font-weight:600;
-}
+.genero-radio label{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;font-weight:600;}
 .genero-radio input[type=radio]{accent-color:var(--cyan);width:16px;height:16px;cursor:pointer;}
-
-/* CURSOS EN MODAL */
-.curso-block{
-  border:1px solid var(--border);border-radius:10px;padding:14px 14px 4px;margin-bottom:16px;
-  background:rgba(0,234,255,0.02);
-}
+.curso-block{border:1px solid var(--border);border-radius:10px;padding:14px 14px 4px;margin-bottom:16px;background:rgba(0,234,255,0.02);}
 .curso-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;}
 .curso-title{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 6px rgba(0,234,255,0.5);}
-.btn-remove-curso{
-  background:none;border:1px solid var(--red);color:var(--red);font-size:11px;letter-spacing:1px;
-  border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;
-}
+.btn-remove-curso{background:none;border:1px solid var(--red);color:var(--red);font-size:11px;letter-spacing:1px;border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;}
 .btn-remove-curso:hover{background:rgba(255,51,85,0.12);box-shadow:0 0 8px rgba(255,51,85,0.4);}
-.sep-label{
-  grid-column:1/-1;font-size:11px;letter-spacing:1px;text-transform:uppercase;
-  color:var(--text-dim);font-weight:600;border-top:1px dashed var(--border);
-  padding-top:10px;margin-top:4px;
-}
-.btn-add-curso{
-  width:100%;margin-bottom:18px;border:1px dashed var(--cyan);color:var(--cyan);background:none;
-  border-radius:10px;padding:12px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1.5px;
-  font-size:13px;text-transform:uppercase;cursor:pointer;transition:.2s;
-}
+.sep-label{grid-column:1/-1;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;border-top:1px dashed var(--border);padding-top:10px;margin-top:4px;}
+.btn-add-curso{width:100%;margin-bottom:18px;border:1px dashed var(--cyan);color:var(--cyan);background:none;border-radius:10px;padding:12px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1.5px;font-size:13px;text-transform:uppercase;cursor:pointer;transition:.2s;}
 .btn-add-curso:hover{background:rgba(0,234,255,0.08);box-shadow:0 0 12px rgba(0,234,255,0.35);}
 .btn-add-curso:disabled{opacity:.35;cursor:not-allowed;border-style:solid;}
-
-/* PARTE */
-#reportText{
-  width:100%;min-height:340px;background:var(--bg-input);border:1px solid var(--border);
-  color:var(--text);border-radius:10px;padding:14px;font-family:'Rajdhani',sans-serif;
-  font-size:13.5px;line-height:1.55;white-space:pre-wrap;resize:vertical;
-}
+#reportText{width:100%;min-height:340px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:14px;font-family:'Rajdhani',sans-serif;font-size:13.5px;line-height:1.55;white-space:pre-wrap;resize:vertical;}
 .copied-msg{font-size:12px;color:var(--green);letter-spacing:1px;visibility:hidden;}
 .copied-msg.show{visibility:visible;}
-
-/* AYUDA */
 .help-list{font-size:13.5px;line-height:1.65;color:var(--text);margin:0;padding-left:18px;}
 .help-list li{margin-bottom:8px;}
 .help-list b{color:var(--cyan);}
 .help-note{font-size:12.5px;color:var(--text-dim);margin-top:14px;border-top:1px dashed var(--border);padding-top:12px;}
-
-/* SELECTOR NÚMERO */
 .numeros-disponibles{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;}
-.num-btn{
-  font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;
-  width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-dim);
-  cursor:pointer;transition:.2s;
-}
+.num-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-dim);cursor:pointer;transition:.2s;}
 .num-btn:hover:not(.usado){border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.4);}
 .num-btn.usado{opacity:.35;cursor:not-allowed;border-style:dashed;}
-
 ::-webkit-scrollbar{width:9px;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
-
 footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;}
 .saving-indicator{position:fixed;bottom:16px;right:18px;font-size:11px;color:var(--text-dim);letter-spacing:1px;opacity:0;transition:opacity .3s;z-index:60;}
 .saving-indicator.show{opacity:1;}
-.toast{
-  position:fixed;bottom:22px;left:50%;transform:translate(-50%,30px);
-  background:var(--bg-elevated);border:1px solid var(--cyan);color:var(--text);
-  border-radius:10px;padding:11px 20px;font-size:13px;letter-spacing:.6px;font-weight:600;
-  box-shadow:0 0 20px rgba(0,234,255,0.3);opacity:0;pointer-events:none;transition:.3s;z-index:70;
-  max-width:92vw;text-align:center;
-}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,30px);background:var(--bg-elevated);border:1px solid var(--cyan);color:var(--text);border-radius:10px;padding:11px 20px;font-size:13px;letter-spacing:.6px;font-weight:600;box-shadow:0 0 20px rgba(0,234,255,0.3);opacity:0;pointer-events:none;transition:.3s;z-index:70;max-width:92vw;text-align:center;}
 .toast.show{opacity:1;transform:translate(-50%,0);}
 .toast.warn{border-color:var(--orange);box-shadow:0 0 20px rgba(255,166,41,0.35);color:var(--orange);}
-
-@media(max-width:520px){
-  .form-grid{grid-template-columns:1fr;}
-  .dates-row{grid-template-columns:1fr;}
-  .modal{padding:18px 14px 16px;}
-}
+@media(max-width:520px){.form-grid{grid-template-columns:1fr;}.dates-row{grid-template-columns:1fr;}.modal{padding:18px 14px 16px;}}
 </style>
 </head>
 <body>
@@ -415,11 +237,9 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
     <div class="brand-sub">SISTEMA DE ADMINISTRACIÓN DE BARRACAS</div>
     <div class="motto">"LEALTAD, VALOR, ABNEGACIÓN"</div>
   </header>
-
   <div class="storage-warning" id="storageWarning">
     ⚠ No se pudo guardar en este entorno. Descarga el archivo y ábrelo en tu navegador para que los datos queden guardados.
   </div>
-
   <div class="toolbar">
     <button class="btn btn-magenta" id="btnReport">📋 Parte general</button>
     <button class="btn btn-cyan" id="btnAdd">＋ Añadir barraca</button>
@@ -429,11 +249,9 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
     <button class="btn btn-danger" id="btnResetAll">Restablecer todo</button>
     <input type="file" id="restoreFile" accept=".json,application/json" style="display:none;">
   </div>
-
   <div class="searchbar">
     <input type="search" id="searchBox" placeholder="🔎 Buscar por curso, grupo, CDTE, teléfono o N° de barraca...">
   </div>
-
   <div class="filters" id="filters">
     <div class="pill active" data-f="all">TODAS</div>
     <div class="pill" data-f="rojo">🔴 LLENA</div>
@@ -441,14 +259,10 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
     <div class="pill" data-f="verde">🟢 DISPONIBLE</div>
     <div class="pill" data-f="atencion">⚠️ ATENCIÓN</div>
   </div>
-
-  <!-- ALERT BANNER -->
   <div class="alert-banner" id="alertBanner">
     <h4>⚠ CURSOS POR TERMINAR O FINALIZADOS — REVISAR PARA DESOCUPAR</h4>
     <div id="alertList"></div>
   </div>
-
-  <!-- RESUMEN DE CURSOS (panel colapsable con texto plano) -->
   <div class="resumen-panel">
     <div class="resumen-header" id="resumenHeader">
       <h3>📅 RESUMEN DE CURSOS POR BARRACA</h3>
@@ -461,12 +275,9 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
       </div>
     </div>
   </div>
-
   <div class="grid" id="grid"></div>
-
   <footer>CENOP &middot; Dios y Patria</footer>
 </div>
-
 <div class="saving-indicator" id="savingIndicator">Guardando...</div>
 <div class="toast" id="toast"></div>
 
@@ -474,7 +285,6 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
 <div class="overlay" id="editOverlay">
   <div class="modal" id="editModal"></div>
 </div>
-
 <!-- MODAL PARTE -->
 <div class="overlay" id="reportOverlay">
   <div class="modal report">
@@ -492,7 +302,6 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
     </div>
   </div>
 </div>
-
 <!-- MODAL CONFIRMACIÓN -->
 <div class="overlay" id="confirmOverlay">
   <div class="modal confirm">
@@ -507,8 +316,7 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
     </div>
   </div>
 </div>
-
-<!-- MODAL SELECCIONAR NÚMERO -->
+<!-- MODAL NÚMERO -->
 <div class="overlay" id="numOverlay">
   <div class="modal confirm">
     <h2>SELECCIONAR N° DE BARRACA</h2>
@@ -520,22 +328,20 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
     </div>
   </div>
 </div>
-
 <!-- MODAL AYUDA -->
 <div class="overlay" id="helpOverlay">
   <div class="modal help">
     <h2>CÓMO USAR EL SISTEMA</h2>
     <div class="sub">Guía rápida de administración de barracas</div>
     <ol class="help-list">
-      <li><b>Capacidad de la barraca:</b> se define directamente en la tarjeta de cada barraca (campo superior). Es la capacidad total compartida entre las dos alas.</li>
-      <li><b>Editar un ala:</b> haz clic sobre el recuadro del ala (izquierda o derecha). La FE y la cantidad de personal restan a la capacidad total de la barraca.</li>
-      <li><b>Cursos:</b> puedes añadir hasta 20 cursos por ala. Selecciona si el personal es HOMBRE o MUJER.</li>
-      <li><b>FF.MM y otros:</b> Ejército, Armada, Fuerza Aérea, INPEC, Extranjeros y Otro <b>no restan</b> a la capacidad de la barraca.</li>
-      <li><b>Resumen de cursos:</b> el panel superior muestra todas las barracas con sus cursos y fechas. Puedes copiarlo y enviarlo por WhatsApp.</li>
-      <li><b>Fechas:</b> el sistema avisa desde 7 días antes del vencimiento de cada curso.</li>
-      <li><b>Respaldar:</b> descarga el archivo .json y compártelo por WhatsApp. El receptor lo carga con "Restaurar respaldo" y verá todo actualizado.</li>
+      <li><b>Capacidad de la barraca:</b> se define directamente en la tarjeta de cada barraca. Es la capacidad total compartida entre las dos alas.</li>
+      <li><b>Editar un ala:</b> haz clic sobre el recuadro del ala. La FE resta a la capacidad total de la barraca.</li>
+      <li><b>Cursos:</b> hasta 20 cursos por ala. Selecciona HOMBRE o MUJER para el género del personal.</li>
+      <li><b>FF.MM y otros:</b> Ejército, Armada, Fuerza Aérea, INPEC, Extranjeros y Otro <b>no restan</b> a la capacidad.</li>
+      <li><b>Respaldar:</b> descarga el archivo .json y envíalo por WhatsApp. El receptor lo carga con "Restaurar respaldo" y verá todo actualizado.</li>
+      <li><b>El parte siempre muestra</b> BARRACA N° X en cada sección para identificar fácilmente cada ala.</li>
     </ol>
-    <div class="help-note">Los datos se guardan en el navegador. Para sincronizar con otro equipo usa Respaldar / Restaurar.</div>
+    <div class="help-note">Los datos se guardan en el navegador. Para compartir con otro equipo usa Respaldar / Restaurar.</div>
     <div class="modal-actions">
       <span></span>
       <div class="left"><button class="btn btn-ghost" id="btnCloseHelp">Cerrar</button></div>
@@ -545,91 +351,98 @@ footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color
 
 <script>
 /* ============================================================
-   BARRACAS-CENOP · v4
-   Capacidad por BARRACA (no por ala)
-   Resumen de cursos como texto plano colapsable
+   BARRACAS-CENOP · v5
+   - Respaldo corregido: carga correctamente entre usuarios
+   - Parte siempre muestra BARRACA N° X en cada sección
+   - Eliminado campo "Cantidad personal"
+   - FE es el único campo que resta a la capacidad
    ============================================================ */
 
-const GRUPOS = ["GRANADEROS","COR","TIRO","GOER","JUNGLA","UNDMO","COPES","OTRO"];
-const STORAGE_KEY = "barracas-cenop-data";
-const MAX_CURSOS = 20;
-const MS_DIA = 86400000;
-const NUMS_DISPONIBLES = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-const NUMS_DEFAULT = [1,2,3,4,5,11,13,14,15,16,17,18];
+const GRUPOS=["GRANADEROS","COR","TIRO","GOER","JUNGLA","UNDMO","COPES","OTRO"];
+const STORAGE_KEY="barracas-cenop-v5";
+const MAX_CURSOS=20;
+const MS_DIA=86400000;
+const NUMS_DISPONIBLES=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+const NUMS_DEFAULT=[1,2,3,4,5,11,13,14,15,16,17,18];
 
-let state = { alojamientos: [] };
+let state={alojamientos:[]};
 
 /* ── ALMACENAMIENTO ── */
-let storageOK = true;
-const storage = {
-  async get(k){ try{ const v=localStorage.getItem(k); return v?{value:v}:null; }catch(e){ return null; } },
-  async set(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } }
+let storageOK=true;
+const storage={
+  get(k){try{const v=localStorage.getItem(k);return v?{value:v}:null;}catch(e){return null;}},
+  set(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
 };
 let saveTimer=null;
-async function persist(){
+function persist(){
   const el=document.getElementById('savingIndicator');
   el.classList.add('show');
-  const ok=await storage.set(STORAGE_KEY,JSON.stringify(state));
-  if(!ok&&storageOK){ storageOK=false; document.getElementById('storageWarning').classList.add('show'); }
+  const ok=storage.set(STORAGE_KEY,JSON.stringify(state));
+  if(!ok&&storageOK){storageOK=false;document.getElementById('storageWarning').classList.add('show');}
   clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>el.classList.remove('show'),700);
 }
 
 /* ── MODELOS ── */
 function defaultCurso(){
-  return { curso:"",grupo:"",grupoOtro:"",cdte:"",tel:"",fe:"",
-           fechaInicio:"",fechaFin:"",genero:"",_cantidad:"",
-           ejercito:"",armada:"",faerea:"",inpec:"",extPais:"",extCant:"",otro:"" };
+  return{curso:"",grupo:"",grupoOtro:"",cdte:"",tel:"",fe:"",
+         fechaInicio:"",fechaFin:"",genero:"",
+         ejercito:"",armada:"",faerea:"",inpec:"",extPais:"",extCant:"",otro:""};
 }
-function defaultAla(){ return { cursos:[defaultCurso()], updated:null }; }
-/* capacidad ahora vive en la barraca */
-function defaultBarraca(numero){
-  return { numero, capacidad:"", izquierda:defaultAla(), derecha:defaultAla() };
-}
+function defaultAla(){return{cursos:[defaultCurso()],updated:null};}
+function defaultBarraca(numero){return{numero,capacidad:"",izquierda:defaultAla(),derecha:defaultAla()};}
 
 const CAMPOS_TEXTO=["curso","grupo","grupoOtro","cdte","tel","fe",
-  "fechaInicio","fechaFin","genero","_cantidad",
-  "ejercito","armada","faerea","inpec","extPais","extCant","otro"];
+  "fechaInicio","fechaFin","genero","ejercito","armada","faerea","inpec","extPais","extCant","otro"];
 
 function normalizeCurso(c){
   const base=defaultCurso();
   if(!c||typeof c!=='object') return base;
   const out=Object.assign({},base,c);
-  /* compat versión anterior */
-  if(!out.genero){ if(num(c.hombres)>0) out.genero="HOMBRE"; else if(num(c.mujeres)>0) out.genero="MUJER"; }
-  if(!out._cantidad && (num(c.hombres)||num(c.mujeres))) out._cantidad=String(num(c.hombres)+num(c.mujeres));
-  delete out.parte; delete out.hombres; delete out.mujeres; delete out.ffmm;
-  CAMPOS_TEXTO.forEach(k=>{ out[k]=(out[k]===undefined||out[k]===null)?'':String(out[k]); });
+  /* compat versiones anteriores */
+  if(!out.genero){
+    if(num(c.hombres)>0) out.genero="HOMBRE";
+    else if(num(c.mujeres)>0) out.genero="MUJER";
+  }
+  /* eliminar campos obsoletos */
+  delete out.parte;delete out.hombres;delete out.mujeres;delete out.ffmm;delete out._cantidad;
+  CAMPOS_TEXTO.forEach(k=>{out[k]=(out[k]===undefined||out[k]===null)?'':String(out[k]);});
   return out;
 }
 
 function normalizeAla(ala){
   if(!ala||typeof ala!=='object') return defaultAla();
   let cursos;
-  if(Array.isArray(ala.cursos)&&ala.cursos.length){ cursos=ala.cursos.map(normalizeCurso); }
-  else{
+  if(Array.isArray(ala.cursos)&&ala.cursos.length){
+    cursos=ala.cursos.map(normalizeCurso);
+  }else{
     const td=CAMPOS_TEXTO.some(k=>ala[k]);
     cursos=[td?normalizeCurso(ala):defaultCurso()];
   }
   if(cursos.length>MAX_CURSOS) cursos=cursos.slice(0,MAX_CURSOS);
-  return { cursos, updated:ala.updated||null };
+  return{cursos,updated:ala.updated||null};
 }
 
 function normalizeState(raw){
   const out={alojamientos:[]};
-  const arr=(raw&&Array.isArray(raw.alojamientos))?raw.alojamientos:[];
+  /* aceptar tanto {alojamientos:[...]} como {state:{alojamientos:[...]}} */
+  let arr=[];
+  if(raw&&Array.isArray(raw.alojamientos)) arr=raw.alojamientos;
+  else if(raw&&raw.state&&Array.isArray(raw.state.alojamientos)) arr=raw.state.alojamientos;
+
   arr.forEach(a=>{
     if(!a) return;
     const numero=num(a.numero);
     if(!numero) return;
-    /* la capacidad puede venir del ala izquierda (versión anterior) o de la barraca */
-    const cap = a.capacidad !== undefined ? String(a.capacidad)
-              : (a.izquierda && a.izquierda.capacidad !== undefined ? String(a.izquierda.capacidad) : "");
+    /* capacidad puede estar en la barraca o (versiones viejas) en el ala izquierda */
+    let cap="";
+    if(a.capacidad!==undefined&&a.capacidad!==null) cap=String(a.capacidad);
+    else if(a.izquierda&&a.izquierda.capacidad!==undefined&&a.izquierda.capacidad!==null) cap=String(a.izquierda.capacidad);
     out.alojamientos.push({
       numero,
-      capacidad: cap,
-      izquierda: normalizeAla(a.izquierda),
-      derecha:   normalizeAla(a.derecha)
+      capacidad:cap,
+      izquierda:normalizeAla(a.izquierda),
+      derecha:normalizeAla(a.derecha)
     });
   });
   if(!out.alojamientos.length){
@@ -640,97 +453,71 @@ function normalizeState(raw){
 }
 
 /* ── CÁLCULOS ── */
-function num(v){ const n=Math.floor(Number(v)); return(isNaN(n)||n<0)?0:n; }
+function num(v){const n=Math.floor(Number(v));return(isNaN(n)||n<0)?0:n;}
 
-/* Personal que SÍ resta: FE + _cantidad de cada curso de AMBAS alas */
-function ocupadosBarraca(alo){
-  return [...alo.izquierda.cursos,...alo.derecha.cursos]
-    .reduce((a,c)=>a+num(c.fe)+num(c._cantidad),0);
-}
-function ocupadosAla(ala){ return ala.cursos.reduce((a,c)=>a+num(c.fe)+num(c._cantidad),0); }
-
-function disponiblesBarraca(alo){
-  const d=num(alo.capacidad)-ocupadosBarraca(alo);
-  return d>0?d:0;
-}
-function excesoBarraca(alo){
-  const e=ocupadosBarraca(alo)-num(alo.capacidad);
-  return(num(alo.capacidad)>0&&e>0)?e:0;
-}
+/* Solo la FE resta a la capacidad */
+function feAla(ala){return ala.cursos.reduce((a,c)=>a+num(c.fe),0);}
+function feBarraca(alo){return feAla(alo.izquierda)+feAla(alo.derecha);}
+function disponiblesBarraca(alo){const d=num(alo.capacidad)-feBarraca(alo);return d>0?d:0;}
+function excesoBarraca(alo){const e=feBarraca(alo)-num(alo.capacidad);return(num(alo.capacidad)>0&&e>0)?e:0;}
 function pctOcupacionBarraca(alo){
-  const cap=num(alo.capacidad),oc=ocupadosBarraca(alo);
+  const cap=num(alo.capacidad),oc=feBarraca(alo);
   if(cap<=0) return oc>0?100:0;
   return Math.min(100,Math.round(oc/cap*100));
 }
 
-/* Estado visual del ALA (usa ocupación del ala vs capacidad de la barraca para dar color) */
 function statusAla(alo,ala){
   const s=_statusBaseAla(alo,ala);
-  if(s!=='verde'&&alaAlerta(ala)) return 'amarillo';
+  if(s!=='verde'&&alaAlerta(ala)) return'amarillo';
   return s;
 }
 function _statusBaseAla(alo,ala){
-  const cap=num(alo.capacidad), oc=ocupadosAla(ala);
-  if(oc<=0) return "verde";
-  if(cap<=0) return "naranja";
-  /* comparamos ocupación total barraca vs capacidad */
-  const ocTotal=ocupadosBarraca(alo);
-  if(ocTotal>=cap) return "rojo";
-  return "naranja";
+  const cap=num(alo.capacidad),ocTotal=feBarraca(alo);
+  if(feAla(ala)<=0) return"verde";
+  if(cap<=0) return"naranja";
+  if(ocTotal>=cap) return"rojo";
+  return"naranja";
 }
-/* Estado de la barraca completa */
-function statusBarraca(alo){
-  const cap=num(alo.capacidad), oc=ocupadosBarraca(alo);
-  const alerta=[...alo.izquierda.cursos,...alo.derecha.cursos]
-    .filter(c=>cursoConDatos(c)&&cursoAlerta(c)).length>0;
-  if(alerta) return 'amarillo';
-  if(oc<=0) return 'verde';
-  if(cap<=0) return 'naranja';
-  if(oc>=cap) return 'rojo';
-  return 'naranja';
-}
-function statusEmoji(s){
-  return s==="rojo"?"🔴":s==="naranja"?"🟠":s==="amarillo"?"⚠️":"🟢";
-}
+function statusEmoji(s){return s==="rojo"?"🔴":s==="naranja"?"🟠":s==="amarillo"?"⚠️":"🟢";}
 function statusLabelAla(alo,ala){
   const s=statusAla(alo,ala);
-  if(s==='amarillo') return "REVISAR — VENCIMIENTO PRÓXIMO";
-  if(s==='verde') return "DISPONIBLE";
-  if(s==='rojo') return "BARRACA LLENA";
+  if(s==='amarillo') return"REVISAR — VENCIMIENTO PRÓXIMO";
+  if(s==='verde') return"DISPONIBLE";
+  if(s==='rojo') return"BARRACA LLENA";
   return num(alo.capacidad)<=0?"SIN CAPACIDAD":"PARCIAL";
 }
 
 /* ── FECHAS ── */
-function hoyISO(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function fechaDeISO(iso){ if(!iso) return null; const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso)); if(!m) return null; return new Date(Number(m[1]),Number(m[2])-1,Number(m[3])); }
-function fmtFecha(iso){ const d=fechaDeISO(iso); return d?d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'}):'—'; }
-function diasHasta(iso){ const d=fechaDeISO(iso); if(!d) return null; return Math.round((d-fechaDeISO(hoyISO()))/MS_DIA); }
-function duracionDias(ini,fin){ const a=fechaDeISO(ini),b=fechaDeISO(fin); if(!a||!b) return null; return Math.round((b-a)/MS_DIA)+1; }
-function fmtSello(iso){ if(!iso) return '—'; const d=new Date(iso); if(isNaN(d.getTime())) return '—'; return d.toLocaleString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
-function fmtDate(){ const d=new Date(); return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})+' - '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}); }
+function hoyISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function fechaDeISO(iso){if(!iso)return null;const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso));if(!m)return null;return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));}
+function fmtFecha(iso){const d=fechaDeISO(iso);return d?d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';}
+function diasHasta(iso){const d=fechaDeISO(iso);if(!d)return null;return Math.round((d-fechaDeISO(hoyISO()))/MS_DIA);}
+function duracionDias(ini,fin){const a=fechaDeISO(ini),b=fechaDeISO(fin);if(!a||!b)return null;return Math.round((b-a)/MS_DIA)+1;}
+function fmtSello(iso){if(!iso)return'—';const d=new Date(iso);if(isNaN(d.getTime()))return'—';return d.toLocaleString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fmtDate(){const d=new Date();return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})+' - '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});}
 
 function cursoEstado(c){
   const ini=c.fechaInicio||'',fin=c.fechaFin||'';
-  if(!ini&&!fin) return{tipo:'sin',label:'Sin fechas',cls:'gris',dIni:null,dFin:null};
+  if(!ini&&!fin)return{tipo:'sin',label:'Sin fechas',cls:'gris',dIni:null,dFin:null};
   const dIni=ini?diasHasta(ini):null;
   const dFin=fin?diasHasta(fin):null;
-  if(dIni!==null&&dIni>0) return{tipo:'proximo',label:dIni===1?'Inicia mañana':'Inicia en '+dIni+' días',cls:'cyan',dIni,dFin};
-  if(dFin!==null&&dFin<0){ const p=Math.abs(dFin); return{tipo:'vencido',label:p===1?'Finalizó ayer':'Finalizó hace '+p+' días',cls:'magenta',dIni,dFin}; }
+  if(dIni!==null&&dIni>0)return{tipo:'proximo',label:dIni===1?'Inicia mañana':'Inicia en '+dIni+' días',cls:'cyan',dIni,dFin};
+  if(dFin!==null&&dFin<0){const p=Math.abs(dFin);return{tipo:'vencido',label:p===1?'Finalizó ayer':'Finalizó hace '+p+' días',cls:'magenta',dIni,dFin};}
   if(dFin!==null){
-    if(dFin===0) return{tipo:'ultimo',label:'Último día hoy',cls:'orange',dIni,dFin};
-    if(dFin<=7) return{tipo:'activo',label:'Termina en '+dFin+' días',cls:'yellow',dIni,dFin};
+    if(dFin===0)return{tipo:'ultimo',label:'Último día hoy',cls:'orange',dIni,dFin};
+    if(dFin<=7)return{tipo:'activo',label:'Termina en '+dFin+' días',cls:'yellow',dIni,dFin};
     return{tipo:'activo',label:'Termina en '+dFin+' días',cls:'green',dIni,dFin};
   }
   return{tipo:'activo',label:'En curso',cls:'green',dIni,dFin};
 }
-function cursoAlerta(c){ const e=cursoEstado(c); if(e.tipo==='sin') return false; if(e.tipo==='vencido') return true; return e.dFin!==null&&e.dFin>=0&&e.dFin<=7; }
-function alaAlerta(ala){ return ala.cursos.some(c=>cursoConDatos(c)&&cursoAlerta(c)); }
+function cursoAlerta(c){const e=cursoEstado(c);if(e.tipo==='sin')return false;if(e.tipo==='vencido')return true;return e.dFin!==null&&e.dFin>=0&&e.dFin<=7;}
+function alaAlerta(ala){return ala.cursos.some(c=>cursoConDatos(c)&&cursoAlerta(c));}
 function cursoConDatos(c){
   return Boolean(c.curso||c.grupo||c.grupoOtro||c.cdte||c.tel||c.fe||c.otro||
-    c.extPais||c.fechaInicio||c.fechaFin||c.genero||num(c._cantidad)||
+    c.extPais||c.fechaInicio||c.fechaFin||c.genero||
     num(c.ejercito)||num(c.armada)||num(c.faerea)||num(c.inpec)||num(c.extCant));
 }
-function alaConDatos(ala){ return ala.cursos.some(cursoConDatos); }
+function alaConDatos(ala){return ala.cursos.some(cursoConDatos);}
 
 /* ── TOAST Y CONFIRM ── */
 let toastTimer=null;
@@ -739,7 +526,7 @@ function toast(msg,tipo){
   el.textContent=msg;
   el.className='toast show'+(tipo==='warn'?' warn':'');
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.className='toast',3400);
+  toastTimer=setTimeout(()=>el.className='toast',3600);
 }
 let confirmResolve=null;
 function uiConfirm(opts){
@@ -761,11 +548,16 @@ document.getElementById('confirmNo').addEventListener('click',()=>cerrarConfirm(
 document.getElementById('confirmOverlay').addEventListener('click',e=>{if(e.target.id==='confirmOverlay')cerrarConfirm(false);});
 
 /* ── CARGA ── */
-async function load(){
+function load(){
   let raw=null;
-  try{ const res=await storage.get(STORAGE_KEY); if(res&&res.value) raw=JSON.parse(res.value); }catch(e){ raw=null; }
+  try{
+    /* intentar clave v5 primero, luego la anterior */
+    let res=storage.get(STORAGE_KEY);
+    if(!res) res=storage.get("barracas-cenop-data");
+    if(res&&res.value) raw=JSON.parse(res.value);
+  }catch(e){raw=null;}
   state=normalizeState(raw);
-  await persist();
+  persist();
   render();
 }
 
@@ -792,7 +584,7 @@ function buildResumenTexto(){
         const nombre=c.curso||(c.grupo==='OTRO'?(c.grupoOtro||'SIN NOMBRE'):c.grupo)||'Sin nombre';
         const fi=c.fechaInicio?fmtFecha(c.fechaInicio):'—';
         const ff=c.fechaFin?fmtFecha(c.fechaFin):'—';
-        const alerta=cursoAlerta(c)?'  ⚠':'' ;
+        const alerta=cursoAlerta(c)?'  ⚠':'';
         lineas.push('  '+(i+1)+'. '+nombre+' — '+fi+' al '+ff+alerta);
       });
     }
@@ -803,13 +595,12 @@ function buildResumenTexto(){
 function actualizarResumenTexto(){
   document.getElementById('resumenTexto').textContent=buildResumenTexto();
 }
-
 document.getElementById('btnCopyResumen').addEventListener('click',async()=>{
   const txt=document.getElementById('resumenTexto').textContent;
   let ok=false;
-  try{ await navigator.clipboard.writeText(txt); ok=true; }
-  catch(e){ try{ const ta=document.getElementById('resumenTexto'); ta.select&&ta.select(); ok=document.execCommand('copy'); }catch(e2){} }
-  toast(ok?'📋 Listado copiado al portapapeles':'⚠ No se pudo copiar. Selecciona el texto manualmente',ok?undefined:'warn');
+  try{await navigator.clipboard.writeText(txt);ok=true;}
+  catch(e){try{document.execCommand('copy');ok=true;}catch(e2){}}
+  toast(ok?'📋 Listado copiado al portapapeles':'⚠ No se pudo copiar automáticamente',ok?undefined:'warn');
 });
 
 /* ── ALERT BANNER ── */
@@ -843,30 +634,27 @@ function renderAlertBanner(){
 }
 
 /* ── FILTROS ── */
-let currentFilter="all", searchTerm="";
+let currentFilter="all",searchTerm="";
 function sinAcentos(t){return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function cursoCoincide(c,q){
-  return[c.curso,c.grupo,c.grupoOtro,c.cdte,c.tel,c.fe,c.otro,c.extPais,c.genero,fmtFecha(c.fechaInicio),fmtFecha(c.fechaFin)]
-    .some(v=>v&&sinAcentos(v).includes(q));
+  return[c.curso,c.grupo,c.grupoOtro,c.cdte,c.tel,c.fe,c.otro,c.extPais,c.genero,
+         fmtFecha(c.fechaInicio),fmtFecha(c.fechaFin)].some(v=>v&&sinAcentos(v).includes(q));
 }
 function coincideNumero(n,q){return String(n).includes(q)||sinAcentos('barraca '+n).includes(q);}
 function alaCoincideBusqueda(alo,ala){
-  if(!searchTerm) return true;
-  if(coincideNumero(alo.numero,searchTerm)) return true;
+  if(!searchTerm)return true;
+  if(coincideNumero(alo.numero,searchTerm))return true;
   return ala.cursos.some(c=>cursoCoincide(c,searchTerm));
 }
 function alaPasaFiltro(alo,ala){
-  if(currentFilter==='all') return true;
-  if(currentFilter==='atencion') return alaAlerta(ala);
+  if(currentFilter==='all')return true;
+  if(currentFilter==='atencion')return alaAlerta(ala);
   return _statusBaseAla(alo,ala)===currentFilter;
 }
-
 document.getElementById('filters').addEventListener('click',e=>{
-  const p=e.target.closest('.pill');if(!p) return;
+  const p=e.target.closest('.pill');if(!p)return;
   document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-  p.classList.add('active');
-  currentFilter=p.getAttribute('data-f');
-  render();
+  p.classList.add('active');currentFilter=p.getAttribute('data-f');render();
 });
 let searchTimer=null;
 document.getElementById('searchBox').addEventListener('input',e=>{
@@ -887,23 +675,18 @@ function render(){
     const coincideN=searchTerm&&coincideNumero(alo.numero,searchTerm);
     const showIzq=(coincideN||alaCoincideBusqueda(alo,alo.izquierda))&&alaPasaFiltro(alo,alo.izquierda);
     const showDer=(coincideN||alaCoincideBusqueda(alo,alo.derecha))&&alaPasaFiltro(alo,alo.derecha);
-    if(!showIzq&&!showDer) return;
+    if(!showIzq&&!showDer)return;
     visibles++;
 
     const cap=num(alo.capacidad);
-    const ocTotal=ocupadosBarraca(alo);
+    const ocTotal=feBarraca(alo);
     const dispTotal=disponiblesBarraca(alo);
     const excTotal=excesoBarraca(alo);
-    const pct=pctOcupacionBarraca(alo);
 
     let capInfoHtml='';
-    if(cap<=0){
-      capInfoHtml=`<span class="cap-barraca-info">Define la capacidad para calcular disponibilidad</span>`;
-    }else if(ocTotal>cap){
-      capInfoHtml=`<span class="cap-barraca-info">Ocupación: <b class="malo">${ocTotal}/${cap}</b> · excede en <b class="malo">${excTotal}</b></span>`;
-    }else{
-      capInfoHtml=`<span class="cap-barraca-info">Ocupación: ${ocTotal}/${cap} · Disponible: <b>${dispTotal}</b> cupos</span>`;
-    }
+    if(cap<=0) capInfoHtml=`<span class="cap-barraca-info">Define la capacidad para calcular disponibilidad</span>`;
+    else if(ocTotal>cap) capInfoHtml=`<span class="cap-barraca-info">FE total: <b class="malo">${ocTotal}/${cap}</b> · excede en <b class="malo">${excTotal}</b></span>`;
+    else capInfoHtml=`<span class="cap-barraca-info">FE total: ${ocTotal}/${cap} · Disponible: <b>${dispTotal}</b> cupos</span>`;
 
     const card=document.createElement('div');
     card.className='card';
@@ -915,7 +698,7 @@ function render(){
           <button class="del-alo" title="Eliminar barraca" data-del="${alo.numero}">✕</button>
         </div>
       </div>
-      <div class="cap-barraca-row" data-cap-row="${alo.numero}">
+      <div class="cap-barraca-row">
         <label>Capacidad:</label>
         <input type="number" min="0" class="cap-barraca-input" value="${alo.capacidad}" placeholder="—" data-cap-input="${alo.numero}">
         <button class="btn-save-cap" data-cap-save="${alo.numero}">Guardar</button>
@@ -928,55 +711,44 @@ function render(){
   });
 
   if(!visibles){
-    const v=document.createElement('div');
-    v.className='empty-msg';
+    const v=document.createElement('div');v.className='empty-msg';
     v.textContent='No hay barracas que coincidan con la búsqueda o el filtro.';
     grid.appendChild(v);
   }
 
-  /* eventos */
+  /* eventos capacidad */
   grid.querySelectorAll('[data-cap-save]').forEach(btn=>{
-    btn.addEventListener('click',async e=>{
+    btn.addEventListener('click',e=>{
       e.stopPropagation();
       const n=parseInt(btn.getAttribute('data-cap-save'),10);
       const inp=grid.querySelector(`[data-cap-input="${n}"]`);
       const alo=state.alojamientos.find(a=>a.numero===n);
-      if(!alo||!inp) return;
+      if(!alo||!inp)return;
       alo.capacidad=inp.value;
-      await persist(); render();
+      persist();render();
       toast('✔ Capacidad de la barraca N° '+n+' guardada');
     });
   });
-  /* guardar capacidad con Enter */
   grid.querySelectorAll('[data-cap-input]').forEach(inp=>{
-    inp.addEventListener('keydown',e=>{
-      if(e.key==='Enter'){
-        const btn=inp.closest('.cap-barraca-row').querySelector('[data-cap-save]');
-        if(btn) btn.click();
-      }
-    });
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){inp.closest('.cap-barraca-row').querySelector('[data-cap-save]').click();}});
     inp.addEventListener('click',e=>e.stopPropagation());
   });
-
   grid.querySelectorAll('[data-open]').forEach(elm=>{
-    elm.addEventListener('click',()=>{
-      const p=elm.getAttribute('data-open').split('|');
-      openEdit(parseInt(p[0],10),p[1]);
-    });
+    elm.addEventListener('click',()=>{const p=elm.getAttribute('data-open').split('|');openEdit(parseInt(p[0],10),p[1]);});
   });
   grid.querySelectorAll('[data-part]').forEach(elm=>{
     elm.addEventListener('click',e=>{
       e.stopPropagation();
       const p=elm.getAttribute('data-part').split('|');
       const alo=state.alojamientos.find(a=>a.numero===parseInt(p[0],10));
-      if(alo) abrirParteAla(alo,p[1]);
+      if(alo)abrirParteAla(alo,p[1]);
     });
   });
   grid.querySelectorAll('[data-part-alo]').forEach(elm=>{
     elm.addEventListener('click',e=>{
       e.stopPropagation();
       const alo=state.alojamientos.find(a=>a.numero===parseInt(elm.getAttribute('data-part-alo'),10));
-      if(alo) abrirParteBarraca(alo);
+      if(alo)abrirParteBarraca(alo);
     });
   });
   grid.querySelectorAll('[data-del]').forEach(elm=>{
@@ -984,30 +756,23 @@ function render(){
       e.stopPropagation();
       const n=parseInt(elm.getAttribute('data-del'),10);
       const ok=await uiConfirm({title:'Eliminar barraca',msg:'¿Eliminar la barraca N° '+n+'? Esta acción no se puede deshacer.',okLabel:'Sí, eliminar'});
-      if(ok){
-        state.alojamientos=state.alojamientos.filter(a=>a.numero!==n);
-        await persist(); render();
-        toast('🗑 Barraca N° '+n+' eliminada');
-      }
+      if(ok){state.alojamientos=state.alojamientos.filter(a=>a.numero!==n);persist();render();toast('🗑 Barraca N° '+n+' eliminada');}
     });
   });
 }
 
 function alaHtml(alo,side,ala,label){
   const s=statusAla(alo,ala);
-  const oc=ocupadosAla(ala);
+  const ocAla=feAla(ala);
   const nCursos=ala.cursos.filter(cursoConDatos).length;
   const hayDatos=alaConDatos(ala);
   const alerta=alaAlerta(ala);
-
-  /* ocupación global de la barraca para la barra */
   const cap=num(alo.capacidad);
-  const pct=cap>0?Math.min(100,Math.round(ocupadosBarraca(alo)/cap*100)):0;
+  const pct=cap>0?Math.min(100,Math.round(feBarraca(alo)/cap*100)):0;
 
   const cursosResumen=ala.cursos.filter(cursoConDatos).map(c=>{
     const g=c.grupo==='OTRO'?(c.grupoOtro||'OTRO'):(c.grupo||'-');
-    const cant=num(c._cantidad)+num(c.fe);
-    return`<span class="curso-line">${c.curso||'Sin curso'} <span style="color:var(--text-dim)">(${g}) · <b>${cant}</b> pers.</span></span>`;
+    return`<span class="curso-line">${c.curso||'Sin curso'} <span style="color:var(--text-dim)">(${g}) · FE: <b>${num(c.fe)}</b></span></span>`;
   }).join('');
 
   const cursosConFecha=ala.cursos.filter(c=>cursoConDatos(c)&&(c.fechaInicio||c.fechaFin));
@@ -1026,9 +791,7 @@ function alaHtml(alo,side,ala,label){
         <span class="ala-name"><span class="dot ${s}"></span>${label}</span>
         <span class="ala-state">${statusEmoji(s)} ${statusLabelAla(alo,ala)}${nCursos>1?' · '+nCursos+' cursos':''}${alerta?' <span class="badge yellow">⚠ REVISAR</span>':''}</span>
       </div>
-      <div class="ala-meta">
-        <span>Personal en esta ala: <b>${oc}</b></span>
-      </div>
+      <div class="ala-meta"><span>FE en esta ala: <b>${ocAla}</b></span></div>
       <div class="bar"><i style="width:${pct}%"></i></div>
       ${!hayDatos?`<div class="sin-datos">Sin ocupación registrada · pulsa para asignar curso y fechas</div>`:''}
       ${cursosResumen?`<div class="curso-list">${cursosResumen}</div>`:''}
@@ -1036,11 +799,10 @@ function alaHtml(alo,side,ala,label){
         ${fechaLinea}
         <button class="mini-btn" data-part="${alo.numero}|${side}">📋 Parte</button>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
-/* ── MODAL DE EDICIÓN ── */
+/* ── MODAL EDICIÓN ── */
 const editOverlay=document.getElementById('editOverlay');
 const editModal=document.getElementById('editModal');
 let editState=null;
@@ -1086,7 +848,7 @@ function cursoBlockHtml(curso,idx,canRemove){
           <input type="tel" class="c_tel" value="${esc(curso.tel)}">
         </div>
         <div class="field">
-          <label>FE (resta a la capacidad)</label>
+          <label>FE (resta a la capacidad de la barraca)</label>
           <input type="number" min="0" class="c_fe" value="${esc(curso.fe)}">
         </div>
         <div class="field full">
@@ -1104,52 +866,27 @@ function cursoBlockHtml(curso,idx,canRemove){
           <div class="hint c_duracion">${hintTxt}</div>
         </div>
         <div class="field full">
-          <label>Género del personal (resta a la capacidad)</label>
+          <label>Género del personal</label>
           <div class="genero-radio">
             <label><input type="radio" class="c_genero" name="gen_${idx}" value="HOMBRE" ${curso.genero==='HOMBRE'?'checked':''}> HOMBRE</label>
             <label><input type="radio" class="c_genero" name="gen_${idx}" value="MUJER" ${curso.genero==='MUJER'?'checked':''}> MUJER</label>
             <label><input type="radio" class="c_genero" name="gen_${idx}" value="" ${!curso.genero?'checked':''}> Sin definir</label>
           </div>
         </div>
-        <div class="field">
-          <label>Cantidad personal (resta capacidad)</label>
-          <input type="number" min="0" class="c_cantidad" value="${esc(curso._cantidad)}" placeholder="0">
-        </div>
         <div class="sep-label">Los siguientes campos NO restan a la capacidad de la barraca</div>
-        <div class="field">
-          <label>Ejército</label>
-          <input type="number" min="0" class="c_ejercito" value="${esc(curso.ejercito)}">
-        </div>
-        <div class="field">
-          <label>Armada</label>
-          <input type="number" min="0" class="c_armada" value="${esc(curso.armada)}">
-        </div>
-        <div class="field">
-          <label>Fuerza Aérea</label>
-          <input type="number" min="0" class="c_faerea" value="${esc(curso.faerea)}">
-        </div>
-        <div class="field">
-          <label>INPEC</label>
-          <input type="number" min="0" class="c_inpec" value="${esc(curso.inpec)}">
-        </div>
-        <div class="field">
-          <label>Extranjero — País</label>
-          <input type="text" class="c_extPais" value="${esc(curso.extPais)}">
-        </div>
-        <div class="field">
-          <label>Extranjero — Cantidad</label>
-          <input type="number" min="0" class="c_extCant" value="${esc(curso.extCant)}">
-        </div>
-        <div class="field full">
-          <label>Otro</label>
-          <input type="text" class="c_otro" value="${esc(curso.otro)}">
-        </div>
+        <div class="field"><label>Ejército</label><input type="number" min="0" class="c_ejercito" value="${esc(curso.ejercito)}"></div>
+        <div class="field"><label>Armada</label><input type="number" min="0" class="c_armada" value="${esc(curso.armada)}"></div>
+        <div class="field"><label>Fuerza Aérea</label><input type="number" min="0" class="c_faerea" value="${esc(curso.faerea)}"></div>
+        <div class="field"><label>INPEC</label><input type="number" min="0" class="c_inpec" value="${esc(curso.inpec)}"></div>
+        <div class="field"><label>Extranjero — País</label><input type="text" class="c_extPais" value="${esc(curso.extPais)}"></div>
+        <div class="field"><label>Extranjero — Cantidad</label><input type="number" min="0" class="c_extCant" value="${esc(curso.extCant)}"></div>
+        <div class="field full"><label>Otro</label><input type="text" class="c_otro" value="${esc(curso.otro)}"></div>
       </div>
     </div>`;
 }
 
 function syncEditStateFromDOM(){
-  if(!editState) return;
+  if(!editState)return;
   editState.cursos=Array.from(editModal.querySelectorAll('.curso-block')).map(block=>{
     const genEl=block.querySelector('.c_genero:checked');
     return{
@@ -1162,7 +899,6 @@ function syncEditStateFromDOM(){
       fechaInicio:block.querySelector('.c_fechaInicio').value,
       fechaFin:block.querySelector('.c_fechaFin').value,
       genero:genEl?genEl.value:'',
-      _cantidad:block.querySelector('.c_cantidad').value,
       ejercito:block.querySelector('.c_ejercito').value,
       armada:block.querySelector('.c_armada').value,
       faerea:block.querySelector('.c_faerea').value,
@@ -1178,7 +914,7 @@ function wireCursoBlock(block){
   const ini=block.querySelector('.c_fechaInicio');
   const fin=block.querySelector('.c_fechaFin');
   const out=block.querySelector('.c_duracion');
-  if(!ini||!fin||!out) return;
+  if(!ini||!fin||!out)return;
   function act(){
     if(ini.value) fin.min=ini.value; else fin.removeAttribute('min');
     out.classList.remove('bad','ok');
@@ -1191,9 +927,7 @@ function wireCursoBlock(block){
     out.textContent='📅 '+fmtFecha(ini.value)+' → '+fmtFecha(fin.value)+' · '+d+' día'+(d===1?'':'s')+' · '+e.label;
     out.classList.add('ok');
   }
-  ini.addEventListener('change',act);
-  fin.addEventListener('change',act);
-  act();
+  ini.addEventListener('change',act);fin.addEventListener('change',act);act();
 }
 
 function renderEditModal(){
@@ -1202,14 +936,12 @@ function renderEditModal(){
   const cap=num(alo?alo.capacidad:0);
   const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
   const canRemove=cursos.length>1;
-
-  /* calcular cuánto ocupa la otra ala */
   const otroSide=side==='izquierda'?'derecha':'izquierda';
-  const ocOtra=alo?ocupadosAla(alo[otroSide]):0;
+  const feOtra=alo?feAla(alo[otroSide]):0;
 
   editModal.innerHTML=`
     <h2>BARRACA N° ${numero} &middot; ${label}</h2>
-    <div class="sub">Capacidad de la barraca: <b style="color:var(--cyan)">${cap||'No definida'}</b>${cap>0?' · Ocupado por otra ala: '+ocOtra+' · Disponible para esta ala: '+(Math.max(0,cap-ocOtra)):''}</div>
+    <div class="sub">Capacidad de la barraca: <b style="color:var(--cyan)">${cap||'No definida'}</b>${cap>0?' · FE otra ala: '+feOtra+' · Disponible para esta ala: '+Math.max(0,cap-feOtra):''}</div>
     <div class="hint" id="cap_hint_modal" style="margin-bottom:16px;padding:8px 10px;border:1px dashed var(--border);border-radius:7px;"></div>
     ${cursos.map((c,i)=>cursoBlockHtml(c,i,canRemove)).join('')}
     <button type="button" class="btn-add-curso" id="btnAddCurso" ${cursos.length>=MAX_CURSOS?'disabled':''}>
@@ -1238,47 +970,42 @@ function renderEditModal(){
   const hint=editModal.querySelector('#cap_hint_modal');
   function updHint(){
     if(cap<=0){hint.textContent='Define la capacidad en la tarjeta de la barraca para ver disponibilidad.';hint.className='hint';return;}
-    const ocEsta=Array.from(editModal.querySelectorAll('.curso-block')).reduce((a,b)=>a+num(b.querySelector('.c_fe').value)+num(b.querySelector('.c_cantidad').value),0);
-    const ocTotal=ocOtra+ocEsta;
+    const feEsta=Array.from(editModal.querySelectorAll('.curso-block')).reduce((a,b)=>a+num(b.querySelector('.c_fe').value),0);
+    const feTotal=feOtra+feEsta;
     hint.classList.remove('bad','ok');
-    if(ocTotal>cap){hint.textContent='⚠ Ocupación total '+ocTotal+'/'+cap+' · excede en '+(ocTotal-cap);hint.classList.add('bad');}
-    else{hint.textContent='Ocupación total '+ocTotal+'/'+cap+' · quedan '+(cap-ocTotal)+' cupos libres en la barraca';hint.classList.add('ok');}
+    if(feTotal>cap){hint.textContent='⚠ FE total '+feTotal+'/'+cap+' · excede en '+(feTotal-cap);hint.classList.add('bad');}
+    else{hint.textContent='FE total '+feTotal+'/'+cap+' · quedan '+(cap-feTotal)+' cupos libres en la barraca';hint.classList.add('ok');}
   }
-  editModal.querySelectorAll('.c_fe,.c_cantidad').forEach(inp=>inp.addEventListener('input',()=>{syncEditStateFromDOM();updHint();}));
+  editModal.querySelectorAll('.c_fe').forEach(inp=>inp.addEventListener('input',()=>{syncEditStateFromDOM();updHint();}));
   updHint();
 
   editModal.querySelectorAll('.btn-remove-curso').forEach(btn=>{
     btn.addEventListener('click',()=>{
       syncEditStateFromDOM();
       const idx=parseInt(btn.getAttribute('data-idx'),10);
-      if(editState.cursos.length<=1) return;
-      editState.cursos.splice(idx,1);
-      renderEditModal();
+      if(editState.cursos.length<=1)return;
+      editState.cursos.splice(idx,1);renderEditModal();
     });
   });
   editModal.querySelector('#btnAddCurso').addEventListener('click',()=>{
     syncEditStateFromDOM();
-    if(editState.cursos.length>=MAX_CURSOS) return;
-    editState.cursos.push(defaultCurso());
-    renderEditModal();
+    if(editState.cursos.length>=MAX_CURSOS)return;
+    editState.cursos.push(defaultCurso());renderEditModal();
     setTimeout(()=>editModal.lastElementChild&&editModal.lastElementChild.scrollIntoView({behavior:'smooth'}),80);
   });
   editModal.querySelector('#btnCancelEdit').addEventListener('click',closeEdit);
   editModal.querySelector('#btnClearAla').addEventListener('click',async()=>{
     const ok=await uiConfirm({title:'Limpiar campos',msg:'¿Limpiar todos los campos de esta ala?',okLabel:'Sí, limpiar'});
-    if(!ok) return;
+    if(!ok)return;
     const a=state.alojamientos.find(a=>a.numero===editState.numero);
-    a[editState.side]=defaultAla();
-    await persist();render();closeEdit();
-    toast('🧽 Ala limpiada');
+    a[editState.side]=defaultAla();persist();render();closeEdit();toast('🧽 Ala limpiada');
   });
   editModal.querySelector('#btnSaveEdit').addEventListener('click',guardarCambios);
 }
 
 async function guardarCambios(){
-  if(!editState) return;
+  if(!editState)return;
   syncEditStateFromDOM();
-
   for(let i=0;i<editState.cursos.length;i++){
     const c=editState.cursos[i];
     if(c.fechaInicio&&c.fechaFin){
@@ -1287,49 +1014,40 @@ async function guardarCambios(){
     }
     if((c.fechaInicio&&!c.fechaFin)||(!c.fechaInicio&&c.fechaFin)){
       const ok=await uiConfirm({title:'Fechas incompletas',msg:'En el curso '+(i+1)+' solo registraste una fecha. ¿Guardar igual?',okLabel:'Sí, guardar',danger:false});
-      if(!ok) return;
+      if(!ok)return;
     }
   }
-
   const alo=state.alojamientos.find(a=>a.numero===editState.numero);
-  const ocEsta=editState.cursos.reduce((a,c)=>a+num(c.fe)+num(c._cantidad),0);
+  const feEsta=editState.cursos.reduce((a,c)=>a+num(c.fe),0);
   const otroSide=editState.side==='izquierda'?'derecha':'izquierda';
-  const ocOtra=ocupadosAla(alo[otroSide]);
-  const ocTotal=ocEsta+ocOtra;
+  const feOtra=feAla(alo[otroSide]);
+  const feTotal=feEsta+feOtra;
   const cap=num(alo.capacidad);
-
-  if(cap>0&&ocTotal>cap){
-    const ok=await uiConfirm({title:'Ocupación mayor a la capacidad',msg:'La ocupación total ('+ocTotal+') supera la capacidad de la barraca ('+cap+'). ¿Guardar de todas formas?',okLabel:'Sí, guardar'});
-    if(!ok) return;
+  if(cap>0&&feTotal>cap){
+    const ok=await uiConfirm({title:'FE mayor a la capacidad',msg:'La FE total ('+feTotal+') supera la capacidad de la barraca ('+cap+'). ¿Guardar de todas formas?',okLabel:'Sí, guardar'});
+    if(!ok)return;
   }
-
   const quiereParte=editModal.querySelector('#chkAutoParte')?.checked??true;
   const{numero,side}=editState;
   alo[side]={cursos:editState.cursos.map(normalizeCurso),updated:new Date().toISOString()};
-
-  await persist();render();closeEdit();
-  toast('✔ Cambios guardados');
-  if(quiereParte){
-    const aloAct=state.alojamientos.find(a=>a.numero===numero);
-    abrirParteAla(aloAct,side,'Generado al guardar los cambios');
-  }
+  persist();render();closeEdit();toast('✔ Cambios guardados');
+  if(quiereParte){const aloAct=state.alojamientos.find(a=>a.numero===numero);abrirParteAla(aloAct,side,'Generado al guardar los cambios');}
 }
 
 function openEdit(numero,side){
   const alo=state.alojamientos.find(a=>a.numero===numero);
   const ala=alo[side];
   editState={numero,side,cursos:JSON.parse(JSON.stringify(ala.cursos.map(normalizeCurso)))};
-  renderEditModal();
-  editOverlay.classList.add('show');
+  renderEditModal();editOverlay.classList.add('show');
 }
 function closeEdit(){editOverlay.classList.remove('show');editState=null;}
 editOverlay.addEventListener('click',e=>{if(e.target===editOverlay)closeEdit();});
 
 /* ── GENERADORES DE PARTE ── */
+/* CORRECCIÓN PRINCIPAL: cada bloque lleva siempre "BARRACA N° X" */
 function lineaCurso(c,i,multi){
   const grupo=c.grupo==='OTRO'?(c.grupoOtro||'OTRO'):(c.grupo||'-');
   const e=cursoEstado(c);
-  const cant=num(c._cantidad);
   const fe=num(c.fe);
   let fechas='No registradas';
   if(c.fechaInicio||c.fechaFin){
@@ -1338,49 +1056,51 @@ function lineaCurso(c,i,multi){
     if(d) fechas+=' ('+d+' día'+(d===1?'':'s')+')';
     fechas+=' · '+e.label;
   }
-  return(multi?'— CURSO '+(i+1)+' —\n':'')+
-    '• Curso: '+(c.curso||'-')+'\n'+
-    '• GRUPO: '+grupo+'\n'+
-    '• CDTE ASIGNACIÓN BARRACA: '+(c.cdte||'-')+'\n'+
-    '• Tel: '+(c.tel||'-')+'\n'+
-    '• FE (resta capacidad): '+fe+'\n'+
-    '• 📅 FECHA DE INICIO: '+(c.fechaInicio?fmtFecha(c.fechaInicio):'-')+'\n'+
-    '• 📅 FECHA DE FINALIZACIÓN: '+(c.fechaFin?fmtFecha(c.fechaFin):'-')+'\n'+
-    '• DURACIÓN / ESTADO: '+fechas+'\n'+
-    '• GÉNERO: '+(c.genero||'Sin definir')+'\n'+
-    '• CANTIDAD PERSONAL (resta capacidad): '+cant+'\n'+
-    '• EJÉRCITO: '+(c.ejercito||0)+'\n'+
-    '• ARMADA: '+(c.armada||0)+'\n'+
-    '• FUERZA AÉREA: '+(c.faerea||0)+'\n'+
-    '• INPEC: '+(c.inpec||0)+'\n'+
-    '• EXTRANJEROS — PAÍS: '+(c.extPais||'-')+' ('+( c.extCant||0)+')\n'+
-    '• OTRO: '+(c.otro||'-');
+  return(multi?'  — CURSO '+(i+1)+' —\n':'')+
+    '  • Curso: '+(c.curso||'-')+'\n'+
+    '  • GRUPO: '+grupo+'\n'+
+    '  • CDTE ASIGNACIÓN BARRACA: '+(c.cdte||'-')+'\n'+
+    '  • Tel: '+(c.tel||'-')+'\n'+
+    '  • FE (resta capacidad): '+fe+'\n'+
+    '  • 📅 FECHA DE INICIO: '+(c.fechaInicio?fmtFecha(c.fechaInicio):'-')+'\n'+
+    '  • 📅 FECHA DE FINALIZACIÓN: '+(c.fechaFin?fmtFecha(c.fechaFin):'-')+'\n'+
+    '  • DURACIÓN / ESTADO: '+fechas+'\n'+
+    '  • GÉNERO: '+(c.genero||'Sin definir')+'\n'+
+    '  • EJÉRCITO: '+(c.ejercito||0)+'\n'+
+    '  • ARMADA: '+(c.armada||0)+'\n'+
+    '  • FUERZA AÉREA: '+(c.faerea||0)+'\n'+
+    '  • INPEC: '+(c.inpec||0)+'\n'+
+    '  • EXTRANJEROS — PAÍS: '+(c.extPais||'-')+' ('+(c.extCant||0)+')\n'+
+    '  • OTRO: '+(c.otro||'-');
 }
 
+/* Bloque de un ala — SIEMPRE incluye BARRACA N° X */
 function parteAlaBloque(alo,side,modo){
   const ala=alo[side];
   const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
   const s=statusAla(alo,ala);
-  const ocAla=ocupadosAla(ala);
+  const feA=feAla(ala);
   const cursos=ala.cursos.filter(cursoConDatos);
-  const detalle=cursos.length?cursos.map((c,i)=>lineaCurso(c,i,cursos.length>1)).join('\n\n'):'(Sin cursos registrados en esta ala)';
+  const detalle=cursos.length
+    ?cursos.map((c,i)=>lineaCurso(c,i,cursos.length>1)).join('\n\n')
+    :'  (Sin cursos registrados en esta ala)';
 
   if(modo==='individual'){
-    const cap=num(alo.capacidad),ocT=ocupadosBarraca(alo),disp=disponiblesBarraca(alo),exc=excesoBarraca(alo);
-    return'🛏️ *PARTE DE BARRACA N° '+alo.numero+' · '+label+'*\n'+
+    const cap=num(alo.capacidad),ocT=feBarraca(alo),disp=disponiblesBarraca(alo),exc=excesoBarraca(alo);
+    return'🛏️ *BARRACA N° '+alo.numero+' — '+label+'*\n'+
       statusEmoji(s)+' Estado: '+statusLabelAla(alo,ala)+'\n'+
       '🕒 '+fmtDate()+'\n\n'+
       '• Capacidad total de la barraca: '+(cap>0?cap:'Sin definir')+'\n'+
-      '• Ocupación total barraca: '+ocT+'\n'+
-      '• Ocupación esta ala: '+ocAla+'\n'+
+      '• FE total barraca (ambas alas): '+ocT+'\n'+
+      '• FE en esta ala: '+feA+'\n'+
       '• DISPONIBILIDAD: '+(cap>0?disp+' cupo(s) libre(s)':'sin capacidad definida')+'\n'+
       (exc>0?'• ⚠ SOBREOCUPADA: excede la capacidad en '+exc+' persona(s)\n':'')+
       '• Última actualización: '+fmtSello(ala.updated)+'\n\n'+
       detalle+'\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
   }
-  return'▸ *'+label+'*  '+statusEmoji(s)+' '+statusLabelAla(alo,ala)+'\n'+
-    '• Ocupación esta ala: '+ocAla+'\n'+
-    '• Última actualización: '+fmtSello(ala.updated)+'\n\n'+
+  /* modo compacto para el parte general — también lleva BARRACA N° X */
+  return'▸ *BARRACA N° '+alo.numero+' — '+label+'*  '+statusEmoji(s)+' '+statusLabelAla(alo,ala)+'\n'+
+    '  FE esta ala: '+feA+' | Últ. actualiz.: '+fmtSello(ala.updated)+'\n\n'+
     detalle;
 }
 
@@ -1389,12 +1109,12 @@ function buildAlaParte(alo,side,nota){
 }
 
 function buildBarracaParte(alo){
-  const cap=num(alo.capacidad),oc=ocupadosBarraca(alo),disp=disponiblesBarraca(alo),pct=pctOcupacionBarraca(alo);
-  return'🏠 *PARTE DE BARRACA N° '+alo.numero+' (AMBAS ALAS)*\n'+
+  const cap=num(alo.capacidad),oc=feBarraca(alo),disp=disponiblesBarraca(alo),pct=pctOcupacionBarraca(alo);
+  return'🏠 *BARRACA N° '+alo.numero+' — PARTE COMPLETO (AMBAS ALAS)*\n'+
     '🕒 '+fmtDate()+'\n\n'+
     'RESUMEN DE LA BARRACA\n'+
     '• Capacidad total: '+(cap>0?cap:'Sin definir')+'\n'+
-    '• Ocupación total: '+oc+'\n'+
+    '• FE total: '+oc+'\n'+
     '• DISPONIBILIDAD: '+(cap>0?disp+' cupo(s) libre(s) ('+(100-pct)+'% libre)':'sin capacidad definida')+'\n\n'+
     parteAlaBloque(alo,'izquierda','compacto')+'\n\n'+
     parteAlaBloque(alo,'derecha','compacto')+'\n\n'+
@@ -1405,33 +1125,31 @@ function buildReport(){
   let capTotal=0,ocTotal=0;
   const bloques=[],alertas=[];
   let sinOcup=0;
-
   state.alojamientos.forEach(alo=>{
     capTotal+=num(alo.capacidad);
-    ocTotal+=ocupadosBarraca(alo);
+    ocTotal+=feBarraca(alo);
     ['izquierda','derecha'].forEach(side=>{
       const ala=alo[side];
       const lbl=side==='izquierda'?'Ala Izq.':'Ala Der.';
       if(!alaConDatos(ala)){sinOcup++;return;}
       ala.cursos.filter(cursoConDatos).forEach(c=>{
-        if(!cursoAlerta(c)) return;
+        if(!cursoAlerta(c))return;
         const e=cursoEstado(c);
         const rango=(c.fechaInicio||c.fechaFin)?' ('+fmtFecha(c.fechaInicio)+' al '+fmtFecha(c.fechaFin)+')':'';
-        alertas.push('• Barraca N° '+alo.numero+' · '+lbl+' · '+(c.curso||'Sin nombre')+rango+': '+e.label);
+        /* alerta también lleva BARRACA N° X */
+        alertas.push('• BARRACA N° '+alo.numero+' · '+lbl+' · '+(c.curso||'Sin nombre')+rango+': '+e.label);
       });
       bloques.push(parteAlaBloque(alo,side,'compacto'));
     });
   });
-
   const libres=Math.max(0,capTotal-ocTotal);
   const pct=capTotal>0?Math.round(ocTotal/capTotal*100):0;
-
   return'📋 *PARTE GENERAL DE BARRACAS — CENOP*\n'+
     'Dios y patria, respetuosamente envío parte de las Barracas o alojamientos CENOP así:\n'+
     '🕒 '+fmtDate()+'\n\n'+
     '*RESUMEN GENERAL*\n'+
     '• Barracas: '+state.alojamientos.length+'\n'+
-    '• Capacidad total: '+capTotal+' · Ocupación: '+ocTotal+' · DISPONIBLES: '+libres+' ('+(100-pct)+'% libre)\n'+
+    '• Capacidad total: '+capTotal+' · FE total: '+ocTotal+' · DISPONIBLES: '+libres+' ('+(100-pct)+'% libre)\n'+
     '• Alas sin ocupación registrada: '+sinOcup+'\n'+
     '• ⚠ Cursos por terminar o finalizados (7 días o menos): '+alertas.length+'\n\n'+
     bloques.join('\n\n')+
@@ -1439,10 +1157,9 @@ function buildReport(){
     '\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
 }
 
-/* ── VENTANA DE PARTE ── */
+/* ── VENTANA PARTE ── */
 const reportOverlay=document.getElementById('reportOverlay');
 let reportCtx={titulo:'PARTE GENERAL DE BARRACAS'};
-
 function abrirParteAla(alo,side,nota){
   const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
   openReport(buildAlaParte(alo,side,nota),'PARTE — BARRACA N° '+alo.numero+' · '+label,'Solo esta ala');
@@ -1458,11 +1175,9 @@ function openReport(txt,titulo,sub){
   document.getElementById('copiedMsg').classList.remove('show');
   reportOverlay.classList.add('show');
 }
-
 document.getElementById('btnReport').addEventListener('click',()=>openReport(buildReport(),'PARTE GENERAL DE BARRACAS','Listo para copiar y enviar por WhatsApp'));
 document.getElementById('btnCloseReport').addEventListener('click',()=>reportOverlay.classList.remove('show'));
 reportOverlay.addEventListener('click',e=>{if(e.target===reportOverlay)reportOverlay.classList.remove('show');});
-
 document.getElementById('btnCopyReport').addEventListener('click',async()=>{
   const ta=document.getElementById('reportText');
   let ok=false;
@@ -1472,7 +1187,6 @@ document.getElementById('btnCopyReport').addEventListener('click',async()=>{
   if(ok){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2500);}
   else{ta.focus();ta.select();toast('⚠ Selecciona el texto y presiona Ctrl+C','warn');}
 });
-
 document.getElementById('btnDownloadReport').addEventListener('click',()=>{
   const nombre='parte-'+slug(reportCtx.titulo)+'-'+hoyISO()+'.txt';
   descargarArchivo(nombre,document.getElementById('reportText').value,'text/plain');
@@ -1503,27 +1217,41 @@ function imprimirTexto(txt,titulo){
 /* ── RESPALDO ── */
 document.getElementById('btnBackup').addEventListener('click',()=>{
   if(!state.alojamientos.length){toast('⚠ No hay datos para respaldar','warn');return;}
-  const data=JSON.stringify({app:'BARRACAS-CENOP',version:4,exportado:new Date().toISOString(),state},null,2);
+  /* El respaldo incluye los datos directamente en "alojamientos" para máxima compatibilidad */
+  const data=JSON.stringify({
+    app:'BARRACAS-CENOP',
+    version:5,
+    exportado:new Date().toISOString(),
+    alojamientos:state.alojamientos
+  },null,2);
   descargarArchivo('respaldo-barracas-'+hoyISO()+'.json',data,'application/json');
-  toast('⬇ Respaldo descargado · compártelo por WhatsApp o correo para que tu compañero o jefe lo carguen con "Restaurar respaldo"');
+  toast('⬇ Respaldo descargado · envíalo por WhatsApp como archivo adjunto · el receptor lo carga con "Restaurar respaldo"');
 });
+
 document.getElementById('btnRestore').addEventListener('click',()=>document.getElementById('restoreFile').click());
 document.getElementById('restoreFile').addEventListener('change',e=>{
-  const file=e.target.files&&e.target.files[0];if(!file) return;
+  const file=e.target.files&&e.target.files[0];if(!file)return;
   const lector=new FileReader();
   lector.onload=async()=>{
     try{
       const raw=String(lector.result);
       if(raw.length>5*1024*1024){toast('⚠ El archivo es demasiado grande','warn');return;}
       const obj=JSON.parse(raw);
-      const nuevo=(obj&&obj.state)?obj.state:obj;
-      if(!nuevo||!Array.isArray(nuevo.alojamientos)) throw new Error('formato');
-      const ok=await uiConfirm({title:'Restaurar respaldo',msg:'Se reemplazará todo lo que hay ahora por la información del respaldo ('+nuevo.alojamientos.length+' barracas). ¿Continuar?',okLabel:'Sí, restaurar',danger:false});
-      if(!ok) return;
-      state=normalizeState(nuevo);
-      await persist();render();
-      toast('✔ Respaldo restaurado · '+state.alojamientos.length+' barracas cargadas');
-    }catch(err){toast('⚠ El archivo no es un respaldo válido de BARRACAS-CENOP','warn');}
+      /* aceptar cualquier formato: {alojamientos:[...]}, {state:{alojamientos:[...]}}, o array directo */
+      const nuevo=normalizeState(obj);
+      if(!nuevo.alojamientos.length) throw new Error('sin datos');
+      const ok=await uiConfirm({
+        title:'Restaurar respaldo',
+        msg:'Se cargará la información del respaldo ('+nuevo.alojamientos.length+' barracas). Esto reemplazará los datos actuales. ¿Continuar?',
+        okLabel:'Sí, restaurar',danger:false
+      });
+      if(!ok)return;
+      state=nuevo;
+      persist();render();
+      toast('✔ Respaldo restaurado correctamente · '+state.alojamientos.length+' barracas cargadas');
+    }catch(err){
+      toast('⚠ El archivo no es un respaldo válido de BARRACAS-CENOP','warn');
+    }
     e.target.value='';
   };
   lector.readAsText(file);
@@ -1535,8 +1263,7 @@ document.getElementById('btnCancelNum').addEventListener('click',()=>numOverlay.
 numOverlay.addEventListener('click',e=>{if(e.target===numOverlay)numOverlay.classList.remove('show');});
 document.getElementById('btnAdd').addEventListener('click',()=>{
   const usados=new Set(state.alojamientos.map(a=>a.numero));
-  const cont=document.getElementById('numBtns');
-  cont.innerHTML='';
+  const cont=document.getElementById('numBtns');cont.innerHTML='';
   NUMS_DISPONIBLES.forEach(n=>{
     const btn=document.createElement('button');
     btn.className='num-btn'+(usados.has(n)?' usado':'');
@@ -1547,8 +1274,7 @@ document.getElementById('btnAdd').addEventListener('click',()=>{
         numOverlay.classList.remove('show');
         state.alojamientos.push(defaultBarraca(n));
         state.alojamientos.sort((a,b)=>a.numero-b.numero);
-        await persist();render();
-        toast('＋ Barraca N° '+n+' añadida');
+        persist();render();toast('＋ Barraca N° '+n+' añadida');
       });
     }
     cont.appendChild(btn);
@@ -1559,11 +1285,10 @@ document.getElementById('btnAdd').addEventListener('click',()=>{
 /* ── RESTABLECER ── */
 document.getElementById('btnResetAll').addEventListener('click',async()=>{
   const ok=await uiConfirm({title:'Restablecer todo',msg:'Esto borrará TODOS los datos y volverá a las barracas por defecto (1,2,3,4,5,11,13,14,15,16,17,18). ¿Continuar?',okLabel:'Sí, borrar todo'});
-  if(!ok) return;
+  if(!ok)return;
   state={alojamientos:[]};
   NUMS_DEFAULT.forEach(n=>state.alojamientos.push(defaultBarraca(n)));
-  await persist();render();
-  toast('♻ Sistema restablecido');
+  persist();render();toast('♻ Sistema restablecido');
 });
 
 /* ── AYUDA ── */
@@ -1574,7 +1299,7 @@ helpOverlay.addEventListener('click',e=>{if(e.target===helpOverlay)helpOverlay.c
 
 /* ── ESC ── */
 document.addEventListener('keydown',e=>{
-  if(e.key!=='Escape') return;
+  if(e.key!=='Escape')return;
   if(document.getElementById('confirmOverlay').classList.contains('show')){cerrarConfirm(false);return;}
   if(numOverlay.classList.contains('show')){numOverlay.classList.remove('show');return;}
   editOverlay.classList.remove('show');editState=null;
