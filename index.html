@@ -17,6 +17,7 @@
   --green:#39ff88;
   --orange:#ffa629;
   --red:#ff3355;
+  --yellow:#ffe033;
   --text:#d9f6ff;
   --text-dim:#6f89a8;
   --border:#1c2b4a;
@@ -33,307 +34,377 @@ body{
   min-height:100vh;
   overflow-x:hidden;
 }
-/* ambient scanline grid, very subtle, static-ish */
 body::before{
   content:"";
-  position:fixed; inset:0; pointer-events:none; z-index:0;
+  position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:
-    linear-gradient(rgba(0,234,255,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,234,255,0.035) 1px, transparent 1px);
+    linear-gradient(rgba(0,234,255,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,234,255,0.035) 1px,transparent 1px);
   background-size:42px 42px;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 20%, black 0%, transparent 75%);
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 20%,black 0%,transparent 75%);
 }
-.wrap{position:relative; z-index:1; max-width:1280px; margin:0 auto; padding:28px 22px 80px;}
+.wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:28px 22px 80px;}
 
 /* HEADER */
-header{text-align:center; margin-bottom:26px;}
+header{text-align:center;margin-bottom:26px;}
 h1.brand{
-  font-family:'Orbitron',sans-serif; font-weight:900; letter-spacing:4px;
-  font-size:clamp(28px,5vw,46px); margin:0; color:#fff;
-  text-shadow:0 0 6px var(--cyan), 0 0 22px rgba(0,234,255,0.7), 0 0 46px rgba(255,46,196,0.35);
+  font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:4px;
+  font-size:clamp(28px,5vw,46px);margin:0;color:#fff;
+  text-shadow:0 0 6px var(--cyan),0 0 22px rgba(0,234,255,0.7),0 0 46px rgba(255,46,196,0.35);
   animation:flicker 6s infinite;
 }
-@keyframes flicker{
-  0%,96%,100%{opacity:1;}
-  97%{opacity:0.85;}
-  97.5%{opacity:1;}
-  98%{opacity:0.9;}
-}
-.brand-sub{
-  font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:5px; color:var(--magenta);
-  text-shadow:0 0 8px rgba(255,46,196,0.6); margin-top:6px;
-}
-.motto{font-size:13px; letter-spacing:2px; color:var(--text-dim); margin-top:10px;}
+@keyframes flicker{0%,96%,100%{opacity:1;}97%{opacity:0.85;}97.5%{opacity:1;}98%{opacity:0.9;}}
+.brand-sub{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:5px;color:var(--magenta);text-shadow:0 0 8px rgba(255,46,196,0.6);margin-top:6px;}
+.motto{font-size:13px;letter-spacing:2px;color:var(--text-dim);margin-top:10px;}
 
-/* AVISO DE ALMACENAMIENTO */
 .storage-warning{
-  display:none; margin:0 auto 18px; max-width:820px; text-align:center;
-  border:1px solid var(--orange); color:var(--orange); background:rgba(255,166,41,0.07);
-  border-radius:10px; padding:10px 14px; font-size:12.5px; letter-spacing:.5px;
+  display:none;margin:0 auto 18px;max-width:820px;text-align:center;
+  border:1px solid var(--orange);color:var(--orange);background:rgba(255,166,41,0.07);
+  border-radius:10px;padding:10px 14px;font-size:12.5px;letter-spacing:.5px;
 }
 .storage-warning.show{display:block;}
 
 /* TOOLBAR */
-.toolbar{
-  display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:center;
-  margin:24px 0 18px;
-}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin:24px 0 18px;}
 .btn{
-  font-family:'Rajdhani',sans-serif; font-weight:700; letter-spacing:1.5px; font-size:14px;
-  text-transform:uppercase; cursor:pointer; border-radius:8px; padding:11px 20px;
-  background:var(--bg-elevated); color:var(--text); border:1px solid var(--border);
-  transition:all .25s ease; position:relative;
+  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1.5px;font-size:14px;
+  text-transform:uppercase;cursor:pointer;border-radius:8px;padding:11px 20px;
+  background:var(--bg-elevated);color:var(--text);border:1px solid var(--border);
+  transition:all .25s ease;
 }
 .btn:hover{transform:translateY(-1px);}
-.btn-cyan{border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 10px rgba(0,234,255,0.15);}
-.btn-cyan:hover{box-shadow:0 0 18px rgba(0,234,255,0.5); background:rgba(0,234,255,0.08);}
-.btn-magenta{border-color:var(--magenta); color:var(--magenta); box-shadow:0 0 10px rgba(255,46,196,0.15);}
-.btn-magenta:hover{box-shadow:0 0 18px rgba(255,46,196,0.5); background:rgba(255,46,196,0.08);}
-.btn-green{border-color:var(--green); color:var(--green); box-shadow:0 0 10px rgba(57,255,136,0.15);}
-.btn-green:hover{box-shadow:0 0 18px rgba(57,255,136,0.5); background:rgba(57,255,136,0.08);}
-.btn-ghost{border-color:var(--border); color:var(--text-dim); font-size:12px; padding:9px 14px;}
-.btn-ghost:hover{color:var(--text); border-color:var(--text-dim);}
-.btn-danger{border-color:var(--red); color:var(--red);}
-.btn-danger:hover{box-shadow:0 0 16px rgba(255,51,85,0.5); background:rgba(255,51,85,0.08);}
-.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn-cyan{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.15);}
+.btn-cyan:hover{box-shadow:0 0 18px rgba(0,234,255,0.5);background:rgba(0,234,255,0.08);}
+.btn-magenta{border-color:var(--magenta);color:var(--magenta);box-shadow:0 0 10px rgba(255,46,196,0.15);}
+.btn-magenta:hover{box-shadow:0 0 18px rgba(255,46,196,0.5);background:rgba(255,46,196,0.08);}
+.btn-green{border-color:var(--green);color:var(--green);box-shadow:0 0 10px rgba(57,255,136,0.15);}
+.btn-green:hover{box-shadow:0 0 18px rgba(57,255,136,0.5);background:rgba(57,255,136,0.08);}
+.btn-ghost{border-color:var(--border);color:var(--text-dim);font-size:12px;padding:9px 14px;}
+.btn-ghost:hover{color:var(--text);border-color:var(--text-dim);}
+.btn-danger{border-color:var(--red);color:var(--red);}
+.btn-danger:hover{box-shadow:0 0 16px rgba(255,51,85,0.5);background:rgba(255,51,85,0.08);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
 
 /* BUSCADOR */
-.searchbar{display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:16px;}
+.searchbar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
 .searchbar input{
-  width:min(460px,100%); background:var(--bg-input); border:1px solid var(--border); color:var(--text);
-  border-radius:20px; padding:10px 18px; font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600;
-  outline:none; transition:.2s;
+  width:min(460px,100%);background:var(--bg-input);border:1px solid var(--border);color:var(--text);
+  border-radius:20px;padding:10px 18px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;
+  outline:none;transition:.2s;
 }
-.searchbar input:focus{border-color:var(--cyan); box-shadow:0 0 10px rgba(0,234,255,0.35);}
+.searchbar input:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.35);}
 
-/* FILTER PILLS */
-.filters{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:22px;}
+/* PILLS */
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
 .pill{
-  font-size:12px; letter-spacing:1px; padding:7px 14px; border-radius:20px; cursor:pointer;
-  border:1px solid var(--border); color:var(--text-dim); background:var(--bg-panel); transition:.2s;
+  font-size:12px;letter-spacing:1px;padding:7px 14px;border-radius:20px;cursor:pointer;
+  border:1px solid var(--border);color:var(--text-dim);background:var(--bg-panel);transition:.2s;
 }
-.pill.active{color:#fff; border-color:currentColor;}
-.pill[data-f="all"].active{color:var(--cyan); box-shadow:0 0 10px rgba(0,234,255,0.4);}
-.pill[data-f="rojo"].active{color:var(--red); box-shadow:0 0 10px rgba(255,51,85,0.4);}
-.pill[data-f="naranja"].active{color:var(--orange); box-shadow:0 0 10px rgba(255,166,41,0.4);}
-.pill[data-f="verde"].active{color:var(--green); box-shadow:0 0 10px rgba(57,255,136,0.4);}
-.pill[data-f="atencion"].active{color:var(--magenta); box-shadow:0 0 10px rgba(255,46,196,0.4);}
+.pill.active{color:#fff;border-color:currentColor;}
+.pill[data-f="all"].active{color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.4);}
+.pill[data-f="rojo"].active{color:var(--red);box-shadow:0 0 10px rgba(255,51,85,0.4);}
+.pill[data-f="naranja"].active{color:var(--orange);box-shadow:0 0 10px rgba(255,166,41,0.4);}
+.pill[data-f="verde"].active{color:var(--green);box-shadow:0 0 10px rgba(57,255,136,0.4);}
+.pill[data-f="atencion"].active{color:var(--yellow);box-shadow:0 0 10px rgba(255,224,51,0.5);}
 
-/* SUMMARY BAR */
-.summary{
-  display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-bottom:26px;
-  font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:1px;
+/* ALERT BANNER */
+.alert-banner{
+  display:none;margin:0 auto 20px;
+  background:linear-gradient(135deg,rgba(255,224,51,0.12),rgba(255,46,196,0.08));
+  border:2px solid var(--yellow);border-radius:12px;padding:14px 18px;
+  animation:pulse-border 1.5s ease-in-out infinite;
 }
-.summary .chip{
-  padding:8px 16px; border-radius:8px; background:var(--bg-panel); border:1px solid var(--border);
+.alert-banner.show{display:block;}
+@keyframes pulse-border{
+  0%,100%{box-shadow:0 0 10px rgba(255,224,51,0.3),0 0 30px rgba(255,224,51,0.1);}
+  50%{box-shadow:0 0 24px rgba(255,224,51,0.8),0 0 60px rgba(255,224,51,0.3);}
 }
-.summary .chip b{font-size:15px; margin-right:6px;}
-.chip.c-red b{color:var(--red);} .chip.c-orange b{color:var(--orange);}
-.chip.c-green b{color:var(--green);} .chip.c-total b{color:var(--cyan);}
-.chip.c-free b{color:var(--green);} .chip.c-alert b{color:var(--magenta);}
+.alert-banner h4{
+  font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;color:var(--yellow);
+  margin:0 0 10px;text-shadow:0 0 10px rgba(255,224,51,0.8);
+}
+.alert-item{
+  font-size:12.5px;color:var(--text);padding:5px 0;
+  border-bottom:1px dashed rgba(255,224,51,0.2);display:flex;align-items:flex-start;gap:8px;
+}
+.alert-item:last-child{border-bottom:none;}
+.alert-item .ai-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+.alert-item .ai-text{flex:1;line-height:1.4;}
+.alert-item .ai-dias{
+  font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;
+  padding:2px 8px;border-radius:10px;border:1px solid var(--yellow);color:var(--yellow);
+  flex-shrink:0;white-space:nowrap;
+}
+.alert-item .ai-dias.vencido{border-color:var(--red);color:var(--red);}
 
-/* GRID */
-.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:20px;}
+/* PANEL RESUMEN TEXTO */
+.resumen-panel{
+  background:var(--bg-panel);border:1px solid var(--cyan);border-radius:14px;
+  margin-bottom:26px;overflow:hidden;
+  box-shadow:0 0 18px rgba(0,234,255,0.1);
+}
+.resumen-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;
+  user-select:none;
+}
+.resumen-header h3{
+  font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;color:var(--cyan);
+  margin:0;text-shadow:0 0 8px rgba(0,234,255,0.5);
+}
+.resumen-toggle{
+  font-size:11px;letter-spacing:1px;color:var(--text-dim);
+  background:none;border:1px solid var(--border);border-radius:6px;
+  padding:4px 10px;cursor:pointer;transition:.2s;font-family:'Rajdhani',sans-serif;font-weight:600;
+}
+.resumen-toggle:hover{color:var(--cyan);border-color:var(--cyan);}
+.resumen-body{
+  padding:18px 22px;display:none;
+}
+.resumen-body.open{display:block;}
+.resumen-texto{
+  font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.9;
+  color:var(--text);white-space:pre-wrap;margin:0;
+  background:none;border:none;width:100%;resize:none;outline:none;
+  cursor:default;
+}
+.resumen-acciones{
+  display:flex;gap:10px;margin-top:14px;padding-top:12px;
+  border-top:1px dashed var(--border);flex-wrap:wrap;
+}
+
+/* GRID BARRACAS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px;}
 .empty-msg{
-  grid-column:1/-1; text-align:center; color:var(--text-dim); font-size:14px; letter-spacing:1px;
-  border:1px dashed var(--border); border-radius:12px; padding:34px 18px;
+  grid-column:1/-1;text-align:center;color:var(--text-dim);font-size:14px;letter-spacing:1px;
+  border:1px dashed var(--border);border-radius:12px;padding:34px 18px;
 }
-
 .card{
-  background:var(--bg-panel); border-radius:14px; padding:16px 16px 14px;
-  border:1px solid var(--border); position:relative; overflow:hidden;
+  background:var(--bg-panel);border-radius:14px;padding:16px 16px 14px;
+  border:1px solid var(--border);position:relative;overflow:hidden;
 }
-.card-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:8px;}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px;}
 .card-head .num{
-  font-family:'Orbitron',sans-serif; font-weight:700; font-size:15px; color:#fff; letter-spacing:1px;
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:1px;
 }
-.card-head .num span{color:var(--cyan); text-shadow:0 0 8px rgba(0,234,255,0.6);}
-.card-head .tools{display:flex; align-items:center; gap:6px;}
-.mini-btn{
-  background:none; border:1px solid var(--border); color:var(--text-dim);
-  font-family:'Rajdhani',sans-serif; font-weight:700; font-size:11px; letter-spacing:1px;
-  border-radius:6px; padding:4px 9px; cursor:pointer; transition:.2s; white-space:nowrap;
-}
-.mini-btn:hover{color:var(--cyan); border-color:var(--cyan); box-shadow:0 0 8px rgba(0,234,255,0.35);}
-.mini-btn.magenta:hover{color:var(--magenta); border-color:var(--magenta); box-shadow:0 0 8px rgba(255,46,196,0.35);}
-.del-alo{
-  background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:16px; line-height:1;
-  opacity:.5; transition:.2s;
-}
-.del-alo:hover{opacity:1; color:var(--red);}
+.card-head .num span{color:var(--cyan);text-shadow:0 0 8px rgba(0,234,255,0.6);}
+.card-head .tools{display:flex;align-items:center;gap:6px;}
 
+/* CAPACIDAD BARRACA */
+.cap-barraca-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  padding:8px 10px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border);
+}
+.cap-barraca-row label{
+  font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);
+  font-weight:600;white-space:nowrap;margin:0;
+}
+.cap-barraca-input{
+  width:80px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);
+  border-radius:6px;padding:5px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;
+  outline:none;transition:.2s;text-align:center;
+}
+.cap-barraca-input:focus{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
+.cap-barraca-info{font-size:12px;color:var(--text-dim);flex:1;}
+.cap-barraca-info b{color:var(--green);}
+.cap-barraca-info b.malo{color:var(--red);}
+.btn-save-cap{
+  background:none;border:1px solid var(--cyan);color:var(--cyan);
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;
+  border-radius:6px;padding:5px 10px;cursor:pointer;transition:.2s;white-space:nowrap;
+}
+.btn-save-cap:hover{background:rgba(0,234,255,0.1);box-shadow:0 0 8px rgba(0,234,255,0.4);}
+
+.mini-btn{
+  background:none;border:1px solid var(--border);color:var(--text-dim);
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;
+  border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;white-space:nowrap;
+}
+.mini-btn:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
+.mini-btn.magenta:hover{color:var(--magenta);border-color:var(--magenta);}
+.del-alo{
+  background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;line-height:1;
+  opacity:.5;transition:.2s;
+}
+.del-alo:hover{opacity:1;color:var(--red);}
+
+/* ALAS */
 .ala{
-  border-radius:10px; padding:12px 13px; margin-bottom:10px; cursor:pointer;
-  background:var(--bg-elevated); border:1px solid var(--border); position:relative;
-  transition:transform .2s ease;
+  border-radius:10px;padding:12px 13px;margin-bottom:10px;cursor:pointer;
+  background:var(--bg-elevated);border:1px solid var(--border);position:relative;
+  transition:transform .2s ease;overflow:hidden;
 }
 .ala:last-child{margin-bottom:0;}
 .ala:hover{transform:translateY(-2px);}
 .ala::before{
-  content:""; position:absolute; inset:0; border-radius:10px; padding:1px;
-  background:conic-gradient(from var(--ang,0deg), transparent 0 70%, var(--glow) 85%, transparent 100%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor; mask-composite:exclude;
-  animation:spin 5s linear infinite; opacity:.55; pointer-events:none;
+  content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;
+  opacity:.55;border:1px solid transparent;
+  background:
+    linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,
+    conic-gradient(from 0deg,transparent 0 70%,var(--glow,var(--cyan)) 85%,transparent 100%) border-box;
+  animation:spin-border 5s linear infinite;
 }
-@keyframes spin{to{--ang:360deg;}}
-@property --ang{syntax:'<angle>'; inherits:true; initial-value:0deg;}
-
+@keyframes spin-border{
+  0%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 0deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
+  25%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 90deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
+  50%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 180deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
+  75%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 270deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
+  100%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 360deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
+}
 .ala.rojo{--glow:var(--red);}
 .ala.naranja{--glow:var(--orange);}
 .ala.verde{--glow:var(--green);}
+.ala.amarillo{--glow:var(--yellow);}
 
-.ala-row{display:flex; justify-content:space-between; align-items:center; font-size:13px; gap:8px;}
-.ala-name{font-weight:700; letter-spacing:1px; text-transform:uppercase; font-size:12.5px; color:var(--text-dim);}
-.dot{width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:7px; position:relative; top:1px;}
-.dot.rojo{background:var(--red); box-shadow:0 0 8px var(--red), 0 0 16px var(--red);}
-.dot.naranja{background:var(--orange); box-shadow:0 0 8px var(--orange), 0 0 16px var(--orange);}
-.dot.verde{background:var(--green); box-shadow:0 0 8px var(--green), 0 0 16px var(--green);}
-.ala-state{font-size:11px; color:var(--text-dim); letter-spacing:.5px; text-align:right;}
-.ala-meta{font-size:11.5px; color:var(--text-dim); margin-top:7px; display:flex; justify-content:space-between; gap:6px; flex-wrap:wrap;}
-.ala-meta b{color:var(--text); font-weight:600;}
-.ala-meta .avail b{color:var(--green);}
-.ala.rojo .ala-meta .avail b{color:var(--red);}
-.ala.naranja .ala-meta .avail b{color:var(--orange);}
+.ala-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:8px;}
+.ala-name{font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:12.5px;color:var(--text-dim);}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px;position:relative;top:1px;}
+.dot.rojo{background:var(--red);box-shadow:0 0 8px var(--red),0 0 16px var(--red);}
+.dot.naranja{background:var(--orange);box-shadow:0 0 8px var(--orange),0 0 16px var(--orange);}
+.dot.verde{background:var(--green);box-shadow:0 0 8px var(--green),0 0 16px var(--green);}
+.dot.amarillo{background:var(--yellow);box-shadow:0 0 8px var(--yellow),0 0 16px var(--yellow);}
+.ala-state{font-size:11px;color:var(--text-dim);letter-spacing:.5px;text-align:right;}
 
-/* barra de ocupación */
-.bar{height:6px; border-radius:4px; background:#060b16; border:1px solid var(--border); overflow:hidden; margin-top:8px;}
-.bar i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--green),var(--cyan)); transition:width .35s ease;}
+.ala-meta{font-size:11.5px;color:var(--text-dim);margin-top:7px;display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;}
+.ala-meta b{color:var(--text);font-weight:600;}
+
+.bar{height:6px;border-radius:4px;background:#060b16;border:1px solid var(--border);overflow:hidden;margin-top:8px;}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .35s ease;}
 .ala.rojo .bar i{background:linear-gradient(90deg,var(--orange),var(--red));}
 .ala.naranja .bar i{background:linear-gradient(90deg,var(--cyan),var(--orange));}
+.ala.amarillo .bar i{background:linear-gradient(90deg,var(--cyan),var(--yellow));}
 
-.warn-line{margin-top:8px; font-size:11.5px; color:var(--orange); letter-spacing:.5px;}
-.sin-datos{margin-top:8px; font-size:11.5px; color:var(--text-dim); letter-spacing:.3px; font-style:italic;}
-
-.curso-list{font-size:11.5px; color:var(--text); margin-top:8px; line-height:1.55;}
-.curso-list .sep{color:var(--text-dim); margin:0 4px;}
+.warn-line{margin-top:8px;font-size:11.5px;color:var(--orange);letter-spacing:.5px;}
+.sin-datos{margin-top:8px;font-size:11.5px;color:var(--text-dim);letter-spacing:.3px;font-style:italic;}
+.curso-list{font-size:11.5px;color:var(--text);margin-top:8px;line-height:1.55;}
 .curso-line{display:block;}
-.curso-line + .curso-line{margin-top:2px;}
-
-.ala-foot{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:10px; flex-wrap:wrap;}
-.fecha-chip{font-size:11px; color:var(--text-dim); letter-spacing:.3px;}
-.fecha-chip b{color:var(--text); font-weight:600;}
-.badge{font-size:10.5px; letter-spacing:.8px; padding:2px 8px; border-radius:20px; border:1px solid currentColor; margin-left:6px; white-space:nowrap;}
-.badge.cyan{color:var(--cyan);} .badge.green{color:var(--green);}
-.badge.orange{color:var(--orange);} .badge.gris{color:var(--text-dim);}
-.badge.magenta{color:var(--magenta);}
+.curso-line+.curso-line{margin-top:2px;}
+.ala-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.fecha-chip{font-size:11px;color:var(--text-dim);letter-spacing:.3px;}
+.badge{font-size:10.5px;letter-spacing:.8px;padding:2px 8px;border-radius:20px;border:1px solid currentColor;margin-left:6px;white-space:nowrap;}
+.badge.cyan{color:var(--cyan);}.badge.green{color:var(--green);}
+.badge.orange{color:var(--orange);}.badge.gris{color:var(--text-dim);}
+.badge.magenta{color:var(--magenta);}.badge.yellow{color:var(--yellow);}
 
 /* MODAL */
 .overlay{
-  position:fixed; inset:0; background:rgba(2,4,10,0.78); backdrop-filter:blur(3px);
-  display:none; align-items:flex-start; justify-content:center; z-index:50; padding:30px 14px; overflow-y:auto;
+  position:fixed;inset:0;background:rgba(2,4,10,0.78);backdrop-filter:blur(3px);
+  display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 14px;overflow-y:auto;
 }
 .overlay.show{display:flex;}
 .modal{
-  background:var(--bg-panel); border:1px solid var(--cyan); border-radius:16px;
-  box-shadow:0 0 30px rgba(0,234,255,0.25), 0 0 80px rgba(255,46,196,0.08);
-  max-width:640px; width:100%; padding:24px 24px 20px; margin-top:10px;
+  background:var(--bg-panel);border:1px solid var(--cyan);border-radius:16px;
+  box-shadow:0 0 30px rgba(0,234,255,0.25),0 0 80px rgba(255,46,196,0.08);
+  max-width:680px;width:100%;padding:24px 24px 20px;margin-top:10px;
 }
-.modal.report{border-color:var(--magenta); box-shadow:0 0 30px rgba(255,46,196,0.25); max-width:760px;}
-.modal.confirm{border-color:var(--orange); box-shadow:0 0 30px rgba(255,166,41,0.22); max-width:460px;}
-.modal.help{border-color:var(--green); box-shadow:0 0 30px rgba(57,255,136,0.2); max-width:680px;}
-.modal h2{
-  font-family:'Orbitron',sans-serif; font-size:16px; letter-spacing:2px; margin:0 0 4px;
-  color:#fff;
-}
-.modal .sub{font-size:12px; color:var(--text-dim); letter-spacing:1px; margin-bottom:18px;}
-.form-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px 14px;}
-.field{display:flex; flex-direction:column; gap:5px;}
+.modal.report{border-color:var(--magenta);box-shadow:0 0 30px rgba(255,46,196,0.25);max-width:760px;}
+.modal.confirm{border-color:var(--orange);box-shadow:0 0 30px rgba(255,166,41,0.22);max-width:460px;}
+.modal.help{border-color:var(--green);box-shadow:0 0 30px rgba(57,255,136,0.2);max-width:680px;}
+.modal h2{font-family:'Orbitron',sans-serif;font-size:16px;letter-spacing:2px;margin:0 0 4px;color:#fff;}
+.modal .sub{font-size:12px;color:var(--text-dim);letter-spacing:1px;margin-bottom:18px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;}
+.field{display:flex;flex-direction:column;gap:5px;}
 .field.full{grid-column:1/-1;}
-label{font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); font-weight:600;}
+label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
 input[type=text],input[type=number],input[type=tel],input[type=date],input[type=search],select,textarea{
-  background:var(--bg-input); border:1px solid var(--border); color:var(--text);
-  border-radius:7px; padding:9px 10px; font-family:'Rajdhani',sans-serif; font-size:14.5px; font-weight:600;
-  outline:none; transition:.2s; color-scheme:dark;
+  background:var(--bg-input);border:1px solid var(--border);color:var(--text);
+  border-radius:7px;padding:9px 10px;font-family:'Rajdhani',sans-serif;font-size:14.5px;font-weight:600;
+  outline:none;transition:.2s;color-scheme:dark;
 }
 input[type=date]{cursor:pointer;}
-input:focus,select:focus,textarea:focus{border-color:var(--cyan); box-shadow:0 0 8px rgba(0,234,255,0.35);}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
 select{cursor:pointer;}
-.parte-row{display:flex; gap:6px;}
-.parte-row input{width:100%; text-align:center;}
-.checks{display:flex; gap:14px; flex-wrap:wrap; padding-top:2px;}
-.checks label{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text); cursor:pointer; text-transform:none; letter-spacing:0;}
-.checks input[type=checkbox]{accent-color:var(--cyan); width:15px; height:15px;}
-.modal-actions{display:flex; justify-content:space-between; gap:10px; margin-top:20px; flex-wrap:wrap;}
-.modal-actions .left{display:flex; gap:10px; flex-wrap:wrap;}
-.hint{font-size:11px; color:var(--text-dim); letter-spacing:.5px; margin-top:2px;}
-.hint.bad{color:var(--red);}
-.hint.ok{color:var(--green);}
-.dates-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.modal-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px;flex-wrap:wrap;}
+.modal-actions .left{display:flex;gap:10px;flex-wrap:wrap;}
+.hint{font-size:11px;color:var(--text-dim);letter-spacing:.5px;margin-top:2px;}
+.hint.bad{color:var(--red);}.hint.ok{color:var(--green);}
+.dates-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .chk-line{
-  display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text); cursor:pointer;
-  text-transform:none; letter-spacing:.3px; margin-top:16px; border:1px dashed var(--border);
-  border-radius:8px; padding:9px 12px;
+  display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text);cursor:pointer;
+  text-transform:none;letter-spacing:.3px;margin-top:16px;border:1px dashed var(--border);
+  border-radius:8px;padding:9px 12px;
 }
-.chk-line input[type=checkbox]{accent-color:var(--magenta); width:16px; height:16px;}
+.chk-line input[type=checkbox]{accent-color:var(--magenta);width:16px;height:16px;}
 
-/* CURSOS DENTRO DE UN ALA */
-.cap-field{margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border);}
+/* RADIO GÉNERO */
+.genero-radio{display:flex;gap:20px;padding-top:4px;flex-wrap:wrap;}
+.genero-radio label{
+  display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;
+  color:var(--text);text-transform:none;letter-spacing:0;font-weight:600;
+}
+.genero-radio input[type=radio]{accent-color:var(--cyan);width:16px;height:16px;cursor:pointer;}
+
+/* CURSOS EN MODAL */
 .curso-block{
-  border:1px solid var(--border); border-radius:10px; padding:14px 14px 4px; margin-bottom:16px;
-  background:rgba(0,234,255,0.02); position:relative;
+  border:1px solid var(--border);border-radius:10px;padding:14px 14px 4px;margin-bottom:16px;
+  background:rgba(0,234,255,0.02);
 }
-.curso-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:8px;}
-.curso-title{
-  font-family:'Orbitron',sans-serif; font-size:12px; letter-spacing:2px; color:var(--cyan);
-  text-shadow:0 0 6px rgba(0,234,255,0.5);
-}
+.curso-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;}
+.curso-title{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 6px rgba(0,234,255,0.5);}
 .btn-remove-curso{
-  background:none; border:1px solid var(--red); color:var(--red); font-size:11px; letter-spacing:1px;
-  border-radius:6px; padding:4px 9px; cursor:pointer; transition:.2s;
+  background:none;border:1px solid var(--red);color:var(--red);font-size:11px;letter-spacing:1px;
+  border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;
 }
-.btn-remove-curso:hover{background:rgba(255,51,85,0.12); box-shadow:0 0 8px rgba(255,51,85,0.4);}
+.btn-remove-curso:hover{background:rgba(255,51,85,0.12);box-shadow:0 0 8px rgba(255,51,85,0.4);}
+.sep-label{
+  grid-column:1/-1;font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--text-dim);font-weight:600;border-top:1px dashed var(--border);
+  padding-top:10px;margin-top:4px;
+}
 .btn-add-curso{
-  width:100%; margin-bottom:18px; border:1px dashed var(--cyan); color:var(--cyan); background:none;
-  border-radius:10px; padding:12px; font-family:'Rajdhani',sans-serif; font-weight:700; letter-spacing:1.5px;
-  font-size:13px; text-transform:uppercase; cursor:pointer; transition:.2s;
+  width:100%;margin-bottom:18px;border:1px dashed var(--cyan);color:var(--cyan);background:none;
+  border-radius:10px;padding:12px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1.5px;
+  font-size:13px;text-transform:uppercase;cursor:pointer;transition:.2s;
 }
-.btn-add-curso:hover{background:rgba(0,234,255,0.08); box-shadow:0 0 12px rgba(0,234,255,0.35);}
-.btn-add-curso:disabled{opacity:.35; cursor:not-allowed; border-style:solid;}
+.btn-add-curso:hover{background:rgba(0,234,255,0.08);box-shadow:0 0 12px rgba(0,234,255,0.35);}
+.btn-add-curso:disabled{opacity:.35;cursor:not-allowed;border-style:solid;}
 
-/* REPORT */
+/* PARTE */
 #reportText{
-  width:100%; min-height:340px; background:var(--bg-input); border:1px solid var(--border);
-  color:var(--text); border-radius:10px; padding:14px; font-family:'Rajdhani',sans-serif;
-  font-size:13.5px; line-height:1.55; white-space:pre-wrap; resize:vertical;
+  width:100%;min-height:340px;background:var(--bg-input);border:1px solid var(--border);
+  color:var(--text);border-radius:10px;padding:14px;font-family:'Rajdhani',sans-serif;
+  font-size:13.5px;line-height:1.55;white-space:pre-wrap;resize:vertical;
 }
-.copied-msg{font-size:12px; color:var(--green); letter-spacing:1px; visibility:hidden;}
+.copied-msg{font-size:12px;color:var(--green);letter-spacing:1px;visibility:hidden;}
 .copied-msg.show{visibility:visible;}
 
 /* AYUDA */
-.help-list{font-size:13.5px; line-height:1.65; color:var(--text); margin:0; padding-left:18px;}
+.help-list{font-size:13.5px;line-height:1.65;color:var(--text);margin:0;padding-left:18px;}
 .help-list li{margin-bottom:8px;}
 .help-list b{color:var(--cyan);}
-.help-note{font-size:12.5px; color:var(--text-dim); margin-top:14px; border-top:1px dashed var(--border); padding-top:12px;}
+.help-note{font-size:12.5px;color:var(--text-dim);margin-top:14px;border-top:1px dashed var(--border);padding-top:12px;}
+
+/* SELECTOR NÚMERO */
+.numeros-disponibles{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;}
+.num-btn{
+  font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;
+  width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-dim);
+  cursor:pointer;transition:.2s;
+}
+.num-btn:hover:not(.usado){border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.4);}
+.num-btn.usado{opacity:.35;cursor:not-allowed;border-style:dashed;}
 
 ::-webkit-scrollbar{width:9px;}
-::-webkit-scrollbar-thumb{background:var(--border); border-radius:6px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
 
-footer{
-  text-align:center; margin-top:50px; font-size:11px; letter-spacing:3px; color:var(--text-dim);
-  text-transform:uppercase;
-}
-.saving-indicator{
-  position:fixed; bottom:16px; right:18px; font-size:11px; color:var(--text-dim);
-  letter-spacing:1px; opacity:0; transition:opacity .3s; z-index:60;
-}
+footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;}
+.saving-indicator{position:fixed;bottom:16px;right:18px;font-size:11px;color:var(--text-dim);letter-spacing:1px;opacity:0;transition:opacity .3s;z-index:60;}
 .saving-indicator.show{opacity:1;}
-
-/* TOAST */
 .toast{
-  position:fixed; bottom:22px; left:50%; transform:translate(-50%, 30px);
-  background:var(--bg-elevated); border:1px solid var(--cyan); color:var(--text);
-  border-radius:10px; padding:11px 20px; font-size:13px; letter-spacing:.6px; font-weight:600;
-  box-shadow:0 0 20px rgba(0,234,255,0.3); opacity:0; pointer-events:none; transition:.3s; z-index:70;
-  max-width:92vw; text-align:center;
+  position:fixed;bottom:22px;left:50%;transform:translate(-50%,30px);
+  background:var(--bg-elevated);border:1px solid var(--cyan);color:var(--text);
+  border-radius:10px;padding:11px 20px;font-size:13px;letter-spacing:.6px;font-weight:600;
+  box-shadow:0 0 20px rgba(0,234,255,0.3);opacity:0;pointer-events:none;transition:.3s;z-index:70;
+  max-width:92vw;text-align:center;
 }
-.toast.show{opacity:1; transform:translate(-50%,0);}
-.toast.warn{border-color:var(--orange); box-shadow:0 0 20px rgba(255,166,41,0.35); color:var(--orange);}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+.toast.warn{border-color:var(--orange);box-shadow:0 0 20px rgba(255,166,41,0.35);color:var(--orange);}
 
-@media (max-width:520px){
+@media(max-width:520px){
   .form-grid{grid-template-columns:1fr;}
   .dates-row{grid-template-columns:1fr;}
-  .modal-compact{padding:18px 14px 16px;}
+  .modal{padding:18px 14px 16px;}
 }
 </style>
 </head>
@@ -341,7 +412,7 @@ footer{
 <div class="wrap">
   <header>
     <h1 class="brand">BARRACAS-CENOP</h1>
-    <div class="brand-sub">SISTEMA DE ADMINISTRACIÓN DE ALOJAMIENTOS</div>
+    <div class="brand-sub">SISTEMA DE ADMINISTRACIÓN DE BARRACAS</div>
     <div class="motto">"LEALTAD, VALOR, ABNEGACIÓN"</div>
   </header>
 
@@ -351,7 +422,7 @@ footer{
 
   <div class="toolbar">
     <button class="btn btn-magenta" id="btnReport">📋 Parte general</button>
-    <button class="btn btn-cyan" id="btnAdd">＋ Añadir alojamiento</button>
+    <button class="btn btn-cyan" id="btnAdd">＋ Añadir barraca</button>
     <button class="btn btn-green" id="btnBackup">⬇ Respaldar datos</button>
     <button class="btn btn-ghost" id="btnRestore">⬆ Restaurar respaldo</button>
     <button class="btn btn-ghost" id="btnHelp">❔ Ayuda</button>
@@ -360,18 +431,36 @@ footer{
   </div>
 
   <div class="searchbar">
-    <input type="search" id="searchBox" placeholder="🔎 Buscar por curso, grupo, CDTE, teléfono o N° de alojamiento...">
+    <input type="search" id="searchBox" placeholder="🔎 Buscar por curso, grupo, CDTE, teléfono o N° de barraca...">
   </div>
 
   <div class="filters" id="filters">
-    <div class="pill active" data-f="all">TODOS</div>
-    <div class="pill" data-f="rojo">🔴 LLENO</div>
+    <div class="pill active" data-f="all">TODAS</div>
+    <div class="pill" data-f="rojo">🔴 LLENA</div>
     <div class="pill" data-f="naranja">🟠 PARCIAL</div>
     <div class="pill" data-f="verde">🟢 DISPONIBLE</div>
-    <div class="pill" data-f="atencion" title="Alas con cursos finalizados o que terminan en 3 días o menos">⚠️ ATENCIÓN</div>
+    <div class="pill" data-f="atencion">⚠️ ATENCIÓN</div>
   </div>
 
-  <div class="summary" id="summary"></div>
+  <!-- ALERT BANNER -->
+  <div class="alert-banner" id="alertBanner">
+    <h4>⚠ CURSOS POR TERMINAR O FINALIZADOS — REVISAR PARA DESOCUPAR</h4>
+    <div id="alertList"></div>
+  </div>
+
+  <!-- RESUMEN DE CURSOS (panel colapsable con texto plano) -->
+  <div class="resumen-panel">
+    <div class="resumen-header" id="resumenHeader">
+      <h3>📅 RESUMEN DE CURSOS POR BARRACA</h3>
+      <button class="resumen-toggle" id="resumenToggleBtn">▼ Ver listado</button>
+    </div>
+    <div class="resumen-body" id="resumenBody">
+      <pre class="resumen-texto" id="resumenTexto"></pre>
+      <div class="resumen-acciones">
+        <button class="btn btn-ghost" id="btnCopyResumen">📋 Copiar listado</button>
+      </div>
+    </div>
+  </div>
 
   <div class="grid" id="grid"></div>
 
@@ -386,7 +475,7 @@ footer{
   <div class="modal" id="editModal"></div>
 </div>
 
-<!-- MODAL PARTE (individual o general) -->
+<!-- MODAL PARTE -->
 <div class="overlay" id="reportOverlay">
   <div class="modal report">
     <h2 id="reportTitle">PARTE GENERAL DE BARRACAS</h2>
@@ -398,7 +487,6 @@ footer{
         <button class="btn btn-ghost" id="btnCloseReport">Cerrar</button>
         <button class="btn btn-ghost" id="btnDownloadReport">⬇ Descargar .txt</button>
         <button class="btn btn-ghost" id="btnPrintReport">🖨 Imprimir</button>
-        <button class="btn btn-green" id="btnWhatsApp">WhatsApp</button>
         <button class="btn btn-cyan" id="btnCopyReport">Copiar texto</button>
       </div>
     </div>
@@ -407,7 +495,7 @@ footer{
 
 <!-- MODAL CONFIRMACIÓN -->
 <div class="overlay" id="confirmOverlay">
-  <div class="modal confirm modal-compact">
+  <div class="modal confirm">
     <h2 id="confirmTitle">Confirmar</h2>
     <div class="sub" id="confirmMsg" style="margin-bottom:6px;"></div>
     <div class="modal-actions">
@@ -420,21 +508,34 @@ footer{
   </div>
 </div>
 
+<!-- MODAL SELECCIONAR NÚMERO -->
+<div class="overlay" id="numOverlay">
+  <div class="modal confirm">
+    <h2>SELECCIONAR N° DE BARRACA</h2>
+    <div class="sub">Elige el número de la barraca que deseas añadir (1–20)</div>
+    <div class="numeros-disponibles" id="numBtns"></div>
+    <div class="modal-actions">
+      <span></span>
+      <div class="left"><button class="btn btn-ghost" id="btnCancelNum">Cancelar</button></div>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL AYUDA -->
 <div class="overlay" id="helpOverlay">
   <div class="modal help">
     <h2>CÓMO USAR EL SISTEMA</h2>
     <div class="sub">Guía rápida de administración de barracas</div>
     <ol class="help-list">
-      <li><b>Editar un ala:</b> haz clic sobre el recuadro del ala (izquierda o derecha) de cualquier alojamiento. Se abre el formulario.</li>
-      <li><b>Fechas del curso:</b> en cada curso hay dos casillas con calendario: <b>fecha de inicio</b> y <b>fecha de finalización</b>. Esas fechas quedan guardadas y salen impresas en el parte.</li>
-      <li><b>Guardar:</b> al presionar <b>Guardar cambios</b> los datos quedan almacenados en el navegador y el sistema te muestra el <b>parte de esa ala</b> listo para copiar o enviar.</li>
-      <li><b>Parte individual:</b> cada ala tiene el botón <b>📋 Parte</b>, y cada alojamiento el botón <b>📋 Parte del alojamiento</b> (las dos alas juntas).</li>
-      <li><b>Disponibilidad:</b> cada ala muestra cuántos cupos le quedan libres y la barra de ocupación. Si la ocupación supera la capacidad, el sistema avisa.</li>
-      <li><b>Alertas:</b> el filtro <b>⚠️ ATENCIÓN</b> muestra las alas con cursos ya finalizados o que terminan en 3 días o menos, para desocuparlas a tiempo.</li>
-      <li><b>Respaldar:</b> con <b>⬇ Respaldar datos</b> descargas un archivo con toda la información. Guárdalo; si algún día se borra todo, con <b>⬆ Restaurar respaldo</b> lo recuperas.</li>
+      <li><b>Capacidad de la barraca:</b> se define directamente en la tarjeta de cada barraca (campo superior). Es la capacidad total compartida entre las dos alas.</li>
+      <li><b>Editar un ala:</b> haz clic sobre el recuadro del ala (izquierda o derecha). La FE y la cantidad de personal restan a la capacidad total de la barraca.</li>
+      <li><b>Cursos:</b> puedes añadir hasta 20 cursos por ala. Selecciona si el personal es HOMBRE o MUJER.</li>
+      <li><b>FF.MM y otros:</b> Ejército, Armada, Fuerza Aérea, INPEC, Extranjeros y Otro <b>no restan</b> a la capacidad de la barraca.</li>
+      <li><b>Resumen de cursos:</b> el panel superior muestra todas las barracas con sus cursos y fechas. Puedes copiarlo y enviarlo por WhatsApp.</li>
+      <li><b>Fechas:</b> el sistema avisa desde 7 días antes del vencimiento de cada curso.</li>
+      <li><b>Respaldar:</b> descarga el archivo .json y compártelo por WhatsApp. El receptor lo carga con "Restaurar respaldo" y verá todo actualizado.</li>
     </ol>
-    <div class="help-note">Los datos se guardan en el navegador de este computador. Para pasarlos a otro equipo, usa Respaldar datos y luego Restaurar respaldo.</div>
+    <div class="help-note">Los datos se guardan en el navegador. Para sincronizar con otro equipo usa Respaldar / Restaurar.</div>
     <div class="modal-actions">
       <span></span>
       <div class="left"><button class="btn btn-ghost" id="btnCloseHelp">Cerrar</button></div>
@@ -444,687 +545,675 @@ footer{
 
 <script>
 /* ============================================================
-   BARRACAS-CENOP · Sistema de administración de alojamientos
-   Versión 2 · partes individuales, disponibilidad y fechas
+   BARRACAS-CENOP · v4
+   Capacidad por BARRACA (no por ala)
+   Resumen de cursos como texto plano colapsable
    ============================================================ */
 
 const GRUPOS = ["GRANADEROS","COR","TIRO","GOER","JUNGLA","UNDMO","COPES","OTRO"];
-const FFMM = ["EJERCITO","ARMADA","F. AEREA"];
 const STORAGE_KEY = "barracas-cenop-data";
-const MAX_CURSOS = 3;
+const MAX_CURSOS = 20;
 const MS_DIA = 86400000;
+const NUMS_DISPONIBLES = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+const NUMS_DEFAULT = [1,2,3,4,5,11,13,14,15,16,17,18];
 
-let state = { alojamientos: [], nextNum: 13 };
+let state = { alojamientos: [] };
 
-/* ---------------- ALMACENAMIENTO (con respaldo en localStorage) ---------------- */
+/* ── ALMACENAMIENTO ── */
 let storageOK = true;
-
 const storage = {
-  async get(key){
-    try{
-      if(window.storage && typeof window.storage.get === 'function'){
-        return await window.storage.get(key, false);
-      }
-    }catch(e){ /* sigue al respaldo */ }
-    try{
-      const v = localStorage.getItem(key);
-      return v ? { value: v } : null;
-    }catch(e){ return null; }
-  },
-  async set(key, value){
-    try{
-      if(window.storage && typeof window.storage.set === 'function'){
-        await window.storage.set(key, value, false);
-        return true;
-      }
-    }catch(e){ /* sigue al respaldo */ }
-    try{
-      localStorage.setItem(key, value);
-      return true;
-    }catch(e){ return false; }
-  }
+  async get(k){ try{ const v=localStorage.getItem(k); return v?{value:v}:null; }catch(e){ return null; } },
+  async set(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } }
 };
-
-let saveTimer = null;
+let saveTimer=null;
 async function persist(){
-  const el = document.getElementById('savingIndicator');
+  const el=document.getElementById('savingIndicator');
   el.classList.add('show');
-  const ok = await storage.set(STORAGE_KEY, JSON.stringify(state));
-  if(!ok && storageOK){
-    storageOK = false;
-    document.getElementById('storageWarning').classList.add('show');
-  }
+  const ok=await storage.set(STORAGE_KEY,JSON.stringify(state));
+  if(!ok&&storageOK){ storageOK=false; document.getElementById('storageWarning').classList.add('show'); }
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(()=>el.classList.remove('show'), 700);
+  saveTimer=setTimeout(()=>el.classList.remove('show'),700);
 }
 
-/* ---------------- MODELOS Y NORMALIZACIÓN ---------------- */
+/* ── MODELOS ── */
 function defaultCurso(){
-  return {
-    curso:"", grupo:"", grupoOtro:"", cdte:"", tel:"", fe:"",
-    fechaInicio:"", fechaFin:"",
-    parte:["0","0","0","0","0"], hombres:"", mujeres:"",
-    ffmm:[], cti:"", inpec:"", extPais:"", extCant:"", otro:""
-  };
+  return { curso:"",grupo:"",grupoOtro:"",cdte:"",tel:"",fe:"",
+           fechaInicio:"",fechaFin:"",genero:"",_cantidad:"",
+           ejercito:"",armada:"",faerea:"",inpec:"",extPais:"",extCant:"",otro:"" };
 }
-function defaultAla(){
-  return { capacidad:"", cursos:[defaultCurso()], updated:null };
-}
-function defaultAlojamiento(numero){
-  return { numero, izquierda:defaultAla(), derecha:defaultAla() };
+function defaultAla(){ return { cursos:[defaultCurso()], updated:null }; }
+/* capacidad ahora vive en la barraca */
+function defaultBarraca(numero){
+  return { numero, capacidad:"", izquierda:defaultAla(), derecha:defaultAla() };
 }
 
-const CAMPOS_TEXTO = ["curso","grupo","grupoOtro","cdte","tel","fe","fechaInicio","fechaFin",
-  "hombres","mujeres","cti","inpec","extPais","extCant","otro"];
+const CAMPOS_TEXTO=["curso","grupo","grupoOtro","cdte","tel","fe",
+  "fechaInicio","fechaFin","genero","_cantidad",
+  "ejercito","armada","faerea","inpec","extPais","extCant","otro"];
 
-/* Acepta datos viejos: un solo curso dentro del ala, o cursos sin las fechas nuevas */
 function normalizeCurso(c){
-  const base = defaultCurso();
-  if(!c || typeof c !== 'object') return base;
-  const out = Object.assign({}, base, c);
-  out.parte = (Array.isArray(c.parte) && c.parte.length)
-    ? [0,1,2,3,4].map(i => String(c.parte[i] === undefined || c.parte[i] === null || c.parte[i] === '' ? '0' : c.parte[i]))
-    : base.parte.slice();
-  out.ffmm = Array.isArray(c.ffmm) ? c.ffmm.filter(Boolean).map(String) : [];
-  CAMPOS_TEXTO.forEach(k => { out[k] = (out[k] === undefined || out[k] === null) ? '' : String(out[k]); });
+  const base=defaultCurso();
+  if(!c||typeof c!=='object') return base;
+  const out=Object.assign({},base,c);
+  /* compat versión anterior */
+  if(!out.genero){ if(num(c.hombres)>0) out.genero="HOMBRE"; else if(num(c.mujeres)>0) out.genero="MUJER"; }
+  if(!out._cantidad && (num(c.hombres)||num(c.mujeres))) out._cantidad=String(num(c.hombres)+num(c.mujeres));
+  delete out.parte; delete out.hombres; delete out.mujeres; delete out.ffmm;
+  CAMPOS_TEXTO.forEach(k=>{ out[k]=(out[k]===undefined||out[k]===null)?'':String(out[k]); });
   return out;
 }
 
 function normalizeAla(ala){
-  if(!ala || typeof ala !== 'object') return defaultAla();
+  if(!ala||typeof ala!=='object') return defaultAla();
   let cursos;
-  if(Array.isArray(ala.cursos) && ala.cursos.length){
-    cursos = ala.cursos.map(normalizeCurso);
-  }else{
-    const tieneDatos = CAMPOS_TEXTO.some(k => ala[k]) || (Array.isArray(ala.parte) && ala.parte.some(v => String(v) !== '0'));
-    cursos = [ tieneDatos ? normalizeCurso(ala) : defaultCurso() ];
+  if(Array.isArray(ala.cursos)&&ala.cursos.length){ cursos=ala.cursos.map(normalizeCurso); }
+  else{
+    const td=CAMPOS_TEXTO.some(k=>ala[k]);
+    cursos=[td?normalizeCurso(ala):defaultCurso()];
   }
-  if(cursos.length > MAX_CURSOS) cursos = cursos.slice(0, MAX_CURSOS);
-  return {
-    capacidad: (ala.capacidad === undefined || ala.capacidad === null) ? '' : String(ala.capacidad),
-    cursos,
-    updated: ala.updated || null
-  };
+  if(cursos.length>MAX_CURSOS) cursos=cursos.slice(0,MAX_CURSOS);
+  return { cursos, updated:ala.updated||null };
 }
 
 function normalizeState(raw){
-  const out = { alojamientos: [], nextNum: 13 };
-  const arr = (raw && Array.isArray(raw.alojamientos)) ? raw.alojamientos : [];
-  arr.forEach(a => {
+  const out={alojamientos:[]};
+  const arr=(raw&&Array.isArray(raw.alojamientos))?raw.alojamientos:[];
+  arr.forEach(a=>{
     if(!a) return;
-    const numero = num(a.numero);
+    const numero=num(a.numero);
     if(!numero) return;
-    out.alojamientos.push({ numero, izquierda: normalizeAla(a.izquierda), derecha: normalizeAla(a.derecha) });
+    /* la capacidad puede venir del ala izquierda (versión anterior) o de la barraca */
+    const cap = a.capacidad !== undefined ? String(a.capacidad)
+              : (a.izquierda && a.izquierda.capacidad !== undefined ? String(a.izquierda.capacidad) : "");
+    out.alojamientos.push({
+      numero,
+      capacidad: cap,
+      izquierda: normalizeAla(a.izquierda),
+      derecha:   normalizeAla(a.derecha)
+    });
   });
   if(!out.alojamientos.length){
-    for(let i=1;i<=12;i++) out.alojamientos.push(defaultAlojamiento(i));
+    NUMS_DEFAULT.forEach(n=>out.alojamientos.push(defaultBarraca(n)));
   }
-  out.alojamientos.sort((a,b) => a.numero - b.numero);
-  const ultimo = out.alojamientos[out.alojamientos.length-1].numero;
-  out.nextNum = Math.max(num(raw && raw.nextNum), ultimo + 1);
+  out.alojamientos.sort((a,b)=>a.numero-b.numero);
   return out;
 }
 
-/* ---------------- CÁLCULOS ---------------- */
-function num(v){ const n = parseInt(v,10); return (isNaN(n) || n < 0) ? 0 : n; }
+/* ── CÁLCULOS ── */
+function num(v){ const n=Math.floor(Number(v)); return(isNaN(n)||n<0)?0:n; }
 
-function ocupados(ala){
-  return ala.cursos.reduce((acc,c) => acc + num(c.hombres) + num(c.mujeres) + num(c.cti) + num(c.inpec) + num(c.extCant), 0);
+/* Personal que SÍ resta: FE + _cantidad de cada curso de AMBAS alas */
+function ocupadosBarraca(alo){
+  return [...alo.izquierda.cursos,...alo.derecha.cursos]
+    .reduce((a,c)=>a+num(c.fe)+num(c._cantidad),0);
 }
-function disponibles(ala){
-  const d = num(ala.capacidad) - ocupados(ala);
-  return d > 0 ? d : 0;
+function ocupadosAla(ala){ return ala.cursos.reduce((a,c)=>a+num(c.fe)+num(c._cantidad),0); }
+
+function disponiblesBarraca(alo){
+  const d=num(alo.capacidad)-ocupadosBarraca(alo);
+  return d>0?d:0;
 }
-function exceso(ala){
-  const e = ocupados(ala) - num(ala.capacidad);
-  return (num(ala.capacidad) > 0 && e > 0) ? e : 0;
+function excesoBarraca(alo){
+  const e=ocupadosBarraca(alo)-num(alo.capacidad);
+  return(num(alo.capacidad)>0&&e>0)?e:0;
 }
-function pctOcupacion(ala){
-  const cap = num(ala.capacidad), oc = ocupados(ala);
-  if(cap <= 0) return oc > 0 ? 100 : 0;
-  return Math.min(100, Math.round(oc / cap * 100));
+function pctOcupacionBarraca(alo){
+  const cap=num(alo.capacidad),oc=ocupadosBarraca(alo);
+  if(cap<=0) return oc>0?100:0;
+  return Math.min(100,Math.round(oc/cap*100));
 }
-function status(ala){
-  const cap = num(ala.capacidad), oc = ocupados(ala);
-  if(oc <= 0) return "verde";
-  if(cap <= 0) return "naranja";
-  if(oc >= cap) return "rojo";
+
+/* Estado visual del ALA (usa ocupación del ala vs capacidad de la barraca para dar color) */
+function statusAla(alo,ala){
+  const s=_statusBaseAla(alo,ala);
+  if(s!=='verde'&&alaAlerta(ala)) return 'amarillo';
+  return s;
+}
+function _statusBaseAla(alo,ala){
+  const cap=num(alo.capacidad), oc=ocupadosAla(ala);
+  if(oc<=0) return "verde";
+  if(cap<=0) return "naranja";
+  /* comparamos ocupación total barraca vs capacidad */
+  const ocTotal=ocupadosBarraca(alo);
+  if(ocTotal>=cap) return "rojo";
   return "naranja";
 }
-function statusEmoji(s){ return s === "rojo" ? "🔴" : s === "naranja" ? "🟠" : "🟢"; }
-function statusLabel(ala){
-  const s = status(ala);
-  if(s === "verde") return "DISPONIBLE";
-  if(s === "rojo") return exceso(ala) > 0 ? "SOBREOCUPADO" : "LLENO";
-  return num(ala.capacidad) <= 0 ? "SIN CAPACIDAD" : "PARCIAL";
+/* Estado de la barraca completa */
+function statusBarraca(alo){
+  const cap=num(alo.capacidad), oc=ocupadosBarraca(alo);
+  const alerta=[...alo.izquierda.cursos,...alo.derecha.cursos]
+    .filter(c=>cursoConDatos(c)&&cursoAlerta(c)).length>0;
+  if(alerta) return 'amarillo';
+  if(oc<=0) return 'verde';
+  if(cap<=0) return 'naranja';
+  if(oc>=cap) return 'rojo';
+  return 'naranja';
+}
+function statusEmoji(s){
+  return s==="rojo"?"🔴":s==="naranja"?"🟠":s==="amarillo"?"⚠️":"🟢";
+}
+function statusLabelAla(alo,ala){
+  const s=statusAla(alo,ala);
+  if(s==='amarillo') return "REVISAR — VENCIMIENTO PRÓXIMO";
+  if(s==='verde') return "DISPONIBLE";
+  if(s==='rojo') return "BARRACA LLENA";
+  return num(alo.capacidad)<=0?"SIN CAPACIDAD":"PARCIAL";
 }
 
-/* ---------------- FECHAS ---------------- */
-function hoyISO(){
-  const d = new Date();
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-}
-function fechaDeISO(iso){
-  if(!iso) return null;
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso));
-  if(!m) return null;
-  return new Date(Number(m[1]), Number(m[2])-1, Number(m[3]));
-}
-function fmtFecha(iso){
-  const d = fechaDeISO(iso);
-  return d ? d.toLocaleDateString('es-CO', {day:'2-digit', month:'2-digit', year:'numeric'}) : '—';
-}
-function diasHasta(iso){
-  const d = fechaDeISO(iso);
-  if(!d) return null;
-  return Math.round((d - fechaDeISO(hoyISO())) / MS_DIA);
-}
-function duracionDias(ini, fin){
-  const a = fechaDeISO(ini), b = fechaDeISO(fin);
-  if(!a || !b) return null;
-  return Math.round((b - a) / MS_DIA) + 1;
-}
-function fmtSello(iso){
-  if(!iso) return '—';
-  const d = new Date(iso);
-  if(isNaN(d.getTime())) return '—';
-  return d.toLocaleString('es-CO', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
-}
-function fmtDate(){
-  const d = new Date();
-  return d.toLocaleDateString('es-CO', {day:'2-digit',month:'2-digit',year:'numeric'}) + ' - ' +
-         d.toLocaleTimeString('es-CO', {hour:'2-digit',minute:'2-digit'});
-}
+/* ── FECHAS ── */
+function hoyISO(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function fechaDeISO(iso){ if(!iso) return null; const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso)); if(!m) return null; return new Date(Number(m[1]),Number(m[2])-1,Number(m[3])); }
+function fmtFecha(iso){ const d=fechaDeISO(iso); return d?d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'}):'—'; }
+function diasHasta(iso){ const d=fechaDeISO(iso); if(!d) return null; return Math.round((d-fechaDeISO(hoyISO()))/MS_DIA); }
+function duracionDias(ini,fin){ const a=fechaDeISO(ini),b=fechaDeISO(fin); if(!a||!b) return null; return Math.round((b-a)/MS_DIA)+1; }
+function fmtSello(iso){ if(!iso) return '—'; const d=new Date(iso); if(isNaN(d.getTime())) return '—'; return d.toLocaleString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function fmtDate(){ const d=new Date(); return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})+' - '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}); }
 
-/* Estado de un curso según sus fechas */
 function cursoEstado(c){
-  const ini = c.fechaInicio || '', fin = c.fechaFin || '';
-  if(!ini && !fin){
-    return { tipo:'sin', label:'Sin fechas registradas', cls:'gris', dIni:null, dFin:null, inicio:ini, fin:fin };
+  const ini=c.fechaInicio||'',fin=c.fechaFin||'';
+  if(!ini&&!fin) return{tipo:'sin',label:'Sin fechas',cls:'gris',dIni:null,dFin:null};
+  const dIni=ini?diasHasta(ini):null;
+  const dFin=fin?diasHasta(fin):null;
+  if(dIni!==null&&dIni>0) return{tipo:'proximo',label:dIni===1?'Inicia mañana':'Inicia en '+dIni+' días',cls:'cyan',dIni,dFin};
+  if(dFin!==null&&dFin<0){ const p=Math.abs(dFin); return{tipo:'vencido',label:p===1?'Finalizó ayer':'Finalizó hace '+p+' días',cls:'magenta',dIni,dFin}; }
+  if(dFin!==null){
+    if(dFin===0) return{tipo:'ultimo',label:'Último día hoy',cls:'orange',dIni,dFin};
+    if(dFin<=7) return{tipo:'activo',label:'Termina en '+dFin+' días',cls:'yellow',dIni,dFin};
+    return{tipo:'activo',label:'Termina en '+dFin+' días',cls:'green',dIni,dFin};
   }
-  const dIni = ini ? diasHasta(ini) : null;
-  const dFin = fin ? diasHasta(fin) : null;
-
-  if(dIni !== null && dIni > 0){
-    return { tipo:'proximo', label: dIni === 1 ? 'Inicia mañana' : 'Inicia en ' + dIni + ' días',
-             cls:'cyan', dIni, dFin, inicio:ini, fin:fin };
-  }
-  if(dFin !== null && dFin < 0){
-    const pasados = Math.abs(dFin);
-    return { tipo:'vencido', label: pasados === 1 ? 'Finalizó ayer' : 'Finalizó hace ' + pasados + ' días',
-             cls:'magenta', dIni, dFin, inicio:ini, fin:fin };
-  }
-  if(dFin !== null){
-    return { tipo: dFin === 0 ? 'ultimo' : 'activo',
-             label: dFin === 0 ? 'Último día' : (dFin === 1 ? 'Termina mañana' : 'Termina en ' + dFin + ' días'),
-             cls: dFin <= 3 ? 'orange' : 'green', dIni, dFin, inicio:ini, fin:fin };
-  }
-  return { tipo:'activo', label:'En curso', cls:'green', dIni, dFin, inicio:ini, fin:fin };
+  return{tipo:'activo',label:'En curso',cls:'green',dIni,dFin};
 }
-
-/* ¿El curso pide atención? (terminó o está por terminar) */
-function cursoAlerta(c){
-  const e = cursoEstado(c);
-  if(e.tipo === 'sin') return false;
-  if(e.tipo === 'vencido') return true;
-  return e.dFin !== null && e.dFin >= 0 && e.dFin <= 3;
-}
-function alaAlerta(ala){ return ala.cursos.some(cursoAlerta); }
-
+function cursoAlerta(c){ const e=cursoEstado(c); if(e.tipo==='sin') return false; if(e.tipo==='vencido') return true; return e.dFin!==null&&e.dFin>=0&&e.dFin<=7; }
+function alaAlerta(ala){ return ala.cursos.some(c=>cursoConDatos(c)&&cursoAlerta(c)); }
 function cursoConDatos(c){
-  return Boolean(c.curso || c.grupo || c.grupoOtro || c.cdte || c.tel || c.fe || c.otro ||
-    c.extPais || c.fechaInicio || c.fechaFin ||
-    num(c.hombres) || num(c.mujeres) || num(c.cti) || num(c.inpec) || num(c.extCant) ||
-    (c.ffmm && c.ffmm.length));
+  return Boolean(c.curso||c.grupo||c.grupoOtro||c.cdte||c.tel||c.fe||c.otro||
+    c.extPais||c.fechaInicio||c.fechaFin||c.genero||num(c._cantidad)||
+    num(c.ejercito)||num(c.armada)||num(c.faerea)||num(c.inpec)||num(c.extCant));
 }
 function alaConDatos(ala){ return ala.cursos.some(cursoConDatos); }
 
-/* Curso más relevante del ala: el que está en curso, o el próximo, o el último finalizado */
-function cursoRelevante(ala){
-  const lista = ala.cursos
-    .map(c => ({ c, e: cursoEstado(c) }))
-    .filter(x => x.e.tipo !== 'sin');
-  if(!lista.length) return null;
-  const activos = lista.filter(x => x.e.tipo === 'activo' || x.e.tipo === 'ultimo')
-                       .sort((a,b) => a.e.dFin - b.e.dFin);
-  if(activos.length) return activos[0];
-  const proximos = lista.filter(x => x.e.tipo === 'proximo').sort((a,b) => a.e.dIni - b.e.dIni);
-  if(proximos.length) return proximos[0];
-  const vencidos = lista.filter(x => x.e.tipo === 'vencido').sort((a,b) => b.e.dFin - a.e.dFin);
-  return vencidos.length ? vencidos[0] : null;
-}
-
-/* ---------------- AVISOS EN PANTALLA ---------------- */
-let toastTimer = null;
-function toast(msg, tipo){
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show' + (tipo === 'warn' ? ' warn' : '');
+/* ── TOAST Y CONFIRM ── */
+let toastTimer=null;
+function toast(msg,tipo){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast show'+(tipo==='warn'?' warn':'');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.className = 'toast'; }, 3400);
+  toastTimer=setTimeout(()=>el.className='toast',3400);
 }
-
-let confirmResolve = null;
+let confirmResolve=null;
 function uiConfirm(opts){
-  const o = Object.assign({ title:'Confirmar', msg:'', okLabel:'Sí, continuar', danger:true }, opts || {});
-  document.getElementById('confirmTitle').textContent = o.title;
-  document.getElementById('confirmMsg').textContent = o.msg;
-  const yes = document.getElementById('confirmYes');
-  yes.textContent = o.okLabel;
-  yes.className = 'btn ' + (o.danger ? 'btn-danger' : 'btn-cyan');
+  const o=Object.assign({title:'Confirmar',msg:'',okLabel:'Sí, continuar',danger:true},opts||{});
+  document.getElementById('confirmTitle').textContent=o.title;
+  document.getElementById('confirmMsg').textContent=o.msg;
+  const yes=document.getElementById('confirmYes');
+  yes.textContent=o.okLabel;
+  yes.className='btn '+(o.danger?'btn-danger':'btn-cyan');
   document.getElementById('confirmOverlay').classList.add('show');
-  return new Promise(res => { confirmResolve = res; });
+  return new Promise(res=>{confirmResolve=res;});
 }
-function cerrarConfirm(valor){
+function cerrarConfirm(v){
   document.getElementById('confirmOverlay').classList.remove('show');
-  if(confirmResolve){ const r = confirmResolve; confirmResolve = null; r(valor); }
+  if(confirmResolve){const r=confirmResolve;confirmResolve=null;r(v);}
 }
-document.getElementById('confirmYes').addEventListener('click', () => cerrarConfirm(true));
-document.getElementById('confirmNo').addEventListener('click', () => cerrarConfirm(false));
-document.getElementById('confirmOverlay').addEventListener('click', e => { if(e.target.id === 'confirmOverlay') cerrarConfirm(false); });
+document.getElementById('confirmYes').addEventListener('click',()=>cerrarConfirm(true));
+document.getElementById('confirmNo').addEventListener('click',()=>cerrarConfirm(false));
+document.getElementById('confirmOverlay').addEventListener('click',e=>{if(e.target.id==='confirmOverlay')cerrarConfirm(false);});
 
-/* ---------------- CARGA Y ARRANQUE ---------------- */
+/* ── CARGA ── */
 async function load(){
-  let raw = null;
-  try{
-    const res = await storage.get(STORAGE_KEY);
-    if(res && res.value) raw = JSON.parse(res.value);
-  }catch(e){ raw = null; }
-  state = normalizeState(raw);
+  let raw=null;
+  try{ const res=await storage.get(STORAGE_KEY); if(res&&res.value) raw=JSON.parse(res.value); }catch(e){ raw=null; }
+  state=normalizeState(raw);
   await persist();
   render();
 }
 
-/* ---------------- LISTADO PRINCIPAL ---------------- */
-let currentFilter = "all";
-let searchTerm = "";
+/* ── RESUMEN COLAPSABLE ── */
+let resumenAbierto=false;
+document.getElementById('resumenHeader').addEventListener('click',()=>{
+  resumenAbierto=!resumenAbierto;
+  document.getElementById('resumenBody').classList.toggle('open',resumenAbierto);
+  document.getElementById('resumenToggleBtn').textContent=resumenAbierto?'▲ Ocultar listado':'▼ Ver listado';
+  if(resumenAbierto) actualizarResumenTexto();
+});
+function buildResumenTexto(){
+  const lineas=[];
+  state.alojamientos.forEach(alo=>{
+    const todosCursos=[];
+    ['izquierda','derecha'].forEach(side=>{
+      alo[side].cursos.filter(cursoConDatos).forEach(c=>todosCursos.push(c));
+    });
+    lineas.push('BARRACA '+alo.numero);
+    if(!todosCursos.length){
+      lineas.push('  (Sin cursos registrados)');
+    }else{
+      todosCursos.forEach((c,i)=>{
+        const nombre=c.curso||(c.grupo==='OTRO'?(c.grupoOtro||'SIN NOMBRE'):c.grupo)||'Sin nombre';
+        const fi=c.fechaInicio?fmtFecha(c.fechaInicio):'—';
+        const ff=c.fechaFin?fmtFecha(c.fechaFin):'—';
+        const alerta=cursoAlerta(c)?'  ⚠':'' ;
+        lineas.push('  '+(i+1)+'. '+nombre+' — '+fi+' al '+ff+alerta);
+      });
+    }
+    lineas.push('');
+  });
+  return lineas.join('\n').trimEnd();
+}
+function actualizarResumenTexto(){
+  document.getElementById('resumenTexto').textContent=buildResumenTexto();
+}
 
-function sinAcentos(t){
-  return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+document.getElementById('btnCopyResumen').addEventListener('click',async()=>{
+  const txt=document.getElementById('resumenTexto').textContent;
+  let ok=false;
+  try{ await navigator.clipboard.writeText(txt); ok=true; }
+  catch(e){ try{ const ta=document.getElementById('resumenTexto'); ta.select&&ta.select(); ok=document.execCommand('copy'); }catch(e2){} }
+  toast(ok?'📋 Listado copiado al portapapeles':'⚠ No se pudo copiar. Selecciona el texto manualmente',ok?undefined:'warn');
+});
+
+/* ── ALERT BANNER ── */
+function renderAlertBanner(){
+  const lista=[];
+  state.alojamientos.forEach(alo=>{
+    ['izquierda','derecha'].forEach(side=>{
+      const ala=alo[side];
+      const lbl=side==='izquierda'?'Ala Izq.':'Ala Der.';
+      ala.cursos.filter(c=>cursoConDatos(c)&&cursoAlerta(c)).forEach(c=>{
+        const e=cursoEstado(c);
+        lista.push({alo,lbl,c,e});
+      });
+    });
+  });
+  const banner=document.getElementById('alertBanner');
+  const listEl=document.getElementById('alertList');
+  if(!lista.length){banner.classList.remove('show');return;}
+  banner.classList.add('show');
+  listEl.innerHTML=lista.map(x=>{
+    const nombre=x.c.curso||'Sin nombre';
+    const rango=(x.c.fechaInicio||x.c.fechaFin)?fmtFecha(x.c.fechaInicio)+' al '+fmtFecha(x.c.fechaFin):'Sin fechas';
+    const icon=x.e.tipo==='vencido'?'🔴':'⚠️';
+    const cls=x.e.tipo==='vencido'?'vencido':'';
+    return`<div class="alert-item">
+      <span class="ai-icon">${icon}</span>
+      <span class="ai-text"><b>Barraca ${x.alo.numero} · ${x.lbl}</b> · ${nombre} · ${rango}</span>
+      <span class="ai-dias ${cls}">${x.e.label}</span>
+    </div>`;
+  }).join('');
 }
-function cursoCoincide(c, q){
-  const campos = [c.curso, c.grupo, c.grupoOtro, c.cdte, c.tel, c.fe, c.otro, c.extPais,
-                  fmtFecha(c.fechaInicio), fmtFecha(c.fechaFin)];
-  return campos.some(v => v && sinAcentos(v).includes(q));
+
+/* ── FILTROS ── */
+let currentFilter="all", searchTerm="";
+function sinAcentos(t){return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function cursoCoincide(c,q){
+  return[c.curso,c.grupo,c.grupoOtro,c.cdte,c.tel,c.fe,c.otro,c.extPais,c.genero,fmtFecha(c.fechaInicio),fmtFecha(c.fechaFin)]
+    .some(v=>v&&sinAcentos(v).includes(q));
 }
-function alaCoincideBusqueda(alo, ala){
+function coincideNumero(n,q){return String(n).includes(q)||sinAcentos('barraca '+n).includes(q);}
+function alaCoincideBusqueda(alo,ala){
   if(!searchTerm) return true;
-  if(String(alo.numero).includes(searchTerm)) return true;
-  return ala.cursos.some(c => cursoCoincide(c, searchTerm));
+  if(coincideNumero(alo.numero,searchTerm)) return true;
+  return ala.cursos.some(c=>cursoCoincide(c,searchTerm));
 }
-function alaPasaFiltro(ala){
-  if(currentFilter === 'all') return true;
-  if(currentFilter === 'atencion') return alaAlerta(ala);
-  return status(ala) === currentFilter;
+function alaPasaFiltro(alo,ala){
+  if(currentFilter==='all') return true;
+  if(currentFilter==='atencion') return alaAlerta(ala);
+  return _statusBaseAla(alo,ala)===currentFilter;
 }
 
+document.getElementById('filters').addEventListener('click',e=>{
+  const p=e.target.closest('.pill');if(!p) return;
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active');
+  currentFilter=p.getAttribute('data-f');
+  render();
+});
+let searchTimer=null;
+document.getElementById('searchBox').addEventListener('input',e=>{
+  clearTimeout(searchTimer);
+  const v=e.target.value;
+  searchTimer=setTimeout(()=>{searchTerm=sinAcentos(v.trim());render();},180);
+});
+
+/* ── RENDER PRINCIPAL ── */
 function render(){
-  renderSummary();
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  let visibles = 0;
+  renderAlertBanner();
+  if(resumenAbierto) actualizarResumenTexto();
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  let visibles=0;
 
-  state.alojamientos.forEach(alo => {
-    const coincideNumero = searchTerm && String(alo.numero).includes(searchTerm);
-    const showIzq = (coincideNumero || alaCoincideBusqueda(alo, alo.izquierda)) && alaPasaFiltro(alo.izquierda);
-    const showDer = (coincideNumero || alaCoincideBusqueda(alo, alo.derecha)) && alaPasaFiltro(alo.derecha);
-    if(!showIzq && !showDer) return;
-
+  state.alojamientos.forEach(alo=>{
+    const coincideN=searchTerm&&coincideNumero(alo.numero,searchTerm);
+    const showIzq=(coincideN||alaCoincideBusqueda(alo,alo.izquierda))&&alaPasaFiltro(alo,alo.izquierda);
+    const showDer=(coincideN||alaCoincideBusqueda(alo,alo.derecha))&&alaPasaFiltro(alo,alo.derecha);
+    if(!showIzq&&!showDer) return;
     visibles++;
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
+
+    const cap=num(alo.capacidad);
+    const ocTotal=ocupadosBarraca(alo);
+    const dispTotal=disponiblesBarraca(alo);
+    const excTotal=excesoBarraca(alo);
+    const pct=pctOcupacionBarraca(alo);
+
+    let capInfoHtml='';
+    if(cap<=0){
+      capInfoHtml=`<span class="cap-barraca-info">Define la capacidad para calcular disponibilidad</span>`;
+    }else if(ocTotal>cap){
+      capInfoHtml=`<span class="cap-barraca-info">Ocupación: <b class="malo">${ocTotal}/${cap}</b> · excede en <b class="malo">${excTotal}</b></span>`;
+    }else{
+      capInfoHtml=`<span class="cap-barraca-info">Ocupación: ${ocTotal}/${cap} · Disponible: <b>${dispTotal}</b> cupos</span>`;
+    }
+
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
       <div class="card-head">
-        <div class="num">ALOJAMIENTO <span>N° ${alo.numero}</span></div>
+        <div class="num">BARRACA <span>N° ${alo.numero}</span></div>
         <div class="tools">
-          <button class="mini-btn magenta" data-part-alo="${alo.numero}" title="Generar el parte de las dos alas">📋 Parte del alojamiento</button>
-          <button class="del-alo" title="Eliminar alojamiento" data-del="${alo.numero}">✕</button>
+          <button class="mini-btn magenta" data-part-alo="${alo.numero}">📋 Parte barraca</button>
+          <button class="del-alo" title="Eliminar barraca" data-del="${alo.numero}">✕</button>
         </div>
       </div>
-      ${showIzq ? alaHtml(alo.numero,'izquierda',alo.izquierda,'ALA IZQUIERDA') : ''}
-      ${showDer ? alaHtml(alo.numero,'derecha',alo.derecha,'ALA DERECHA') : ''}
+      <div class="cap-barraca-row" data-cap-row="${alo.numero}">
+        <label>Capacidad:</label>
+        <input type="number" min="0" class="cap-barraca-input" value="${alo.capacidad}" placeholder="—" data-cap-input="${alo.numero}">
+        <button class="btn-save-cap" data-cap-save="${alo.numero}">Guardar</button>
+        ${capInfoHtml}
+      </div>
+      ${showIzq?alaHtml(alo,'izquierda',alo.izquierda,'ALA IZQUIERDA'):''}
+      ${showDer?alaHtml(alo,'derecha',alo.derecha,'ALA DERECHA'):''}
     `;
     grid.appendChild(card);
   });
 
   if(!visibles){
-    const vacio = document.createElement('div');
-    vacio.className = 'empty-msg';
-    vacio.textContent = 'No hay alojamientos que coincidan con la búsqueda o el filtro seleccionado.';
-    grid.appendChild(vacio);
+    const v=document.createElement('div');
+    v.className='empty-msg';
+    v.textContent='No hay barracas que coincidan con la búsqueda o el filtro.';
+    grid.appendChild(v);
   }
 
-  grid.querySelectorAll('[data-open]').forEach(elm => {
-    elm.addEventListener('click', () => {
-      const partes = elm.getAttribute('data-open').split('|');
-      openEdit(parseInt(partes[0],10), partes[1]);
+  /* eventos */
+  grid.querySelectorAll('[data-cap-save]').forEach(btn=>{
+    btn.addEventListener('click',async e=>{
+      e.stopPropagation();
+      const n=parseInt(btn.getAttribute('data-cap-save'),10);
+      const inp=grid.querySelector(`[data-cap-input="${n}"]`);
+      const alo=state.alojamientos.find(a=>a.numero===n);
+      if(!alo||!inp) return;
+      alo.capacidad=inp.value;
+      await persist(); render();
+      toast('✔ Capacidad de la barraca N° '+n+' guardada');
     });
   });
-  grid.querySelectorAll('[data-part]').forEach(elm => {
-    elm.addEventListener('click', e => {
-      e.stopPropagation();
-      const partes = elm.getAttribute('data-part').split('|');
-      const alo = state.alojamientos.find(a => a.numero === parseInt(partes[0],10));
-      if(alo) abrirParteAla(alo, partes[1]);
+  /* guardar capacidad con Enter */
+  grid.querySelectorAll('[data-cap-input]').forEach(inp=>{
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        const btn=inp.closest('.cap-barraca-row').querySelector('[data-cap-save]');
+        if(btn) btn.click();
+      }
+    });
+    inp.addEventListener('click',e=>e.stopPropagation());
+  });
+
+  grid.querySelectorAll('[data-open]').forEach(elm=>{
+    elm.addEventListener('click',()=>{
+      const p=elm.getAttribute('data-open').split('|');
+      openEdit(parseInt(p[0],10),p[1]);
     });
   });
-  grid.querySelectorAll('[data-part-alo]').forEach(elm => {
-    elm.addEventListener('click', e => {
+  grid.querySelectorAll('[data-part]').forEach(elm=>{
+    elm.addEventListener('click',e=>{
       e.stopPropagation();
-      const alo = state.alojamientos.find(a => a.numero === parseInt(elm.getAttribute('data-part-alo'),10));
-      if(alo) abrirParteAlojamiento(alo);
+      const p=elm.getAttribute('data-part').split('|');
+      const alo=state.alojamientos.find(a=>a.numero===parseInt(p[0],10));
+      if(alo) abrirParteAla(alo,p[1]);
     });
   });
-  grid.querySelectorAll('[data-del]').forEach(elm => {
-    elm.addEventListener('click', async e => {
+  grid.querySelectorAll('[data-part-alo]').forEach(elm=>{
+    elm.addEventListener('click',e=>{
       e.stopPropagation();
-      const n = parseInt(elm.getAttribute('data-del'),10);
-      const ok = await uiConfirm({
-        title: 'Eliminar alojamiento',
-        msg: '¿Eliminar el alojamiento N° ' + n + '? Esta acción no se puede deshacer.',
-        okLabel: 'Sí, eliminar'
-      });
+      const alo=state.alojamientos.find(a=>a.numero===parseInt(elm.getAttribute('data-part-alo'),10));
+      if(alo) abrirParteBarraca(alo);
+    });
+  });
+  grid.querySelectorAll('[data-del]').forEach(elm=>{
+    elm.addEventListener('click',async e=>{
+      e.stopPropagation();
+      const n=parseInt(elm.getAttribute('data-del'),10);
+      const ok=await uiConfirm({title:'Eliminar barraca',msg:'¿Eliminar la barraca N° '+n+'? Esta acción no se puede deshacer.',okLabel:'Sí, eliminar'});
       if(ok){
-        state.alojamientos = state.alojamientos.filter(a => a.numero !== n);
+        state.alojamientos=state.alojamientos.filter(a=>a.numero!==n);
         await persist(); render();
-        toast('🗑 Alojamiento N° ' + n + ' eliminado');
+        toast('🗑 Barraca N° '+n+' eliminada');
       }
     });
   });
 }
 
-function alaHtml(numero, side, ala, label){
-  const s = status(ala);
-  const cap = num(ala.capacidad);
-  const oc = ocupados(ala);
-  const disp = disponibles(ala);
-  const exc = exceso(ala);
-  const pct = pctOcupacion(ala);
-  const alerta = alaAlerta(ala);
-  const nCursos = ala.cursos.filter(cursoConDatos).length;
-  const hayDatos = alaConDatos(ala) || cap > 0;
+function alaHtml(alo,side,ala,label){
+  const s=statusAla(alo,ala);
+  const oc=ocupadosAla(ala);
+  const nCursos=ala.cursos.filter(cursoConDatos).length;
+  const hayDatos=alaConDatos(ala);
+  const alerta=alaAlerta(ala);
 
-  const cursosResumen = ala.cursos.filter(cursoConDatos).map(c => {
-    const g = c.grupo === 'OTRO' ? (c.grupoOtro || 'OTRO') : (c.grupo || '-');
-    const sub = num(c.hombres) + num(c.mujeres) + num(c.cti) + num(c.inpec) + num(c.extCant);
-    return `<span class="curso-line">${c.curso || 'Sin curso'} <span style="color:var(--text-dim)">(${g}) · <b>${sub}</b> pers.</span></span>`;
+  /* ocupación global de la barraca para la barra */
+  const cap=num(alo.capacidad);
+  const pct=cap>0?Math.min(100,Math.round(ocupadosBarraca(alo)/cap*100)):0;
+
+  const cursosResumen=ala.cursos.filter(cursoConDatos).map(c=>{
+    const g=c.grupo==='OTRO'?(c.grupoOtro||'OTRO'):(c.grupo||'-');
+    const cant=num(c._cantidad)+num(c.fe);
+    return`<span class="curso-line">${c.curso||'Sin curso'} <span style="color:var(--text-dim)">(${g}) · <b>${cant}</b> pers.</span></span>`;
   }).join('');
 
-  const relevante = cursoRelevante(ala);
-  let fechaLinea = '';
-  if(!relevante && !hayDatos){
-    fechaLinea = '';
-  }else if(relevante && (relevante.c.fechaInicio || relevante.c.fechaFin)){
-    fechaLinea = `<span class="fecha-chip">📅 <b>${fmtFecha(relevante.c.fechaInicio)} → ${fmtFecha(relevante.c.fechaFin)}</b>
-      <span class="badge ${relevante.e.cls}">${relevante.e.label}</span></span>`;
-  }else if(relevante){
-    fechaLinea = `<span class="fecha-chip">📅 <span class="badge ${relevante.e.cls}">Sin fechas del curso</span></span>`;
+  const cursosConFecha=ala.cursos.filter(c=>cursoConDatos(c)&&(c.fechaInicio||c.fechaFin));
+  let fechaLinea='';
+  if(cursosConFecha.length){
+    const e0=cursoEstado(cursosConFecha[0]);
+    fechaLinea=`<span class="fecha-chip">📅 <b>${fmtFecha(cursosConFecha[0].fechaInicio)} → ${fmtFecha(cursosConFecha[0].fechaFin)}</b>
+      <span class="badge ${e0.cls}">${e0.label}</span></span>`;
   }else{
-    fechaLinea = `<span class="fecha-chip">📅 <span class="badge gris">Sin curso registrado</span></span>`;
+    fechaLinea=`<span class="fecha-chip">📅 <span class="badge gris">${hayDatos?'Sin fechas del curso':'Sin curso registrado'}</span></span>`;
   }
 
-  return `
-    <div class="ala ${s}" data-open="${numero}|${side}">
+  return`
+    <div class="ala ${s}" data-open="${alo.numero}|${side}">
       <div class="ala-row">
         <span class="ala-name"><span class="dot ${s}"></span>${label}</span>
-        <span class="ala-state">${statusEmoji(s)} ${statusLabel(ala)}${nCursos > 1 ? ' · ' + nCursos + ' cursos' : ''}${alerta ? ' <span class="badge magenta">⚠ REVISAR</span>' : ''}</span>
+        <span class="ala-state">${statusEmoji(s)} ${statusLabelAla(alo,ala)}${nCursos>1?' · '+nCursos+' cursos':''}${alerta?' <span class="badge yellow">⚠ REVISAR</span>':''}</span>
       </div>
       <div class="ala-meta">
-        <span>Capacidad: <b>${cap || '—'}</b></span>
-        <span>Ocupación: <b>${oc}</b></span>
-        <span class="avail">Disponible: <b>${cap > 0 ? disp : '—'}</b></span>
+        <span>Personal en esta ala: <b>${oc}</b></span>
       </div>
       <div class="bar"><i style="width:${pct}%"></i></div>
-      ${exc > 0 ? `<div class="warn-line">⚠ Excede la capacidad en ${exc} persona(s)</div>` : ''}
-      ${(cap <= 0 && hayDatos) ? `<div class="warn-line">⚠ Falta definir la capacidad del ala</div>` : ''}
-      ${!hayDatos ? `<div class="sin-datos">Sin ocupación registrada · pulsa para asignar curso y fechas</div>` : ''}
-      ${cursosResumen ? `<div class="curso-list">${cursosResumen}</div>` : ''}
+      ${!hayDatos?`<div class="sin-datos">Sin ocupación registrada · pulsa para asignar curso y fechas</div>`:''}
+      ${cursosResumen?`<div class="curso-list">${cursosResumen}</div>`:''}
       <div class="ala-foot">
         ${fechaLinea}
-        <button class="mini-btn" data-part="${numero}|${side}" title="Generar el parte de esta ala">📋 Parte</button>
+        <button class="mini-btn" data-part="${alo.numero}|${side}">📋 Parte</button>
       </div>
     </div>
   `;
 }
 
-function renderSummary(){
-  let rojo = 0, naranja = 0, verde = 0, capTotal = 0, ocTotal = 0, alertas = 0, alasConDatos = 0;
-  state.alojamientos.forEach(a => {
-    [a.izquierda, a.derecha].forEach(ala => {
-      const s = status(ala);
-      if(s === 'rojo') rojo++; else if(s === 'naranja') naranja++; else verde++;
-      capTotal += num(ala.capacidad);
-      ocTotal += ocupados(ala);
-      if(alaAlerta(ala)) alertas++;
-      if(alaConDatos(ala)) alasConDatos++;
-    });
-  });
-  const libres = Math.max(0, capTotal - ocTotal);
-  const pct = capTotal > 0 ? Math.round(ocTotal / capTotal * 100) : 0;
-  document.getElementById('summary').innerHTML = `
-    <div class="chip c-red"><b>${rojo}</b>llenas</div>
-    <div class="chip c-orange"><b>${naranja}</b>parciales</div>
-    <div class="chip c-green"><b>${verde}</b>disponibles</div>
-    <div class="chip c-free"><b>${libres}</b>cupos libres</div>
-    <div class="chip c-total"><b>${ocTotal}/${capTotal}</b>ocupación (${pct}%)</div>
-    <div class="chip c-alert"><b>${alertas}</b>por revisar</div>
-  `;
-}
+/* ── MODAL DE EDICIÓN ── */
+const editOverlay=document.getElementById('editOverlay');
+const editModal=document.getElementById('editModal');
+let editState=null;
 
-/* ---------------- FILTROS Y BÚSQUEDA ---------------- */
-document.getElementById('filters').addEventListener('click', e => {
-  const p = e.target.closest('.pill');
-  if(!p) return;
-  document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
-  p.classList.add('active');
-  currentFilter = p.getAttribute('data-f');
-  render();
-});
+function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-let searchTimer = null;
-document.getElementById('searchBox').addEventListener('input', e => {
-  clearTimeout(searchTimer);
-  const v = e.target.value;
-  searchTimer = setTimeout(() => {
-    searchTerm = sinAcentos(v.trim());
-    render();
-  }, 180);
-});
+function cursoBlockHtml(curso,idx,canRemove){
+  const e=cursoEstado(curso);
+  const dur=duracionDias(curso.fechaInicio,curso.fechaFin);
+  let hintTxt='Sin fechas registradas';
+  if(curso.fechaInicio&&curso.fechaFin&&dur) hintTxt='📅 '+fmtFecha(curso.fechaInicio)+' → '+fmtFecha(curso.fechaFin)+' · '+dur+' día'+(dur===1?'':'s')+' · '+e.label;
+  else if(curso.fechaInicio) hintTxt='Inicio: '+fmtFecha(curso.fechaInicio)+' · falta la fecha de finalización';
+  else if(curso.fechaFin) hintTxt='Finalización: '+fmtFecha(curso.fechaFin)+' · falta la fecha de inicio';
 
-/* ---------------- MODAL DE EDICIÓN ---------------- */
-const editOverlay = document.getElementById('editOverlay');
-const editModal = document.getElementById('editModal');
-let editState = null;
-
-function cursoBlockHtml(curso, idx, canRemove){
-  const e = cursoEstado(curso);
-  const dur = duracionDias(curso.fechaInicio, curso.fechaFin);
-  let hintTxt = 'Sin fechas registradas';
-  if(curso.fechaInicio && curso.fechaFin && dur){
-    hintTxt = '📅 ' + fmtFecha(curso.fechaInicio) + ' → ' + fmtFecha(curso.fechaFin) +
-              ' · ' + dur + ' día' + (dur === 1 ? '' : 's') + ' · ' + e.label;
-  }else if(curso.fechaInicio){
-    hintTxt = 'Inicio: ' + fmtFecha(curso.fechaInicio) + ' · falta la fecha de finalización';
-  }else if(curso.fechaFin){
-    hintTxt = 'Finalización: ' + fmtFecha(curso.fechaFin) + ' · falta la fecha de inicio';
-  }
-
-  return `
+  return`
     <div class="curso-block" data-idx="${idx}">
       <div class="curso-head">
         <span class="curso-title">CURSO ${idx+1}</span>
-        ${canRemove ? `<button type="button" class="btn-remove-curso" data-idx="${idx}">✕ Quitar curso</button>` : ''}
+        ${canRemove?`<button type="button" class="btn-remove-curso" data-idx="${idx}">✕ Quitar curso</button>`:''}
       </div>
       <div class="form-grid">
         <div class="field">
           <label>Curso</label>
-          <input type="text" class="c_curso" value="${curso.curso || ''}">
+          <input type="text" class="c_curso" value="${esc(curso.curso)}">
         </div>
         <div class="field">
           <label>Grupo</label>
           <select class="c_grupo">
             <option value="">-- Seleccionar --</option>
-            ${GRUPOS.map(g => `<option value="${g}" ${curso.grupo === g ? 'selected' : ''}>${g}</option>`).join('')}
+            ${GRUPOS.map(g=>`<option value="${g}" ${curso.grupo===g?'selected':''}>${g}</option>`).join('')}
           </select>
         </div>
-        <div class="field grupoOtroWrap" style="${curso.grupo === 'OTRO' ? '' : 'display:none;'}">
+        <div class="field grupoOtroWrap" style="${curso.grupo==='OTRO'?'':'display:none;'}">
           <label>¿Cuál grupo?</label>
-          <input type="text" class="c_grupoOtro" value="${curso.grupoOtro || ''}">
+          <input type="text" class="c_grupoOtro" value="${esc(curso.grupoOtro)}">
         </div>
         <div class="field">
           <label>CDTE asignación barraca</label>
-          <input type="text" class="c_cdte" value="${curso.cdte || ''}">
+          <input type="text" class="c_cdte" value="${esc(curso.cdte)}">
         </div>
         <div class="field">
           <label>Tel</label>
-          <input type="tel" class="c_tel" value="${curso.tel || ''}">
+          <input type="tel" class="c_tel" value="${esc(curso.tel)}">
         </div>
         <div class="field">
-          <label>FE</label>
-          <input type="text" class="c_fe" value="${curso.fe || ''}">
+          <label>FE (resta a la capacidad)</label>
+          <input type="number" min="0" class="c_fe" value="${esc(curso.fe)}">
         </div>
         <div class="field full">
           <label>📅 Fechas del curso</label>
           <div class="dates-row">
             <div class="field">
               <label style="text-transform:none;letter-spacing:0;">Fecha de inicio</label>
-              <input type="date" class="c_fechaInicio" value="${curso.fechaInicio || ''}">
+              <input type="date" class="c_fechaInicio" value="${esc(curso.fechaInicio)}">
             </div>
             <div class="field">
               <label style="text-transform:none;letter-spacing:0;">Fecha de finalización</label>
-              <input type="date" class="c_fechaFin" value="${curso.fechaFin || ''}">
+              <input type="date" class="c_fechaFin" value="${esc(curso.fechaFin)}">
             </div>
           </div>
           <div class="hint c_duracion">${hintTxt}</div>
         </div>
         <div class="field full">
-          <label>Parte (0-0-0-0-0)</label>
-          <div class="parte-row">
-            ${[0,1,2,3,4].map(i => `<input type="number" min="0" class="c_parte" data-i="${i}" value="${curso.parte[i]}">`).join('')}
+          <label>Género del personal (resta a la capacidad)</label>
+          <div class="genero-radio">
+            <label><input type="radio" class="c_genero" name="gen_${idx}" value="HOMBRE" ${curso.genero==='HOMBRE'?'checked':''}> HOMBRE</label>
+            <label><input type="radio" class="c_genero" name="gen_${idx}" value="MUJER" ${curso.genero==='MUJER'?'checked':''}> MUJER</label>
+            <label><input type="radio" class="c_genero" name="gen_${idx}" value="" ${!curso.genero?'checked':''}> Sin definir</label>
           </div>
         </div>
         <div class="field">
-          <label>Hombres</label>
-          <input type="number" min="0" class="c_hombres" value="${curso.hombres || ''}">
+          <label>Cantidad personal (resta capacidad)</label>
+          <input type="number" min="0" class="c_cantidad" value="${esc(curso._cantidad)}" placeholder="0">
+        </div>
+        <div class="sep-label">Los siguientes campos NO restan a la capacidad de la barraca</div>
+        <div class="field">
+          <label>Ejército</label>
+          <input type="number" min="0" class="c_ejercito" value="${esc(curso.ejercito)}">
         </div>
         <div class="field">
-          <label>Mujeres</label>
-          <input type="number" min="0" class="c_mujeres" value="${curso.mujeres || ''}">
-        </div>
-        <div class="field full">
-          <label>FF.MM</label>
-          <div class="checks">
-            ${FFMM.map(f => `<label><input type="checkbox" class="c_ffmm" value="${f}" ${curso.ffmm.includes(f) ? 'checked' : ''}> ${f}</label>`).join('')}
-          </div>
+          <label>Armada</label>
+          <input type="number" min="0" class="c_armada" value="${esc(curso.armada)}">
         </div>
         <div class="field">
-          <label>CTI</label>
-          <input type="number" min="0" class="c_cti" value="${curso.cti || ''}">
+          <label>Fuerza Aérea</label>
+          <input type="number" min="0" class="c_faerea" value="${esc(curso.faerea)}">
         </div>
         <div class="field">
           <label>INPEC</label>
-          <input type="number" min="0" class="c_inpec" value="${curso.inpec || ''}">
+          <input type="number" min="0" class="c_inpec" value="${esc(curso.inpec)}">
         </div>
         <div class="field">
-          <label>Extranjeros — país</label>
-          <input type="text" class="c_extPais" value="${curso.extPais || ''}">
+          <label>Extranjero — País</label>
+          <input type="text" class="c_extPais" value="${esc(curso.extPais)}">
         </div>
         <div class="field">
-          <label>Extranjeros — cantidad</label>
-          <input type="number" min="0" class="c_extCant" value="${curso.extCant || ''}">
+          <label>Extranjero — Cantidad</label>
+          <input type="number" min="0" class="c_extCant" value="${esc(curso.extCant)}">
         </div>
         <div class="field full">
           <label>Otro</label>
-          <input type="text" class="c_otro" value="${curso.otro || ''}">
+          <input type="text" class="c_otro" value="${esc(curso.otro)}">
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
-/* Lee lo que hay en pantalla y lo guarda en memoria, para no perder nada al
-   anexar / quitar un curso o al guardar */
 function syncEditStateFromDOM(){
   if(!editState) return;
-  const capInput = editModal.querySelector('#f_capacidad');
-  if(capInput) editState.capacidad = capInput.value;
-  const blocks = Array.from(editModal.querySelectorAll('.curso-block'));
-  editState.cursos = blocks.map(block => ({
-    curso: block.querySelector('.c_curso').value,
-    grupo: block.querySelector('.c_grupo').value,
-    grupoOtro: block.querySelector('.c_grupoOtro') ? block.querySelector('.c_grupoOtro').value : '',
-    cdte: block.querySelector('.c_cdte').value,
-    tel: block.querySelector('.c_tel').value,
-    fe: block.querySelector('.c_fe').value,
-    fechaInicio: block.querySelector('.c_fechaInicio').value,
-    fechaFin: block.querySelector('.c_fechaFin').value,
-    parte: Array.from(block.querySelectorAll('.c_parte')).map(i => i.value || '0'),
-    hombres: block.querySelector('.c_hombres').value,
-    mujeres: block.querySelector('.c_mujeres').value,
-    ffmm: Array.from(block.querySelectorAll('.c_ffmm:checked')).map(c => c.value),
-    cti: block.querySelector('.c_cti').value,
-    inpec: block.querySelector('.c_inpec').value,
-    extPais: block.querySelector('.c_extPais').value,
-    extCant: block.querySelector('.c_extCant').value,
-    otro: block.querySelector('.c_otro').value
-  }));
+  editState.cursos=Array.from(editModal.querySelectorAll('.curso-block')).map(block=>{
+    const genEl=block.querySelector('.c_genero:checked');
+    return{
+      curso:block.querySelector('.c_curso').value,
+      grupo:block.querySelector('.c_grupo').value,
+      grupoOtro:block.querySelector('.c_grupoOtro')?block.querySelector('.c_grupoOtro').value:'',
+      cdte:block.querySelector('.c_cdte').value,
+      tel:block.querySelector('.c_tel').value,
+      fe:block.querySelector('.c_fe').value,
+      fechaInicio:block.querySelector('.c_fechaInicio').value,
+      fechaFin:block.querySelector('.c_fechaFin').value,
+      genero:genEl?genEl.value:'',
+      _cantidad:block.querySelector('.c_cantidad').value,
+      ejercito:block.querySelector('.c_ejercito').value,
+      armada:block.querySelector('.c_armada').value,
+      faerea:block.querySelector('.c_faerea').value,
+      inpec:block.querySelector('.c_inpec').value,
+      extPais:block.querySelector('.c_extPais').value,
+      extCant:block.querySelector('.c_extCant').value,
+      otro:block.querySelector('.c_otro').value
+    };
+  });
 }
 
-/* Conecta las casillas de fecha: calendario, mínimo de la fecha final y aviso de duración */
 function wireCursoBlock(block){
-  const ini = block.querySelector('.c_fechaInicio');
-  const fin = block.querySelector('.c_fechaFin');
-  const out = block.querySelector('.c_duracion');
-  if(!ini || !fin || !out) return;
-
-  function actualizar(){
-    if(ini.value) fin.min = ini.value; else fin.removeAttribute('min');
-    out.classList.remove('bad', 'ok');
-    if(!ini.value && !fin.value){
-      out.textContent = 'Sin fechas registradas';
-      return;
-    }
-    if(ini.value && !fin.value){
-      out.textContent = 'Inicio: ' + fmtFecha(ini.value) + ' · falta la fecha de finalización';
-      return;
-    }
-    if(!ini.value && fin.value){
-      out.textContent = 'Finalización: ' + fmtFecha(fin.value) + ' · falta la fecha de inicio';
-      return;
-    }
-    const d = duracionDias(ini.value, fin.value);
-    if(d !== null && d < 1){
-      out.textContent = '⚠ La fecha de finalización no puede ser anterior a la de inicio';
-      out.classList.add('bad');
-      return;
-    }
-    const e = cursoEstado({ fechaInicio: ini.value, fechaFin: fin.value });
-    out.textContent = '📅 ' + fmtFecha(ini.value) + ' → ' + fmtFecha(fin.value) +
-                      ' · ' + d + ' día' + (d === 1 ? '' : 's') + ' · ' + e.label;
+  const ini=block.querySelector('.c_fechaInicio');
+  const fin=block.querySelector('.c_fechaFin');
+  const out=block.querySelector('.c_duracion');
+  if(!ini||!fin||!out) return;
+  function act(){
+    if(ini.value) fin.min=ini.value; else fin.removeAttribute('min');
+    out.classList.remove('bad','ok');
+    if(!ini.value&&!fin.value){out.textContent='Sin fechas registradas';return;}
+    if(ini.value&&!fin.value){out.textContent='Inicio: '+fmtFecha(ini.value)+' · falta la fecha de finalización';return;}
+    if(!ini.value&&fin.value){out.textContent='Finalización: '+fmtFecha(fin.value)+' · falta la fecha de inicio';return;}
+    const d=duracionDias(ini.value,fin.value);
+    if(d!==null&&d<1){out.textContent='⚠ La fecha de finalización no puede ser anterior a la de inicio';out.classList.add('bad');return;}
+    const e=cursoEstado({fechaInicio:ini.value,fechaFin:fin.value});
+    out.textContent='📅 '+fmtFecha(ini.value)+' → '+fmtFecha(fin.value)+' · '+d+' día'+(d===1?'':'s')+' · '+e.label;
     out.classList.add('ok');
   }
-
-  ini.addEventListener('change', actualizar);
-  fin.addEventListener('change', actualizar);
-  actualizar();
+  ini.addEventListener('change',act);
+  fin.addEventListener('change',act);
+  act();
 }
 
 function renderEditModal(){
-  const { numero, side, capacidad, cursos } = editState;
-  const label = side === 'izquierda' ? 'ALA IZQUIERDA' : 'ALA DERECHA';
-  const canRemove = cursos.length > 1;
+  const{numero,side,cursos}=editState;
+  const alo=state.alojamientos.find(a=>a.numero===numero);
+  const cap=num(alo?alo.capacidad:0);
+  const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
+  const canRemove=cursos.length>1;
 
-  editModal.innerHTML = `
-    <h2>ALOJAMIENTO N° ${numero} &middot; ${label}</h2>
-    <div class="sub">Solo se guarda al presionar "Guardar cambios" &middot; hasta ${MAX_CURSOS} cursos por ala</div>
-    <div class="field cap-field">
-      <label>Capacidad personal (del ala)</label>
-      <input type="number" min="0" id="f_capacidad" value="${capacidad}">
-      <div class="hint" id="cap_hint"></div>
-    </div>
-    ${cursos.map((c,idx) => cursoBlockHtml(c, idx, canRemove)).join('')}
-    <button type="button" class="btn-add-curso" id="btnAddCurso" ${cursos.length >= MAX_CURSOS ? 'disabled' : ''}>
-      ＋ Anexar curso ${cursos.length >= MAX_CURSOS ? '(máximo alcanzado)' : ''}
+  /* calcular cuánto ocupa la otra ala */
+  const otroSide=side==='izquierda'?'derecha':'izquierda';
+  const ocOtra=alo?ocupadosAla(alo[otroSide]):0;
+
+  editModal.innerHTML=`
+    <h2>BARRACA N° ${numero} &middot; ${label}</h2>
+    <div class="sub">Capacidad de la barraca: <b style="color:var(--cyan)">${cap||'No definida'}</b>${cap>0?' · Ocupado por otra ala: '+ocOtra+' · Disponible para esta ala: '+(Math.max(0,cap-ocOtra)):''}</div>
+    <div class="hint" id="cap_hint_modal" style="margin-bottom:16px;padding:8px 10px;border:1px dashed var(--border);border-radius:7px;"></div>
+    ${cursos.map((c,i)=>cursoBlockHtml(c,i,canRemove)).join('')}
+    <button type="button" class="btn-add-curso" id="btnAddCurso" ${cursos.length>=MAX_CURSOS?'disabled':''}>
+      ＋ Anexar curso ${cursos.length>=MAX_CURSOS?'(máximo alcanzado)':''}
     </button>
     <label class="chk-line">
       <input type="checkbox" id="chkAutoParte" checked>
@@ -1136,500 +1225,364 @@ function renderEditModal(){
         <button class="btn btn-ghost" id="btnCancelEdit">Cancelar</button>
         <button class="btn btn-cyan" id="btnSaveEdit">Guardar cambios</button>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  editModal.querySelectorAll('.c_grupo').forEach(sel => {
-    sel.addEventListener('change', e => {
-      const wrap = e.target.closest('.curso-block').querySelector('.grupoOtroWrap');
-      wrap.style.display = e.target.value === 'OTRO' ? '' : 'none';
+  editModal.querySelectorAll('.c_grupo').forEach(sel=>{
+    sel.addEventListener('change',e=>{
+      const wrap=e.target.closest('.curso-block').querySelector('.grupoOtroWrap');
+      wrap.style.display=e.target.value==='OTRO'?'':'none';
     });
   });
-
   editModal.querySelectorAll('.curso-block').forEach(wireCursoBlock);
 
-  /* resumen de capacidad vs ocupación en vivo */
-  const capInput = editModal.querySelector('#f_capacidad');
-  const capHint = editModal.querySelector('#cap_hint');
-  function updCap(){
-    const cap = num(capInput.value);
-    const oc = editState.cursos.reduce((a,c) => a + num(c.hombres) + num(c.mujeres) + num(c.cti) + num(c.inpec) + num(c.extCant), 0);
-    capHint.classList.remove('bad', 'ok');
-    if(cap <= 0){ capHint.textContent = 'Escribe la capacidad para ver cuántos cupos quedan libres.'; return; }
-    if(oc > cap){ capHint.textContent = '⚠ Ocupación ' + oc + ' de ' + cap + ' · excede la capacidad en ' + (oc - cap); capHint.classList.add('bad'); return; }
-    capHint.textContent = 'Ocupación ' + oc + ' de ' + cap + ' · quedan ' + (cap - oc) + ' cupos libres'; capHint.classList.add('ok');
+  const hint=editModal.querySelector('#cap_hint_modal');
+  function updHint(){
+    if(cap<=0){hint.textContent='Define la capacidad en la tarjeta de la barraca para ver disponibilidad.';hint.className='hint';return;}
+    const ocEsta=Array.from(editModal.querySelectorAll('.curso-block')).reduce((a,b)=>a+num(b.querySelector('.c_fe').value)+num(b.querySelector('.c_cantidad').value),0);
+    const ocTotal=ocOtra+ocEsta;
+    hint.classList.remove('bad','ok');
+    if(ocTotal>cap){hint.textContent='⚠ Ocupación total '+ocTotal+'/'+cap+' · excede en '+(ocTotal-cap);hint.classList.add('bad');}
+    else{hint.textContent='Ocupación total '+ocTotal+'/'+cap+' · quedan '+(cap-ocTotal)+' cupos libres en la barraca';hint.classList.add('ok');}
   }
-  capInput.addEventListener('input', updCap);
-  /* el aviso también se actualiza al cambiar los números de personal */
-  editModal.querySelectorAll('.c_hombres,.c_mujeres,.c_cti,.c_inpec,.c_extCant').forEach(inp => {
-    inp.addEventListener('input', syncEditStateFromDOM);
-    inp.addEventListener('input', updCap);
-  });
-  updCap();
+  editModal.querySelectorAll('.c_fe,.c_cantidad').forEach(inp=>inp.addEventListener('input',()=>{syncEditStateFromDOM();updHint();}));
+  updHint();
 
-  editModal.querySelectorAll('.btn-remove-curso').forEach(btn => {
-    btn.addEventListener('click', () => {
+  editModal.querySelectorAll('.btn-remove-curso').forEach(btn=>{
+    btn.addEventListener('click',()=>{
       syncEditStateFromDOM();
-      const idx = parseInt(btn.getAttribute('data-idx'),10);
-      if(editState.cursos.length <= 1) return;
+      const idx=parseInt(btn.getAttribute('data-idx'),10);
+      if(editState.cursos.length<=1) return;
       editState.cursos.splice(idx,1);
       renderEditModal();
     });
   });
-
-  editModal.querySelector('#btnAddCurso').addEventListener('click', () => {
+  editModal.querySelector('#btnAddCurso').addEventListener('click',()=>{
     syncEditStateFromDOM();
-    if(editState.cursos.length >= MAX_CURSOS) return;
+    if(editState.cursos.length>=MAX_CURSOS) return;
     editState.cursos.push(defaultCurso());
     renderEditModal();
+    setTimeout(()=>editModal.lastElementChild&&editModal.lastElementChild.scrollIntoView({behavior:'smooth'}),80);
   });
-
-  editModal.querySelector('#btnCancelEdit').addEventListener('click', closeEdit);
-
-  editModal.querySelector('#btnClearAla').addEventListener('click', async () => {
-    const ok = await uiConfirm({
-      title: 'Limpiar campos',
-      msg: '¿Limpiar todos los campos de esta ala, incluyendo todos sus cursos?',
-      okLabel: 'Sí, limpiar'
-    });
+  editModal.querySelector('#btnCancelEdit').addEventListener('click',closeEdit);
+  editModal.querySelector('#btnClearAla').addEventListener('click',async()=>{
+    const ok=await uiConfirm({title:'Limpiar campos',msg:'¿Limpiar todos los campos de esta ala?',okLabel:'Sí, limpiar'});
     if(!ok) return;
-    const alo = state.alojamientos.find(a => a.numero === editState.numero);
-    alo[editState.side] = defaultAla();
-    await persist(); render(); closeEdit();
+    const a=state.alojamientos.find(a=>a.numero===editState.numero);
+    a[editState.side]=defaultAla();
+    await persist();render();closeEdit();
     toast('🧽 Ala limpiada');
   });
-
-  editModal.querySelector('#btnSaveEdit').addEventListener('click', guardarCambios);
+  editModal.querySelector('#btnSaveEdit').addEventListener('click',guardarCambios);
 }
 
 async function guardarCambios(){
   if(!editState) return;
   syncEditStateFromDOM();
 
-  /* 1) revisar fechas de cada curso */
-  for(let i=0; i<editState.cursos.length; i++){
-    const c = editState.cursos[i];
-    const ini = c.fechaInicio, fin = c.fechaFin;
-    if(ini && fin){
-      const d = duracionDias(ini, fin);
-      if(d !== null && d < 1){
-        toast('⚠ Curso ' + (i+1) + ': la fecha de finalización es anterior a la de inicio', 'warn');
-        editModal.querySelectorAll('.curso-block')[i].scrollIntoView({behavior:'smooth', block:'center'});
-        return;
-      }
+  for(let i=0;i<editState.cursos.length;i++){
+    const c=editState.cursos[i];
+    if(c.fechaInicio&&c.fechaFin){
+      const d=duracionDias(c.fechaInicio,c.fechaFin);
+      if(d!==null&&d<1){toast('⚠ Curso '+(i+1)+': la fecha de finalización es anterior a la de inicio','warn');editModal.querySelectorAll('.curso-block')[i].scrollIntoView({behavior:'smooth',block:'center'});return;}
     }
-    if((ini && !fin) || (!ini && fin)){
-      const ok = await uiConfirm({
-        title: 'Fechas incompletas',
-        msg: 'En el curso ' + (i+1) + ' solo registraste una fecha. Se guardará igual, pero el parte mostrará la fecha incompleta. ¿Continuar?',
-        okLabel: 'Sí, guardar igual',
-        danger: false
-      });
+    if((c.fechaInicio&&!c.fechaFin)||(!c.fechaInicio&&c.fechaFin)){
+      const ok=await uiConfirm({title:'Fechas incompletas',msg:'En el curso '+(i+1)+' solo registraste una fecha. ¿Guardar igual?',okLabel:'Sí, guardar',danger:false});
       if(!ok) return;
     }
   }
 
-  /* 2) revisar que la ocupación no supere la capacidad */
-  const oc = editState.cursos.reduce((a,c) => a + num(c.hombres) + num(c.mujeres) + num(c.cti) + num(c.inpec) + num(c.extCant), 0);
-  if(num(editState.capacidad) > 0 && oc > num(editState.capacidad)){
-    const ok = await uiConfirm({
-      title: 'Ocupación mayor a la capacidad',
-      msg: 'La ocupación (' + oc + ') supera la capacidad del ala (' + num(editState.capacidad) + ') en ' + (oc - num(editState.capacidad)) + '. ¿Guardar de todas formas?',
-      okLabel: 'Sí, guardar'
-    });
+  const alo=state.alojamientos.find(a=>a.numero===editState.numero);
+  const ocEsta=editState.cursos.reduce((a,c)=>a+num(c.fe)+num(c._cantidad),0);
+  const otroSide=editState.side==='izquierda'?'derecha':'izquierda';
+  const ocOtra=ocupadosAla(alo[otroSide]);
+  const ocTotal=ocEsta+ocOtra;
+  const cap=num(alo.capacidad);
+
+  if(cap>0&&ocTotal>cap){
+    const ok=await uiConfirm({title:'Ocupación mayor a la capacidad',msg:'La ocupación total ('+ocTotal+') supera la capacidad de la barraca ('+cap+'). ¿Guardar de todas formas?',okLabel:'Sí, guardar'});
     if(!ok) return;
   }
 
-  const chk = editModal.querySelector('#chkAutoParte');
-  const quiereParte = chk ? chk.checked : true;
-  const numero = editState.numero;
-  const side = editState.side;
+  const quiereParte=editModal.querySelector('#chkAutoParte')?.checked??true;
+  const{numero,side}=editState;
+  alo[side]={cursos:editState.cursos.map(normalizeCurso),updated:new Date().toISOString()};
 
-  const alo = state.alojamientos.find(a => a.numero === numero);
-  alo[side] = {
-    capacidad: editState.capacidad,
-    cursos: editState.cursos.map(normalizeCurso),
-    updated: new Date().toISOString()
-  };
-
-  await persist();
-  render();
-  closeEdit();
+  await persist();render();closeEdit();
   toast('✔ Cambios guardados');
-
-  /* 3) el parte de esa ala, listo para enviar */
   if(quiereParte){
-    const aloActualizado = state.alojamientos.find(a => a.numero === numero);
-    abrirParteAla(aloActualizado, side, 'Generado al guardar los cambios');
+    const aloAct=state.alojamientos.find(a=>a.numero===numero);
+    abrirParteAla(aloAct,side,'Generado al guardar los cambios');
   }
 }
 
-function openEdit(numero, side){
-  const alo = state.alojamientos.find(a => a.numero === numero);
-  const ala = alo[side];
-  editState = {
-    numero, side,
-    capacidad: ala.capacidad,
-    cursos: JSON.parse(JSON.stringify(ala.cursos.map(normalizeCurso)))
-  };
+function openEdit(numero,side){
+  const alo=state.alojamientos.find(a=>a.numero===numero);
+  const ala=alo[side];
+  editState={numero,side,cursos:JSON.parse(JSON.stringify(ala.cursos.map(normalizeCurso)))};
   renderEditModal();
   editOverlay.classList.add('show');
 }
-function closeEdit(){ editOverlay.classList.remove('show'); editState = null; }
-editOverlay.addEventListener('click', e => { if(e.target === editOverlay) closeEdit(); });
+function closeEdit(){editOverlay.classList.remove('show');editState=null;}
+editOverlay.addEventListener('click',e=>{if(e.target===editOverlay)closeEdit();});
 
-/* ---------------- GENERADORES DE PARTE ---------------- */
-function lineaCurso(c, i, multi){
-  const grupo = c.grupo === 'OTRO' ? (c.grupoOtro || 'OTRO') : (c.grupo || '-');
-  const ffmm = (c.ffmm && c.ffmm.length) ? c.ffmm.join(', ') : '-';
-  const ext = (c.extPais || c.extCant) ? (c.extPais || '-') + ' (' + (c.extCant || 0) + ')' : '-';
-  const e = cursoEstado(c);
-  const total = num(c.hombres) + num(c.mujeres) + num(c.cti) + num(c.inpec) + num(c.extCant);
-
-  let fechas = 'No registradas';
-  if(c.fechaInicio || c.fechaFin){
-    fechas = fmtFecha(c.fechaInicio) + ' al ' + fmtFecha(c.fechaFin);
-    const d = duracionDias(c.fechaInicio, c.fechaFin);
-    if(d) fechas += ' (' + d + ' día' + (d === 1 ? '' : 's') + ')';
-    fechas += ' · ' + e.label;
+/* ── GENERADORES DE PARTE ── */
+function lineaCurso(c,i,multi){
+  const grupo=c.grupo==='OTRO'?(c.grupoOtro||'OTRO'):(c.grupo||'-');
+  const e=cursoEstado(c);
+  const cant=num(c._cantidad);
+  const fe=num(c.fe);
+  let fechas='No registradas';
+  if(c.fechaInicio||c.fechaFin){
+    fechas=fmtFecha(c.fechaInicio)+' al '+fmtFecha(c.fechaFin);
+    const d=duracionDias(c.fechaInicio,c.fechaFin);
+    if(d) fechas+=' ('+d+' día'+(d===1?'':'s')+')';
+    fechas+=' · '+e.label;
   }
-
-  return (multi ? '— CURSO ' + (i+1) + ' —\n' : '') +
-    '• Curso: ' + (c.curso || '-') + '\n' +
-    '• GRUPO: ' + grupo + '\n' +
-    '• CDTE ASIGNACIÓN BARRACA: ' + (c.cdte || '-') + '\n' +
-    '• Tel: ' + (c.tel || '-') + '\n' +
-    '• FE: ' + (c.fe || '-') + '\n' +
-    '• 📅 FECHA DE INICIO: ' + (c.fechaInicio ? fmtFecha(c.fechaInicio) : '-') + '\n' +
-    '• 📅 FECHA DE FINALIZACIÓN: ' + (c.fechaFin ? fmtFecha(c.fechaFin) : '-') + '\n' +
-    '• DURACIÓN / ESTADO: ' + fechas + '\n' +
-    '• Parte: ' + (c.parte || []).join('-') + '\n' +
-    '• HOMBRES: ' + (c.hombres || 0) + '\n' +
-    '• MUJERES: ' + (c.mujeres || 0) + '\n' +
-    '• FF.MM: ' + ffmm + '\n' +
-    '• CTI: ' + (c.cti || 0) + '\n' +
-    '• INPEC: ' + (c.inpec || 0) + '\n' +
-    '• EXTRANJEROS: PAÍS: ' + ext + '\n' +
-    '• OTRO: ' + (c.otro || '-') + '\n' +
-    '• TOTAL PERSONAS DEL CURSO: ' + total;
+  return(multi?'— CURSO '+(i+1)+' —\n':'')+
+    '• Curso: '+(c.curso||'-')+'\n'+
+    '• GRUPO: '+grupo+'\n'+
+    '• CDTE ASIGNACIÓN BARRACA: '+(c.cdte||'-')+'\n'+
+    '• Tel: '+(c.tel||'-')+'\n'+
+    '• FE (resta capacidad): '+fe+'\n'+
+    '• 📅 FECHA DE INICIO: '+(c.fechaInicio?fmtFecha(c.fechaInicio):'-')+'\n'+
+    '• 📅 FECHA DE FINALIZACIÓN: '+(c.fechaFin?fmtFecha(c.fechaFin):'-')+'\n'+
+    '• DURACIÓN / ESTADO: '+fechas+'\n'+
+    '• GÉNERO: '+(c.genero||'Sin definir')+'\n'+
+    '• CANTIDAD PERSONAL (resta capacidad): '+cant+'\n'+
+    '• EJÉRCITO: '+(c.ejercito||0)+'\n'+
+    '• ARMADA: '+(c.armada||0)+'\n'+
+    '• FUERZA AÉREA: '+(c.faerea||0)+'\n'+
+    '• INPEC: '+(c.inpec||0)+'\n'+
+    '• EXTRANJEROS — PAÍS: '+(c.extPais||'-')+' ('+( c.extCant||0)+')\n'+
+    '• OTRO: '+(c.otro||'-');
 }
 
-/* Bloque de un ala. modo 'individual' = parte suelto del ala; 'compacto' = dentro de un parte mayor */
-function parteAlaBloque(alo, side, modo){
-  const ala = alo[side];
-  const label = side === 'izquierda' ? 'ALA IZQUIERDA' : 'ALA DERECHA';
-  const s = status(ala);
-  const cap = num(ala.capacidad), oc = ocupados(ala), disp = disponibles(ala), exc = exceso(ala);
-  const pctLibre = cap > 0 ? (100 - pctOcupacion(ala)) : null;
-  const cursos = ala.cursos.filter(cursoConDatos);
-  const detalle = cursos.length
-    ? cursos.map((c,i) => lineaCurso(c, i, cursos.length > 1)).join('\n\n')
-    : '(Sin cursos registrados en esta ala)';
+function parteAlaBloque(alo,side,modo){
+  const ala=alo[side];
+  const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
+  const s=statusAla(alo,ala);
+  const ocAla=ocupadosAla(ala);
+  const cursos=ala.cursos.filter(cursoConDatos);
+  const detalle=cursos.length?cursos.map((c,i)=>lineaCurso(c,i,cursos.length>1)).join('\n\n'):'(Sin cursos registrados en esta ala)';
 
-  const encabezado = (modo === 'individual')
-    ? '🛏️ *PARTE DE ALOJAMIENTO N° ' + alo.numero + ' · ' + label + '*\n' +
-      statusEmoji(s) + ' Estado: ' + statusLabel(ala) + '\n' +
-      '🕒 Fecha del parte: ' + fmtDate() + '\n'
-    : '▸ *ALOJAMIENTO N° ' + alo.numero + ' · ' + label + '*  ' + statusEmoji(s) + ' ' + statusLabel(ala) + '\n';
-
-  const resumenAla =
-    '• Capacidad del ala: ' + (cap > 0 ? cap : '-') + '\n' +
-    '• Ocupación actual: ' + oc + '\n' +
-    '• DISPONIBILIDAD: ' + (cap > 0 ? disp + ' cupo(s) libre(s)' + (pctLibre !== null ? ' (' + pctLibre + '% libre)' : '') : 'sin capacidad definida') + '\n' +
-    (exc > 0 ? '• ⚠ SOBREOCUPADA: excede la capacidad en ' + exc + ' persona(s)\n' : '') +
-    (modo === 'individual' ? '• Última actualización: ' + fmtSello(ala.updated) + '\n' : '');
-
-  if(modo === 'individual'){
-    return encabezado + '\n' + resumenAla + '\n' + detalle + '\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
+  if(modo==='individual'){
+    const cap=num(alo.capacidad),ocT=ocupadosBarraca(alo),disp=disponiblesBarraca(alo),exc=excesoBarraca(alo);
+    return'🛏️ *PARTE DE BARRACA N° '+alo.numero+' · '+label+'*\n'+
+      statusEmoji(s)+' Estado: '+statusLabelAla(alo,ala)+'\n'+
+      '🕒 '+fmtDate()+'\n\n'+
+      '• Capacidad total de la barraca: '+(cap>0?cap:'Sin definir')+'\n'+
+      '• Ocupación total barraca: '+ocT+'\n'+
+      '• Ocupación esta ala: '+ocAla+'\n'+
+      '• DISPONIBILIDAD: '+(cap>0?disp+' cupo(s) libre(s)':'sin capacidad definida')+'\n'+
+      (exc>0?'• ⚠ SOBREOCUPADA: excede la capacidad en '+exc+' persona(s)\n':'')+
+      '• Última actualización: '+fmtSello(ala.updated)+'\n\n'+
+      detalle+'\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
   }
-  return encabezado + resumenAla + '\n' + detalle;
+  return'▸ *'+label+'*  '+statusEmoji(s)+' '+statusLabelAla(alo,ala)+'\n'+
+    '• Ocupación esta ala: '+ocAla+'\n'+
+    '• Última actualización: '+fmtSello(ala.updated)+'\n\n'+
+    detalle;
 }
 
-function buildAlaParte(alo, side, nota){
-  const ala = alo[side];
-  const label = side === 'izquierda' ? 'ALA IZQUIERDA' : 'ALA DERECHA';
-  const s = status(ala);
-  const cap = num(ala.capacidad), oc = ocupados(ala), disp = disponibles(ala), exc = exceso(ala);
-  const pctLibre = cap > 0 ? (100 - pctOcupacion(ala)) : null;
-  const cursos = ala.cursos.filter(cursoConDatos);
-  const detalle = cursos.length
-    ? cursos.map((c,i) => lineaCurso(c, i, cursos.length > 1)).join('\n\n')
-    : '(Sin cursos registrados en esta ala)';
-
-  return '🛏️ *PARTE DE ALOJAMIENTO N° ' + alo.numero + ' · ' + label + '*\n' +
-    statusEmoji(s) + ' Estado: ' + statusLabel(ala) + '\n' +
-    '🕒 ' + fmtDate() + '\n' +
-    (nota ? '(' + nota + ')\n' : '') + '\n' +
-    '• Capacidad del ala: ' + (cap > 0 ? cap : '-') + '\n' +
-    '• Ocupación actual: ' + oc + '\n' +
-    '• DISPONIBILIDAD: ' + (cap > 0 ? disp + ' cupo(s) libre(s)' + (pctLibre !== null ? ' (' + pctLibre + '% libre)' : '') : 'sin capacidad definida') + '\n' +
-    (exc > 0 ? '• ⚠ SOBREOCUPADA: excede la capacidad en ' + exc + ' persona(s)\n' : '') +
-    '• Última actualización: ' + fmtSello(ala.updated) + '\n\n' +
-    detalle + '\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
+function buildAlaParte(alo,side,nota){
+  return parteAlaBloque(alo,side,'individual')+(nota?'\n('+nota+')':'');
 }
 
-function buildAlojamientoParte(alo){
-  const capIzq = num(alo.izquierda.capacidad), capDer = num(alo.derecha.capacidad);
-  const ocIzq = ocupados(alo.izquierda), ocDer = ocupados(alo.derecha);
-  const cap = capIzq + capDer, oc = ocIzq + ocDer;
-  const disp = Math.max(0, cap - oc);
-  const pct = cap > 0 ? Math.round(oc / cap * 100) : 0;
-
-  return '🏠 *PARTE DEL ALOJAMIENTO N° ' + alo.numero + ' (AMBAS ALAS)*\n' +
-    '🕒 ' + fmtDate() + '\n\n' +
-    'RESUMEN DEL ALOJAMIENTO\n' +
-    '• Capacidad total: ' + (cap > 0 ? cap : '-') + '\n' +
-    '• Ocupación total: ' + oc + '\n' +
-    '• DISPONIBILIDAD: ' + (cap > 0 ? disp + ' cupo(s) libre(s) (' + (100 - pct) + '% libre)' : 'sin capacidad definida') + '\n\n' +
-    parteAlaBloque(alo, 'izquierda', 'compacto') + '\n\n' +
-    parteAlaBloque(alo, 'derecha', 'compacto') + '\n\n' +
+function buildBarracaParte(alo){
+  const cap=num(alo.capacidad),oc=ocupadosBarraca(alo),disp=disponiblesBarraca(alo),pct=pctOcupacionBarraca(alo);
+  return'🏠 *PARTE DE BARRACA N° '+alo.numero+' (AMBAS ALAS)*\n'+
+    '🕒 '+fmtDate()+'\n\n'+
+    'RESUMEN DE LA BARRACA\n'+
+    '• Capacidad total: '+(cap>0?cap:'Sin definir')+'\n'+
+    '• Ocupación total: '+oc+'\n'+
+    '• DISPONIBILIDAD: '+(cap>0?disp+' cupo(s) libre(s) ('+(100-pct)+'% libre)':'sin capacidad definida')+'\n\n'+
+    parteAlaBloque(alo,'izquierda','compacto')+'\n\n'+
+    parteAlaBloque(alo,'derecha','compacto')+'\n\n'+
     '"LEALTAD, VALOR, ABNEGACIÓN"';
 }
 
 function buildReport(){
-  let rojo = 0, naranja = 0, verde = 0, capTotal = 0, ocTotal = 0;
-  const bloques = [];
-  const alertas = [];
-  let alasSinOcupacion = 0, totalAlas = 0;
+  let capTotal=0,ocTotal=0;
+  const bloques=[],alertas=[];
+  let sinOcup=0;
 
-  state.alojamientos.forEach(alo => {
-    [['izquierda','ALA IZQUIERDA'],['derecha','ALA DERECHA']].forEach(([side,label]) => {
-      const ala = alo[side];
-      totalAlas++;
-      const s = status(ala);
-      if(s === 'rojo') rojo++; else if(s === 'naranja') naranja++; else verde++;
-      capTotal += num(ala.capacidad);
-      ocTotal += ocupados(ala);
-
-      if(!alaConDatos(ala)){ alasSinOcupacion++; return; }
-
-      /* alertas de fechas */
-      ala.cursos.filter(cursoConDatos).forEach(c => {
+  state.alojamientos.forEach(alo=>{
+    capTotal+=num(alo.capacidad);
+    ocTotal+=ocupadosBarraca(alo);
+    ['izquierda','derecha'].forEach(side=>{
+      const ala=alo[side];
+      const lbl=side==='izquierda'?'Ala Izq.':'Ala Der.';
+      if(!alaConDatos(ala)){sinOcup++;return;}
+      ala.cursos.filter(cursoConDatos).forEach(c=>{
         if(!cursoAlerta(c)) return;
-        const e = cursoEstado(c);
-        const nombre = c.curso || 'Sin nombre';
-        const rango = (c.fechaInicio || c.fechaFin) ? ' (' + fmtFecha(c.fechaInicio) + ' al ' + fmtFecha(c.fechaFin) + ')' : '';
-        alertas.push('• Aloj. N° ' + alo.numero + ' · ' + label + ' · ' + nombre + rango + ': ' + e.label);
+        const e=cursoEstado(c);
+        const rango=(c.fechaInicio||c.fechaFin)?' ('+fmtFecha(c.fechaInicio)+' al '+fmtFecha(c.fechaFin)+')':'';
+        alertas.push('• Barraca N° '+alo.numero+' · '+lbl+' · '+(c.curso||'Sin nombre')+rango+': '+e.label);
       });
-
-      bloques.push(parteAlaBloque(alo, side, 'compacto'));
+      bloques.push(parteAlaBloque(alo,side,'compacto'));
     });
   });
 
-  const libres = Math.max(0, capTotal - ocTotal);
-  const pct = capTotal > 0 ? Math.round(ocTotal / capTotal * 100) : 0;
+  const libres=Math.max(0,capTotal-ocTotal);
+  const pct=capTotal>0?Math.round(ocTotal/capTotal*100):0;
 
-  const header =
-    '📋 *PARTE GENERAL DE BARRACAS — CENOP*\n' +
-    'Dios y patria, respetuosamente envío parte de las Barracas o alojamientos CENOP así:\n' +
-    '🕒 ' + fmtDate() + '\n\n' +
-    '*RESUMEN GENERAL*\n' +
-    '• Alojamientos: ' + state.alojamientos.length + ' (' + totalAlas + ' alas)\n' +
-    '• 🔴 Llenas: ' + rojo + ' | 🟠 Parciales: ' + naranja + ' | 🟢 Disponibles: ' + verde + '\n' +
-    '• Capacidad total: ' + capTotal + ' · Ocupación: ' + ocTotal + ' · DISPONIBLES: ' + libres + ' (' + (100 - pct) + '% libre)\n' +
-    '• Alas sin ocupación registrada: ' + alasSinOcupacion + '\n' +
-    '• ⚠ Cursos finalizados o por terminar (3 días o menos): ' + alertas.length + '\n';
-
-  const bloqueAlertas = alertas.length
-    ? '\n\n⚠ *ALERTAS DE FECHAS (para desocupar / relevar)*\n' + alertas.join('\n')
-    : '';
-
-  const footer = '\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
-
-  return header + '\n' + bloques.join('\n\n') + bloqueAlertas + footer;
+  return'📋 *PARTE GENERAL DE BARRACAS — CENOP*\n'+
+    'Dios y patria, respetuosamente envío parte de las Barracas o alojamientos CENOP así:\n'+
+    '🕒 '+fmtDate()+'\n\n'+
+    '*RESUMEN GENERAL*\n'+
+    '• Barracas: '+state.alojamientos.length+'\n'+
+    '• Capacidad total: '+capTotal+' · Ocupación: '+ocTotal+' · DISPONIBLES: '+libres+' ('+(100-pct)+'% libre)\n'+
+    '• Alas sin ocupación registrada: '+sinOcup+'\n'+
+    '• ⚠ Cursos por terminar o finalizados (7 días o menos): '+alertas.length+'\n\n'+
+    bloques.join('\n\n')+
+    (alertas.length?'\n\n⚠ *ALERTAS DE FECHAS*\n'+alertas.join('\n'):'')+
+    '\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
 }
 
-/* ---------------- VENTANA DE PARTE ---------------- */
-const reportOverlay = document.getElementById('reportOverlay');
-let reportCtx = { titulo: 'PARTE GENERAL DE BARRACAS' };
+/* ── VENTANA DE PARTE ── */
+const reportOverlay=document.getElementById('reportOverlay');
+let reportCtx={titulo:'PARTE GENERAL DE BARRACAS'};
 
-function abrirParteAla(alo, side, nota){
-  const label = side === 'izquierda' ? 'ALA IZQUIERDA' : 'ALA DERECHA';
-  openReport(
-    buildAlaParte(alo, side, nota),
-    'PARTE — ALOJ. N° ' + alo.numero + ' · ' + label,
-    'Corresponde solo a esta ala · puedes editar el texto antes de enviarlo'
-  );
+function abrirParteAla(alo,side,nota){
+  const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
+  openReport(buildAlaParte(alo,side,nota),'PARTE — BARRACA N° '+alo.numero+' · '+label,'Solo esta ala');
 }
-function abrirParteAlojamiento(alo){
-  openReport(
-    buildAlojamientoParte(alo),
-    'PARTE — ALOJAMIENTO N° ' + alo.numero + ' (AMBAS ALAS)',
-    'Incluye ala izquierda y ala derecha · puedes editar el texto antes de enviarlo'
-  );
+function abrirParteBarraca(alo){
+  openReport(buildBarracaParte(alo),'PARTE — BARRACA N° '+alo.numero+' (AMBAS ALAS)','Incluye ala izquierda y ala derecha');
 }
-
-function openReport(txt, titulo, sub){
-  reportCtx = { titulo: titulo || 'PARTE GENERAL DE BARRACAS' };
-  document.getElementById('reportTitle').textContent = titulo;
-  document.getElementById('reportSub').textContent = sub;
-  document.getElementById('reportText').value = txt;
+function openReport(txt,titulo,sub){
+  reportCtx={titulo:titulo||'PARTE GENERAL DE BARRACAS'};
+  document.getElementById('reportTitle').textContent=titulo;
+  document.getElementById('reportSub').textContent=sub;
+  document.getElementById('reportText').value=txt;
   document.getElementById('copiedMsg').classList.remove('show');
   reportOverlay.classList.add('show');
 }
 
-document.getElementById('btnReport').addEventListener('click', () => {
-  openReport(buildReport(), 'PARTE GENERAL DE BARRACAS', 'Listo para copiar y enviar por WhatsApp');
-});
-document.getElementById('btnCloseReport').addEventListener('click', () => reportOverlay.classList.remove('show'));
-reportOverlay.addEventListener('click', e => { if(e.target === reportOverlay) reportOverlay.classList.remove('show'); });
+document.getElementById('btnReport').addEventListener('click',()=>openReport(buildReport(),'PARTE GENERAL DE BARRACAS','Listo para copiar y enviar por WhatsApp'));
+document.getElementById('btnCloseReport').addEventListener('click',()=>reportOverlay.classList.remove('show'));
+reportOverlay.addEventListener('click',e=>{if(e.target===reportOverlay)reportOverlay.classList.remove('show');});
 
-document.getElementById('btnCopyReport').addEventListener('click', async () => {
-  const ta = document.getElementById('reportText');
-  const txt = ta.value;
-  let copiado = false;
+document.getElementById('btnCopyReport').addEventListener('click',async()=>{
+  const ta=document.getElementById('reportText');
+  let ok=false;
+  try{await navigator.clipboard.writeText(ta.value);ok=true;}
+  catch(e){try{ta.select();ta.setSelectionRange(0,999999);ok=document.execCommand('copy');}catch(e2){}}
+  const msg=document.getElementById('copiedMsg');
+  if(ok){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2500);}
+  else{ta.focus();ta.select();toast('⚠ Selecciona el texto y presiona Ctrl+C','warn');}
+});
+
+document.getElementById('btnDownloadReport').addEventListener('click',()=>{
+  const nombre='parte-'+slug(reportCtx.titulo)+'-'+hoyISO()+'.txt';
+  descargarArchivo(nombre,document.getElementById('reportText').value,'text/plain');
+  toast('⬇ Archivo '+nombre+' generado');
+});
+document.getElementById('btnPrintReport').addEventListener('click',()=>imprimirTexto(document.getElementById('reportText').value,reportCtx.titulo));
+
+/* ── UTILIDADES ── */
+function slug(t){return sinAcentos(t).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'parte';}
+function descargarArchivo(nombre,contenido,mime){
   try{
-    await navigator.clipboard.writeText(txt);
-    copiado = true;
-  }catch(e){
-    try{
-      ta.select();
-      ta.setSelectionRange(0, 999999);
-      copiado = document.execCommand('copy');
-    }catch(e2){ copiado = false; }
-  }
-  const msg = document.getElementById('copiedMsg');
-  if(copiado){
-    msg.classList.add('show');
-    setTimeout(() => msg.classList.remove('show'), 2500);
-  }else{
-    ta.focus(); ta.select();
-    toast('⚠ No se pudo copiar automáticamente. El texto quedó seleccionado: presiona Ctrl+C', 'warn');
-  }
-});
-
-document.getElementById('btnDownloadReport').addEventListener('click', () => {
-  const txt = document.getElementById('reportText').value;
-  const nombre = 'parte-' + slug(reportCtx.titulo) + '-' + hoyISO() + '.txt';
-  descargarArchivo(nombre, txt, 'text/plain');
-  toast('⬇ Archivo ' + nombre + ' generado');
-});
-
-document.getElementById('btnPrintReport').addEventListener('click', () => {
-  const txt = document.getElementById('reportText').value;
-  imprimirTexto(txt, reportCtx.titulo);
-});
-
-document.getElementById('btnWhatsApp').addEventListener('click', () => {
-  const txt = document.getElementById('reportText').value;
-  const url = 'https://wa.me/?text=' + encodeURIComponent(txt);
-  let w = null;
-  try{ w = window.open(url, '_blank'); }catch(e){ w = null; }
-  if(!w) toast('⚠ No se pudo abrir WhatsApp aquí. Usa "Copiar texto" y pégalo en WhatsApp', 'warn');
-});
-
-/* ---------------- UTILIDADES DE ARCHIVO ---------------- */
-function slug(t){
-  return sinAcentos(t).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'parte';
+    const blob=new Blob([contenido],{type:(mime||'text/plain')+';charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=nombre;document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},800);
+  }catch(e){toast('⚠ No se pudo descargar el archivo en este entorno','warn');}
 }
-function descargarArchivo(nombre, contenido, mime){
-  try{
-    const blob = new Blob([contenido], { type: (mime || 'text/plain') + ';charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = nombre;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 800);
-  }catch(e){
-    toast('⚠ No se pudo descargar el archivo en este entorno', 'warn');
-  }
-}
-function imprimirTexto(txt, titulo){
-  let w = null;
-  try{ w = window.open('', '_blank'); }catch(e){ w = null; }
-  if(!w){
-    toast('⚠ La impresión no está disponible aquí. Descarga el .txt o cópialo', 'warn');
-    return;
-  }
-  const esc = txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  w.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>' + titulo + '</title>' +
-    '<style>body{font-family:Arial,Helvetica,sans-serif;white-space:pre-wrap;padding:26px;font-size:13px;line-height:1.5;color:#111}</style>' +
-    '</head><body>' + esc + '</body></html>');
+function imprimirTexto(txt,titulo){
+  let w=null;try{w=window.open('','_blank');}catch(e){w=null;}
+  if(!w){toast('⚠ La impresión no está disponible aquí','warn');return;}
+  const e2=txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  w.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>'+titulo+'</title><style>body{font-family:Arial,sans-serif;white-space:pre-wrap;padding:26px;font-size:13px;line-height:1.5;color:#111}</style></head><body>'+e2+'</body></html>');
   w.document.close();
-  setTimeout(() => { try{ w.focus(); w.print(); }catch(e){} }, 350);
+  setTimeout(()=>{try{w.focus();w.print();}catch(e){}},350);
 }
 
-/* ---------------- RESPALDO / RESTAURACIÓN ---------------- */
-document.getElementById('btnBackup').addEventListener('click', () => {
-  const data = JSON.stringify({
-    app: 'BARRACAS-CENOP',
-    version: 2,
-    exportado: new Date().toISOString(),
-    state: state
-  }, null, 2);
-  descargarArchivo('respaldo-barracas-' + hoyISO() + '.json', data, 'application/json');
-  toast('⬇ Respaldo descargado · guárdalo en lugar seguro');
+/* ── RESPALDO ── */
+document.getElementById('btnBackup').addEventListener('click',()=>{
+  if(!state.alojamientos.length){toast('⚠ No hay datos para respaldar','warn');return;}
+  const data=JSON.stringify({app:'BARRACAS-CENOP',version:4,exportado:new Date().toISOString(),state},null,2);
+  descargarArchivo('respaldo-barracas-'+hoyISO()+'.json',data,'application/json');
+  toast('⬇ Respaldo descargado · compártelo por WhatsApp o correo para que tu compañero o jefe lo carguen con "Restaurar respaldo"');
 });
-
-document.getElementById('btnRestore').addEventListener('click', () => {
-  document.getElementById('restoreFile').click();
-});
-
-document.getElementById('restoreFile').addEventListener('change', e => {
-  const file = e.target.files && e.target.files[0];
-  if(!file) return;
-  const lector = new FileReader();
-  lector.onload = async () => {
+document.getElementById('btnRestore').addEventListener('click',()=>document.getElementById('restoreFile').click());
+document.getElementById('restoreFile').addEventListener('change',e=>{
+  const file=e.target.files&&e.target.files[0];if(!file) return;
+  const lector=new FileReader();
+  lector.onload=async()=>{
     try{
-      const obj = JSON.parse(String(lector.result));
-      const nuevo = (obj && obj.state) ? obj.state : obj;
-      if(!nuevo || !Array.isArray(nuevo.alojamientos)) throw new Error('formato');
-      const ok = await uiConfirm({
-        title: 'Restaurar respaldo',
-        msg: 'Se reemplazará todo lo que hay ahora por la información del respaldo (' + nuevo.alojamientos.length + ' alojamientos). ¿Continuar?',
-        okLabel: 'Sí, restaurar',
-        danger: false
-      });
+      const raw=String(lector.result);
+      if(raw.length>5*1024*1024){toast('⚠ El archivo es demasiado grande','warn');return;}
+      const obj=JSON.parse(raw);
+      const nuevo=(obj&&obj.state)?obj.state:obj;
+      if(!nuevo||!Array.isArray(nuevo.alojamientos)) throw new Error('formato');
+      const ok=await uiConfirm({title:'Restaurar respaldo',msg:'Se reemplazará todo lo que hay ahora por la información del respaldo ('+nuevo.alojamientos.length+' barracas). ¿Continuar?',okLabel:'Sí, restaurar',danger:false});
       if(!ok) return;
-      state = normalizeState(nuevo);
-      await persist(); render();
-      toast('✔ Respaldo restaurado');
-    }catch(err){
-      toast('⚠ El archivo no es un respaldo válido de BARRACAS-CENOP', 'warn');
-    }
-    e.target.value = '';
+      state=normalizeState(nuevo);
+      await persist();render();
+      toast('✔ Respaldo restaurado · '+state.alojamientos.length+' barracas cargadas');
+    }catch(err){toast('⚠ El archivo no es un respaldo válido de BARRACAS-CENOP','warn');}
+    e.target.value='';
   };
   lector.readAsText(file);
 });
 
-/* ---------------- BOTONES GENERALES ---------------- */
-document.getElementById('btnAdd').addEventListener('click', async () => {
-  state.alojamientos.push(defaultAlojamiento(state.nextNum));
-  state.nextNum++;
-  await persist();
-  render();
-  toast('＋ Alojamiento N° ' + (state.nextNum - 1) + ' añadido');
-});
-
-document.getElementById('btnResetAll').addEventListener('click', async () => {
-  const ok = await uiConfirm({
-    title: 'Restablecer todo',
-    msg: 'Esto borrará TODOS los datos de todos los alojamientos y volverá a 12 por defecto. ¿Continuar?',
-    okLabel: 'Sí, borrar todo'
+/* ── AÑADIR BARRACA ── */
+const numOverlay=document.getElementById('numOverlay');
+document.getElementById('btnCancelNum').addEventListener('click',()=>numOverlay.classList.remove('show'));
+numOverlay.addEventListener('click',e=>{if(e.target===numOverlay)numOverlay.classList.remove('show');});
+document.getElementById('btnAdd').addEventListener('click',()=>{
+  const usados=new Set(state.alojamientos.map(a=>a.numero));
+  const cont=document.getElementById('numBtns');
+  cont.innerHTML='';
+  NUMS_DISPONIBLES.forEach(n=>{
+    const btn=document.createElement('button');
+    btn.className='num-btn'+(usados.has(n)?' usado':'');
+    btn.textContent=n;
+    btn.title=usados.has(n)?'Barraca '+n+' ya existe':'Añadir barraca '+n;
+    if(!usados.has(n)){
+      btn.addEventListener('click',async()=>{
+        numOverlay.classList.remove('show');
+        state.alojamientos.push(defaultBarraca(n));
+        state.alojamientos.sort((a,b)=>a.numero-b.numero);
+        await persist();render();
+        toast('＋ Barraca N° '+n+' añadida');
+      });
+    }
+    cont.appendChild(btn);
   });
-  if(!ok) return;
-  state = { alojamientos: [], nextNum: 13 };
-  for(let i=1;i<=12;i++) state.alojamientos.push(defaultAlojamiento(i));
-  await persist(); render();
-  toast('♻ Sistema restablecido a 12 alojamientos');
+  numOverlay.classList.add('show');
 });
 
-const helpOverlay = document.getElementById('helpOverlay');
-document.getElementById('btnHelp').addEventListener('click', () => helpOverlay.classList.add('show'));
-document.getElementById('btnCloseHelp').addEventListener('click', () => helpOverlay.classList.remove('show'));
-helpOverlay.addEventListener('click', e => { if(e.target === helpOverlay) helpOverlay.classList.remove('show'); });
+/* ── RESTABLECER ── */
+document.getElementById('btnResetAll').addEventListener('click',async()=>{
+  const ok=await uiConfirm({title:'Restablecer todo',msg:'Esto borrará TODOS los datos y volverá a las barracas por defecto (1,2,3,4,5,11,13,14,15,16,17,18). ¿Continuar?',okLabel:'Sí, borrar todo'});
+  if(!ok) return;
+  state={alojamientos:[]};
+  NUMS_DEFAULT.forEach(n=>state.alojamientos.push(defaultBarraca(n)));
+  await persist();render();
+  toast('♻ Sistema restablecido');
+});
 
-/* atajos: Esc cierra las ventanas */
-document.addEventListener('keydown', e => {
-  if(e.key !== 'Escape') return;
-  if(document.getElementById('confirmOverlay').classList.contains('show')){ cerrarConfirm(false); return; }
-  editOverlay.classList.remove('show'); editState = null;
+/* ── AYUDA ── */
+const helpOverlay=document.getElementById('helpOverlay');
+document.getElementById('btnHelp').addEventListener('click',()=>helpOverlay.classList.add('show'));
+document.getElementById('btnCloseHelp').addEventListener('click',()=>helpOverlay.classList.remove('show'));
+helpOverlay.addEventListener('click',e=>{if(e.target===helpOverlay)helpOverlay.classList.remove('show');});
+
+/* ── ESC ── */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  if(document.getElementById('confirmOverlay').classList.contains('show')){cerrarConfirm(false);return;}
+  if(numOverlay.classList.contains('show')){numOverlay.classList.remove('show');return;}
+  editOverlay.classList.remove('show');editState=null;
   reportOverlay.classList.remove('show');
   helpOverlay.classList.remove('show');
 });
 
-/* ---------------- INICIO ---------------- */
+/* ── INICIO ── */
 load();
 </script>
 </body>
