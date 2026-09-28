@@ -14,7 +14,8 @@
   --azul:#2980b9;--azul2:#3498db;
   --fondo:#0d1f0d;--texto:#e8e8e8;--gris:#888;
 }
-body{background:var(--fondo);color:var(--texto);font-family:'Segoe UI',sans-serif;min-height:100vh}
+body{background:var(--fondo);color:var(--texto);font-family:'Segoe UI',sans-serif;min-height:100vh;
+  -webkit-tap-highlight-color:transparent;touch-action:pan-y;}
 
 /* ── HEADER ── */
 header{background:linear-gradient(135deg,var(--verde),var(--verde2));
@@ -22,22 +23,20 @@ header{background:linear-gradient(135deg,var(--verde),var(--verde2));
   border-bottom:2px solid var(--oro);flex-wrap:wrap;gap:8px}
 header h1{color:var(--oro);font-size:1.3rem;letter-spacing:2px}
 header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
-.hdr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.hdr-btns{display:flex;gap:6px;flex-wrap:wrap}
 .btn{padding:7px 14px;border:1px solid var(--oro);background:transparent;
   color:var(--oro);border-radius:6px;cursor:pointer;font-size:.8rem;transition:all .2s}
-.btn:hover{background:var(--oro);color:var(--verde)}
+.btn:hover,.btn:active{background:var(--oro);color:var(--verde)}
 .btn-sm{padding:4px 10px;font-size:.75rem}
 .btn-danger{border-color:var(--rojo);color:var(--rojo)}
-.btn-danger:hover{background:var(--rojo);color:#fff}
+.btn-danger:hover,.btn-danger:active{background:var(--rojo);color:#fff}
 .btn-primary{background:var(--oro);color:var(--verde);font-weight:700}
-.btn-primary:hover{background:var(--oro2)}
+.btn-primary:hover,.btn-primary:active{background:var(--oro2)}
 .btn-warn{border-color:var(--naranja);color:var(--naranja);position:relative}
-.btn-warn:hover{background:var(--naranja);color:#fff}
+.btn-warn:hover,.btn-warn:active{background:var(--naranja);color:#fff}
 .btn-warn .badge{position:absolute;top:-7px;right:-7px;background:var(--rojo2);color:#fff;
   border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:700;
   display:flex;align-items:center;justify-content:center;border:2px solid var(--fondo)}
-.btn-move{border-color:var(--azul2);color:var(--azul2)}
-.btn-move:hover{background:var(--azul2);color:#fff}
 
 /* ── ALERT BANNER ── */
 #alertBanner{display:none;background:linear-gradient(90deg,#7b0000,#c0392b,#7b0000);
@@ -47,7 +46,7 @@ header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
 
 /* ══ SECCIONES ══ */
 #carouselSection{padding:20px 0 10px;position:relative}
-#porFinalizarSection{display:none;padding:20px}
+#porFinalizarSection{display:none;padding:16px}
 
 /* ══ POR FINALIZAR ══ */
 #pfCard{max-width:720px;margin:0 auto;
@@ -97,23 +96,46 @@ header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
 .btn-regresar{display:flex;align-items:center;gap:8px;padding:9px 20px;border-radius:8px;
   background:linear-gradient(135deg,var(--verde2),var(--verde3));border:1px solid var(--oro);
   color:var(--oro);cursor:pointer;font-size:.85rem;font-weight:700;letter-spacing:1px;transition:all .25s}
-.btn-regresar:hover{background:var(--oro);color:var(--verde)}
+.btn-regresar:hover,.btn-regresar:active{background:var(--oro);color:var(--verde)}
 
 /* ══ CAROUSEL ══ */
-#carouselViewport{width:100%;height:560px;position:relative;overflow:hidden;
-  perspective:1100px;perspective-origin:50% 45%;cursor:grab}
-#carouselViewport.dragging{cursor:grabbing}
+#carouselViewport{
+  width:100%;height:560px;position:relative;overflow:hidden;
+  perspective:1100px;perspective-origin:50% 45%;
+  /* touch-action:none permite capturar todos los gestos táctiles */
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
 #carouselTrack{width:100%;height:100%;position:relative;transform-style:preserve-3d}
-.c-card{position:absolute;width:340px;height:500px;top:50%;left:50%;border-radius:14px;
-  will-change:transform,opacity;pointer-events:none;
-  transition:transform .5s cubic-bezier(.25,.46,.45,.94),opacity .5s cubic-bezier(.25,.46,.45,.94),filter .5s ease}
-.c-card-inner{width:100%;height:100%;background:linear-gradient(160deg,var(--verde2),var(--verde));
-  border:2px solid var(--verde3);border-radius:14px;display:flex;flex-direction:column;
-  overflow:hidden;transition:border-color .4s,box-shadow .4s;pointer-events:none}
-.c-card.is-active .c-card-inner{pointer-events:all;border-color:var(--oro);box-shadow:0 8px 32px rgba(200,168,75,.2)}
-.c-card-shield{position:absolute;inset:0;border-radius:14px;pointer-events:none;z-index:20;cursor:pointer}
-.card-hdr{background:linear-gradient(90deg,var(--verde3),var(--verde2));padding:10px 14px;
-  border-bottom:1px solid var(--oro);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+
+.c-card{
+  position:absolute;width:340px;height:500px;top:50%;left:50%;
+  border-radius:14px;will-change:transform,opacity;pointer-events:none;
+  transition:transform .5s cubic-bezier(.25,.46,.45,.94),
+             opacity   .5s cubic-bezier(.25,.46,.45,.94),
+             filter    .5s ease;
+}
+.c-card-inner{
+  width:100%;height:100%;
+  background:linear-gradient(160deg,var(--verde2),var(--verde));
+  border:2px solid var(--verde3);border-radius:14px;
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:border-color .4s,box-shadow .4s;pointer-events:none;
+}
+.c-card.is-active .c-card-inner{
+  pointer-events:all;border-color:var(--oro);
+  box-shadow:0 8px 32px rgba(200,168,75,.2);
+}
+.c-card-shield{
+  position:absolute;inset:0;border-radius:14px;
+  pointer-events:none;z-index:20;cursor:pointer;
+}
+
+/* ── card header ── */
+.card-hdr{background:linear-gradient(90deg,var(--verde3),var(--verde2));
+  padding:10px 14px;border-bottom:1px solid var(--oro);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
 .card-hdr h2{color:var(--oro);font-size:1rem;letter-spacing:1px}
 .card-hdr-btns{display:flex;gap:6px}
 .cap-row{display:flex;align-items:center;gap:8px;padding:8px 14px;
@@ -126,9 +148,12 @@ header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
 .alas{display:flex;flex:1;overflow:hidden}
 .ala{flex:1;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--verde3)}
 .ala:last-child{border-right:none}
-.ala-hdr{background:rgba(0,0,0,.3);padding:6px 10px;color:var(--oro);font-size:.72rem;
-  font-weight:700;letter-spacing:1px;border-bottom:1px solid var(--verde3);text-align:center}
-.ala-body{flex:1;overflow-y:auto;padding:6px}
+.ala-hdr{background:rgba(0,0,0,.3);padding:6px 10px;color:var(--oro);
+  font-size:.72rem;font-weight:700;letter-spacing:1px;
+  border-bottom:1px solid var(--verde3);text-align:center}
+.ala-body{flex:1;overflow-y:auto;padding:6px;
+  /* en móvil el scroll vertical dentro del ala sí funciona */
+  touch-action:pan-y;}
 .ala-body::-webkit-scrollbar{width:4px}
 .ala-body::-webkit-scrollbar-thumb{background:var(--oro);border-radius:2px}
 .curso-item{background:rgba(0,0,0,.2);border:1px solid var(--verde3);
@@ -136,56 +161,56 @@ header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
 .curso-item.alerta{border-color:#ff6b6b;background:rgba(255,0,0,.08)}
 .curso-item.vencido{border-color:#ff4444;background:rgba(255,0,0,.15)}
 .curso-item strong{color:var(--oro2);display:block;font-size:.75rem;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 44px)}
-/* Botones de acción en el curso */
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 50px)}
 .ci-actions{position:absolute;top:4px;right:4px;display:flex;gap:3px}
-.ci-btn{background:none;border:none;cursor:pointer;font-size:.78rem;
-  line-height:1;padding:2px 4px;border-radius:3px;transition:background .15s}
+.ci-btn{background:none;border:none;cursor:pointer;font-size:.82rem;
+  line-height:1;padding:3px 5px;border-radius:3px;transition:background .15s}
 .ci-btn.move{color:var(--azul2)}.ci-btn.move:hover{background:rgba(52,152,219,.2)}
 .ci-btn.del{color:var(--rojo)}.ci-btn.del:hover{background:rgba(192,57,43,.2)}
 .ci-row{display:flex;flex-wrap:wrap;gap:2px 10px;color:#aaa;margin-top:2px}
 .ci-row span{font-size:.68rem}
-.add-curso-btn{width:100%;margin-top:4px;padding:6px;background:rgba(200,168,75,.1);
-  border:1px dashed var(--oro);color:var(--oro);border-radius:6px;cursor:pointer;font-size:.73rem;transition:all .2s}
-.add-curso-btn:hover{background:rgba(200,168,75,.3)}
+.add-curso-btn{width:100%;margin-top:4px;padding:6px;
+  background:rgba(200,168,75,.1);border:1px dashed var(--oro);
+  color:var(--oro);border-radius:6px;cursor:pointer;font-size:.73rem;transition:all .2s}
+.add-curso-btn:hover,.add-curso-btn:active{background:rgba(200,168,75,.3)}
 
 /* ── NAV ── */
 #carouselNav{display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 0}
 .nav-arrow{background:rgba(200,168,75,.15);border:1px solid var(--oro);color:var(--oro);
-  width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.3rem;
+  width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:1.3rem;
   display:flex;align-items:center;justify-content:center;transition:all .2s;user-select:none}
-.nav-arrow:hover{background:var(--oro);color:var(--verde)}
+.nav-arrow:hover,.nav-arrow:active{background:var(--oro);color:var(--verde)}
 .nav-arrow:disabled{opacity:.25;cursor:default;pointer-events:none}
-#dotContainer{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:320px}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--verde3);border:1px solid var(--oro);
-  cursor:pointer;transition:all .3s;flex-shrink:0}
+#dotContainer{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:300px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--verde3);
+  border:1px solid var(--oro);cursor:pointer;transition:all .3s;flex-shrink:0}
 .dot.active{background:var(--oro);transform:scale(1.4)}
 
 /* ── RESUMEN ── */
-#resumenSection{margin:0 20px 16px;border:1px solid var(--verde3);border-radius:8px;overflow:hidden;display:none}
-#resumenHdr{background:var(--verde2);padding:8px 14px;display:flex;align-items:center;
-  justify-content:space-between;cursor:pointer;border-bottom:1px solid var(--verde3)}
+#resumenSection{margin:0 16px 16px;border:1px solid var(--verde3);border-radius:8px;overflow:hidden;display:none}
+#resumenHdr{background:var(--verde2);padding:8px 14px;display:flex;
+  align-items:center;justify-content:space-between;cursor:pointer;border-bottom:1px solid var(--verde3)}
 #resumenHdr h3{color:var(--oro);font-size:.85rem;letter-spacing:1px}
 #resumenBody{display:none;padding:12px 14px}
 #resumenPre{white-space:pre-wrap;font-size:.78rem;color:var(--texto);font-family:'Courier New',monospace;line-height:1.6}
 
 /* ══ MODALES ══ */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
-  z-index:200;align-items:center;justify-content:center;padding:16px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
+  z-index:300;align-items:center;justify-content:center;padding:12px}
 .overlay.open{display:flex}
 .modal{background:var(--verde);border:1px solid var(--oro);border-radius:12px;
-  width:100%;max-width:480px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
-.modal-hdr{background:var(--verde2);padding:12px 16px;display:flex;align-items:center;
-  justify-content:space-between;border-bottom:1px solid var(--oro)}
+  width:100%;max-width:480px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-hdr{background:var(--verde2);padding:12px 16px;display:flex;
+  align-items:center;justify-content:space-between;border-bottom:1px solid var(--oro);flex-shrink:0}
 .modal-hdr h2{color:var(--oro);font-size:.95rem;letter-spacing:1px}
-.modal-body{padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.modal-body{padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;flex:1}
 .modal-footer{padding:12px 16px;border-top:1px solid var(--verde3);
-  display:flex;justify-content:flex-end;gap:8px;background:var(--verde2)}
+  display:flex;justify-content:flex-end;gap:8px;background:var(--verde2);flex-shrink:0}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-group label{color:var(--oro2);font-size:.78rem}
 .form-group input,.form-group select,.form-group textarea{
   background:var(--verde2);color:var(--texto);border:1px solid var(--verde3);
-  border-radius:6px;padding:7px 10px;font-size:.83rem}
+  border-radius:6px;padding:8px 10px;font-size:.85rem}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--oro)}
 .radio-group{display:flex;gap:14px;flex-wrap:wrap}
 .radio-group label{display:flex;align-items:center;gap:5px;color:var(--texto);font-size:.82rem;cursor:pointer}
@@ -194,25 +219,20 @@ header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
   font-size:.9rem;font-weight:700;cursor:pointer;border:2px solid var(--verde3);
   background:var(--verde2);color:var(--texto);transition:all .2s}
 .sel-num.usado{background:rgba(61,122,61,.2);color:var(--gris);cursor:not-allowed;border-color:var(--gris);opacity:.45}
-.sel-num:not(.usado):hover{border-color:var(--oro);color:var(--oro);transform:scale(1.08)}
+.sel-num:not(.usado):hover,.sel-num:not(.usado):active{border-color:var(--oro);color:var(--oro);transform:scale(1.08)}
 .parte-out{white-space:pre-wrap;font-size:.78rem;font-family:'Courier New',monospace;
-  background:rgba(0,0,0,.3);padding:12px;border-radius:6px;max-height:55vh;overflow-y:auto;line-height:1.6}
+  background:rgba(0,0,0,.3);padding:12px;border-radius:6px;max-height:50vh;overflow-y:auto;line-height:1.6}
 #emptyState{display:none;text-align:center;padding:60px 20px;color:var(--gris)}
 #emptyState p{font-size:1rem;margin-top:10px}
 
-/* ══ MODAL MOVER CURSO ══ */
-#modalMover .modal{max-width:420px}
-.curso-preview{background:rgba(0,0,0,.25);border:1px solid var(--azul2);border-radius:8px;padding:10px 14px;margin-bottom:4px}
+/* ══ MODAL MOVER ══ */
+.curso-preview{background:rgba(0,0,0,.25);border:1px solid var(--azul2);border-radius:8px;padding:10px 14px}
 .curso-preview .cp-nombre{font-size:.9rem;font-weight:700;color:var(--oro2)}
 .curso-preview .cp-origen{font-size:.75rem;color:var(--gris);margin-top:3px}
 .destino-opts{display:flex;flex-direction:column;gap:8px}
-.destino-opt{
-  display:flex;align-items:center;gap:12px;
-  padding:10px 14px;border-radius:8px;cursor:pointer;
-  border:2px solid var(--verde3);background:rgba(0,0,0,.2);
-  transition:all .2s;
-}
-.destino-opt:hover{border-color:var(--azul2);background:rgba(52,152,219,.1)}
+.destino-opt{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;
+  cursor:pointer;border:2px solid var(--verde3);background:rgba(0,0,0,.2);transition:all .2s}
+.destino-opt:hover,.destino-opt:active{border-color:var(--azul2);background:rgba(52,152,219,.1)}
 .destino-opt.selected{border-color:var(--azul2);background:rgba(52,152,219,.15)}
 .destino-opt.disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
 .destino-opt-ico{font-size:1.3rem;flex-shrink:0}
@@ -222,37 +242,43 @@ header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
 .destino-opt-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--verde3);
   display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;transition:all .2s}
 .destino-opt.selected .destino-opt-check{background:var(--azul2);border-color:var(--azul2);color:#fff}
-
-/* ── Selector barraca destino ── */
-.barracas-grid-mini{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:6px}
+.barracas-grid-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:6px}
 .bn{padding:6px 4px;text-align:center;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:700;
   border:1px solid var(--verde3);background:var(--verde2);color:var(--texto);transition:all .2s}
-.bn:hover{border-color:var(--azul2);color:var(--azul2)}
+.bn:hover,.bn:active{border-color:var(--azul2);color:var(--azul2)}
 .bn.bn-sel{border-color:var(--azul2);background:rgba(52,152,219,.2);color:var(--azul2)}
 .bn.bn-origen{border-color:var(--gris);color:var(--gris);cursor:default;opacity:.5}
-
-/* ── Selector ala destino ── */
 .ala-btns{display:flex;gap:8px;margin-top:6px}
-.ala-btn{flex:1;padding:8px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:700;
-  border:2px solid var(--verde3);background:rgba(0,0,0,.2);color:var(--texto);
-  text-align:center;transition:all .2s}
-.ala-btn:hover{border-color:var(--azul2);color:var(--azul2)}
+.ala-btn{flex:1;padding:9px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:700;
+  border:2px solid var(--verde3);background:rgba(0,0,0,.2);color:var(--texto);text-align:center;transition:all .2s}
+.ala-btn:hover,.ala-btn:active{border-color:var(--azul2);color:var(--azul2)}
 .ala-btn.ala-sel{border-color:var(--azul2);background:rgba(52,152,219,.2);color:var(--azul2)}
 .ala-btn.ala-dis{opacity:.35;cursor:not-allowed;pointer-events:none}
-
-/* Aviso capacidad */
-.cap-aviso{font-size:.75rem;padding:6px 10px;border-radius:6px;margin-top:4px;display:none}
+.cap-aviso{font-size:.75rem;padding:7px 10px;border-radius:6px;margin-top:4px;display:none}
 .cap-aviso.warn{background:rgba(230,126,34,.15);border:1px solid var(--naranja);color:var(--naranja2)}
 .cap-aviso.ok{background:rgba(46,204,113,.1);border:1px solid #2ecc71;color:#2ecc71}
+
+/* ── INDICADOR SWIPE (solo móvil) ── */
+#swipeHint{
+  display:none;
+  text-align:center;font-size:.7rem;color:var(--gris);
+  padding:0 0 6px;letter-spacing:1px;
+  animation:fadeHint 3s forwards;
+}
+@keyframes fadeHint{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
+@media(max-width:700px){
+  #swipeHint{display:block}
+  #carouselViewport{height:480px}
+  .c-card{width:290px;height:440px}
+  .pf-stats{flex-wrap:wrap}.pf-stat{min-width:50%}
+  .barracas-grid-mini{grid-template-columns:repeat(4,1fr)}
+  header h1{font-size:1.1rem}
+  .hdr-btns .btn-sm{padding:5px 8px;font-size:.72rem}
+}
 
 footer{text-align:center;padding:12px;color:var(--gris);font-size:.72rem;
   border-top:1px solid var(--verde3);margin-top:8px}
 footer span{color:var(--oro)}
-@media(max-width:600px){
-  #carouselViewport{height:480px}.c-card{width:285px;height:430px}
-  .pf-stats{flex-wrap:wrap}.pf-stat{min-width:50%}
-  .barracas-grid-mini{grid-template-columns:repeat(4,1fr)}
-}
 </style>
 </head>
 <body>
@@ -293,9 +319,12 @@ footer span{color:var(--oro)}
 <div id="carouselSection">
   <div id="emptyState">
     <div style="font-size:3rem">🏛️</div>
-    <p>No hay barracas registradas.<br>Presione <strong style="color:var(--oro)">➕ Barraca</strong> para agregar.</p>
+    <p>No hay barracas.<br>Toque <strong style="color:var(--oro)">➕ Barraca</strong> para agregar.</p>
   </div>
-  <div id="carouselViewport"><div id="carouselTrack"></div></div>
+  <div id="swipeHint">◀ deslice para cambiar barraca ▶</div>
+  <div id="carouselViewport">
+    <div id="carouselTrack"></div>
+  </div>
   <div id="carouselNav">
     <button class="nav-arrow" id="btnPrev" onclick="navigate(-1)">&#8592;</button>
     <div id="dotContainer"></div>
@@ -325,7 +354,7 @@ footer span{color:var(--oro)}
   </div>
 </div>
 
-<!-- ══ MODAL MOVER CURSO ══ -->
+<!-- MODAL MOVER -->
 <div class="overlay" id="modalMover">
   <div class="modal" style="max-width:440px">
     <div class="modal-hdr" style="border-color:var(--azul2)">
@@ -333,77 +362,60 @@ footer span{color:var(--oro)}
       <button class="btn btn-sm btn-danger" onclick="closeModal('modalMover')">✕</button>
     </div>
     <div class="modal-body">
-
-      <!-- Vista previa del curso -->
       <div class="curso-preview">
         <div class="cp-nombre" id="mvNombre">—</div>
         <div class="cp-origen" id="mvOrigen">—</div>
       </div>
-
-      <!-- Destino: misma barraca otra ala / otra barraca -->
       <div class="form-group">
-        <label>Destino</label>
+        <label>Seleccionar destino</label>
         <div class="destino-opts">
-
-          <!-- Opción 1: cambiar de ala en la misma barraca -->
           <div class="destino-opt" id="dopt1" onclick="selDestino(1)">
             <div class="destino-opt-ico">↔️</div>
             <div class="destino-opt-info">
               <div class="destino-opt-title">Cambiar de ala</div>
-              <div class="destino-opt-sub" id="dopt1sub">Mover al ala contraria de la misma barraca</div>
+              <div class="destino-opt-sub" id="dopt1sub">Ala contraria de la misma barraca</div>
             </div>
             <div class="destino-opt-check" id="dopt1check"></div>
           </div>
-
-          <!-- Opción 2: otra barraca -->
           <div class="destino-opt" id="dopt2" onclick="selDestino(2)">
             <div class="destino-opt-ico">🏛️</div>
             <div class="destino-opt-info">
               <div class="destino-opt-title">Otra barraca</div>
-              <div class="destino-opt-sub">Seleccionar barraca y ala destino</div>
+              <div class="destino-opt-sub">Elegir barraca y ala destino</div>
             </div>
             <div class="destino-opt-check" id="dopt2check"></div>
           </div>
-
         </div>
       </div>
-
-      <!-- Panel opción 1: solo mostrar a qué ala irá -->
       <div id="panelOpt1" style="display:none">
         <div style="background:rgba(52,152,219,.1);border:1px solid var(--azul2);border-radius:8px;padding:10px 14px">
-          <div style="font-size:.8rem;color:var(--azul2);font-weight:700" id="opt1Info">—</div>
+          <div style="font-size:.82rem;color:var(--azul2);font-weight:700" id="opt1Info">—</div>
         </div>
       </div>
-
-      <!-- Panel opción 2: elegir barraca y ala -->
       <div id="panelOpt2" style="display:none">
         <div class="form-group">
-          <label>Seleccionar barraca destino</label>
+          <label>Barraca destino</label>
           <div class="barracas-grid-mini" id="barracasGridMini"></div>
         </div>
         <div class="form-group" id="alaDestGrp" style="display:none">
-          <label>Seleccionar ala destino</label>
+          <label>Ala destino</label>
           <div class="ala-btns">
             <div class="ala-btn" id="alaDestIzq" onclick="selAlaDest('izquierda')">◀ Ala Izquierda</div>
             <div class="ala-btn" id="alaDestDer" onclick="selAlaDest('derecha')">Ala Derecha ▶</div>
           </div>
         </div>
       </div>
-
-      <!-- Aviso capacidad -->
       <div class="cap-aviso" id="capAviso"></div>
-
     </div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('modalMover')">Cancelar</button>
-      <button class="btn btn-primary" id="btnEjecutarMover"
-        style="background:var(--azul2);border-color:var(--azul2)"
+      <button class="btn btn-primary" style="background:var(--azul2);border-color:var(--azul2)"
         onclick="ejecutarMover()">↕️ Mover</button>
     </div>
   </div>
 </div>
 
-<!-- ══ MODAL CURSO ══ -->
+<!-- MODAL CURSO -->
 <div class="overlay" id="modalCurso">
   <div class="modal">
     <div class="modal-hdr">
@@ -414,7 +426,8 @@ footer span{color:var(--oro)}
       <div class="form-group"><label>Nombre del curso *</label><input id="cNombre" placeholder="Ej: SITAB"/></div>
       <div class="form-group"><label>Comandante / Asignación Barraca</label><input id="cCdte" placeholder="Nombre"/></div>
       <div class="form-group"><label>Teléfono</label><input id="cTel" placeholder="Ej: 3001234567"/></div>
-      <div class="form-group"><label>FE (Fuerza en Entrenamiento)</label><input id="cFE" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>FE (Fuerza en Entrenamiento)</label>
+        <input id="cFE" type="number" min="0" value="0" inputmode="numeric"/></div>
       <div class="form-group">
         <label>Género</label>
         <div class="radio-group">
@@ -423,13 +436,13 @@ footer span{color:var(--oro)}
           <label><input type="radio" name="cGenero" value="Sin definir"> Sin definir</label>
         </div>
       </div>
-      <div class="form-group"><label>Ejército</label><input id="cEjercito" type="number" min="0" value="0"/></div>
-      <div class="form-group"><label>Armada</label><input id="cArmada" type="number" min="0" value="0"/></div>
-      <div class="form-group"><label>Fuerza Aérea</label><input id="cAerea" type="number" min="0" value="0"/></div>
-      <div class="form-group"><label>INPEC</label><input id="cInpec" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>Ejército</label><input id="cEjercito" type="number" min="0" value="0" inputmode="numeric"/></div>
+      <div class="form-group"><label>Armada</label><input id="cArmada" type="number" min="0" value="0" inputmode="numeric"/></div>
+      <div class="form-group"><label>Fuerza Aérea</label><input id="cAerea" type="number" min="0" value="0" inputmode="numeric"/></div>
+      <div class="form-group"><label>INPEC</label><input id="cInpec" type="number" min="0" value="0" inputmode="numeric"/></div>
       <div class="form-group"><label>Extranjero – País</label><input id="cExtrPais" placeholder="País"/></div>
-      <div class="form-group"><label>Extranjero – Cantidad</label><input id="cExtrCant" type="number" min="0" value="0"/></div>
-      <div class="form-group"><label>Otro</label><input id="cOtro" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>Extranjero – Cantidad</label><input id="cExtrCant" type="number" min="0" value="0" inputmode="numeric"/></div>
+      <div class="form-group"><label>Otro</label><input id="cOtro" type="number" min="0" value="0" inputmode="numeric"/></div>
       <div class="form-group"><label>Fecha inicio</label><input id="cFechaIni" type="date"/></div>
       <div class="form-group"><label>Fecha fin *</label><input id="cFechaFin" type="date"/></div>
       <div class="form-group"><label>Notas</label><textarea id="cNotas" rows="2" placeholder="Observaciones..."></textarea></div>
@@ -441,7 +454,7 @@ footer span{color:var(--oro)}
   </div>
 </div>
 
-<!-- ══ MODAL BARRACA ══ -->
+<!-- MODAL BARRACA -->
 <div class="overlay" id="modalBarraca">
   <div class="modal" style="max-width:340px">
     <div class="modal-hdr">
@@ -452,7 +465,7 @@ footer span{color:var(--oro)}
   </div>
 </div>
 
-<!-- ══ MODAL PARTE INDIVIDUAL ══ -->
+<!-- MODAL PARTE INDIVIDUAL -->
 <div class="overlay" id="modalParte">
   <div class="modal" style="max-width:580px">
     <div class="modal-hdr">
@@ -467,7 +480,7 @@ footer span{color:var(--oro)}
   </div>
 </div>
 
-<!-- ══ MODAL PARTE GENERAL ══ -->
+<!-- MODAL PARTE GENERAL -->
 <div class="overlay" id="modalParteGen">
   <div class="modal" style="max-width:620px">
     <div class="modal-hdr">
@@ -498,17 +511,11 @@ const CFG={sepX:240,rotY:40,scaleSide:.75,scaleFar:.54,zSide:-60,zFar:-160,opSid
 // ═══════════════════════════════════════
 //  ESTADO
 // ═══════════════════════════════════════
-let state       = {alojamientos:[]};
-let carouselIdx = 0;
-let _curCtx     = {aloIdx:null,side:null};
-const cardNodes = new Map();
-
-// Estado del modal mover
-let _mv = {
-  aloNum:null, side:null, ci:null,   // origen
-  destOpt:null,                       // 1=misma barraca otra ala | 2=otra barraca
-  destNum:null, destSide:null         // destino
-};
+let state={alojamientos:[]};
+let carouselIdx=0;
+let _curCtx={aloIdx:null,side:null};
+const cardNodes=new Map();
+let _mv={aloNum:null,side:null,ci:null,destOpt:null,destNum:null,destSide:null};
 
 // ═══════════════════════════════════════
 //  PERSISTENCIA
@@ -519,48 +526,48 @@ function loadState(){
   if(raw){try{state=normalizeState(JSON.parse(raw));}catch(e){console.warn(e);}}
 }
 function normalizeState(d){
-  if(!d) return {alojamientos:[]};
+  if(!d)return{alojamientos:[]};
   const alos=(d.alojamientos||(d.state&&d.state.alojamientos)||[]).map(normalizeAlo);
-  return {alojamientos:alos};
+  return{alojamientos:alos};
 }
 function normalizeAlo(a){
-  return {numero:a.numero||1,capacidad:a.capacidad||0,
+  return{numero:a.numero||1,capacidad:a.capacidad||0,
     izquierda:normalizeAla(a.izquierda||a.left||{}),
     derecha:normalizeAla(a.derecha||a.right||{})};
 }
-function normalizeAla(a){return {cursos:Array.isArray(a.cursos)?a.cursos.map(normalizeCurso):[]};}
+function normalizeAla(a){return{cursos:Array.isArray(a.cursos)?a.cursos.map(normalizeCurso):[]};}
 function normalizeCurso(c){
-  return {curso:c.curso||c.nombre||c.name||'',cdte:c.cdte||'',tel:c.tel||'',
+  return{curso:c.curso||c.nombre||c.name||'',cdte:c.cdte||'',tel:c.tel||'',
     fe:Number(c.fe)||0,genero:c.genero||'Sin definir',
     ejercito:Number(c.ejercito)||0,armada:Number(c.armada)||0,
     aerea:Number(c.aerea)||0,inpec:Number(c.inpec)||0,
     extrPais:c.extrPais||'',extrCant:Number(c.extrCant)||0,otro:Number(c.otro)||0,
     fechaIni:c.fechaIni||'',fechaFin:c.fechaFin||'',notas:c.notas||''};
 }
-function makeAlo(num){return {numero:num,capacidad:0,izquierda:{cursos:[]},derecha:{cursos:[]}};}
+function makeAlo(num){return{numero:num,capacidad:0,izquierda:{cursos:[]},derecha:{cursos:[]}};}
 
 // ═══════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════
 function hoy(){return new Date().toISOString().split('T')[0];}
-function fmtFecha(f){if(!f)return '—';const[y,m,d]=f.split('-');return `${d}/${m}/${y}`;}
+function fmtFecha(f){if(!f)return'—';const[y,m,d]=f.split('-');return`${d}/${m}/${y}`;}
 function diasRestantes(ff){
   if(!ff)return null;
   return Math.ceil((new Date(ff+'T00:00:00')-new Date())/86400000);
 }
 function cursoStatus(c){
   const dr=diasRestantes(c.fechaFin);
-  if(dr===null)return 'normal';if(dr<0)return 'vencido';
-  if(dr<=ALERT_DAYS)return 'alerta';return 'normal';
+  if(dr===null)return'normal';if(dr<0)return'vencido';
+  if(dr<=ALERT_DAYS)return'alerta';return'normal';
 }
 function feTotal(alo){
-  return (alo.izquierda.cursos||[]).reduce((s,c)=>s+Number(c.fe||0),0)
+  return(alo.izquierda.cursos||[]).reduce((s,c)=>s+Number(c.fe||0),0)
         +(alo.derecha.cursos||[]).reduce((s,c)=>s+Number(c.fe||0),0);
 }
 function disponibles(alo){return Math.max(0,(alo.capacidad||0)-feTotal(alo));}
 function escHTML(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function otroLado(side){return side==='izquierda'?'derecha':'izquierda';}
-function labelAla(side){return side==='izquierda'?'Ala Izquierda':'Ala Derecha';}
+function otroLado(s){return s==='izquierda'?'derecha':'izquierda';}
+function labelAla(s){return s==='izquierda'?'Ala Izquierda':'Ala Derecha';}
 
 // ═══════════════════════════════════════
 //  ALERTAS
@@ -577,9 +584,9 @@ function recopilarAlertas(){
     });
   });
   lista.sort((a,b)=>{
-    if(a.st==='vencido'&&b.st!=='vencido')return -1;
+    if(a.st==='vencido'&&b.st!=='vencido')return-1;
     if(b.st==='vencido'&&a.st!=='vencido')return 1;
-    return (a.dr??0)-(b.dr??0);
+    return(a.dr??0)-(b.dr??0);
   });
   return lista;
 }
@@ -595,7 +602,7 @@ function checkAlerts(){
         :`B${x.alo.numero} ${lab} · ${x.curso.curso||'—'} · ⚠️ ${x.dr}d`;
     });
     banner.textContent='⚠️  '+msgs.join('   |   ')+(total>4?`  ...(+${total-4} más)`:'');
-  } else {banner.style.display='none';}
+  }else{banner.style.display='none';}
   const badge=document.getElementById('alertBadge');
   if(total){badge.style.display='flex';badge.textContent=total>99?'99+':total;}
   else{badge.style.display='none';}
@@ -618,11 +625,11 @@ function renderPorFinalizar(){
   const lista=recopilarAlertas();
   const vencidos=lista.filter(x=>x.st==='vencido').length;
   const alertas=lista.filter(x=>x.st==='alerta').length;
-  const totalCursos=state.alojamientos.reduce((s,a)=>
+  const totalC=state.alojamientos.reduce((s,a)=>
     s+(a.izquierda.cursos||[]).length+(a.derecha.cursos||[]).length,0);
   document.getElementById('pfNumVencidos').textContent=vencidos;
   document.getElementById('pfNumAlertas').textContent=alertas;
-  document.getElementById('pfNumOk').textContent=Math.max(0,totalCursos-lista.length);
+  document.getElementById('pfNumOk').textContent=Math.max(0,totalC-lista.length);
   document.getElementById('pfFecha').textContent='Actualizado: '+fmtFecha(hoy());
   const body=document.getElementById('pfBody');
   if(!lista.length){
@@ -651,8 +658,7 @@ function renderPorFinalizar(){
   body.innerHTML=html;
 }
 function renderPfItem({alo,side,curso,st,dr}){
-  const sideLabel=labelAla(side);
-  const ico=st==='vencido'?'🔴':'⚠️';
+  const sideLabel=labelAla(side),ico=st==='vencido'?'🔴':'⚠️';
   let badgeHTML,diasTxt;
   if(st==='vencido'){
     diasTxt=`Venció hace ${Math.abs(dr)} día${Math.abs(dr)!==1?'s':''}`;
@@ -661,7 +667,7 @@ function renderPfItem({alo,side,curso,st,dr}){
     diasTxt=dr===0?'Vence HOY':`Vence en ${dr} día${dr!==1?'s':''}`;
     badgeHTML=`<span class="pf-item-badge badge-alerta">⚠️ ${dr}d</span>`;
   }
-  return `<div class="pf-item">
+  return`<div class="pf-item">
     <div class="pf-item-ico">${ico}</div>
     <div class="pf-item-body">
       <div class="pf-item-title">${escHTML(curso.curso||'Sin nombre')}</div>
@@ -676,59 +682,40 @@ function renderPfItem({alo,side,curso,st,dr}){
         ${curso.fechaFin?`<span>🏁 ${fmtFecha(curso.fechaFin)}</span>`:''}
         <span style="color:${st==='vencido'?'#ff6b6b':'#f39c12'};font-weight:700">${diasTxt}</span>
       </div>
-    </div>
-    ${badgeHTML}
+    </div>${badgeHTML}
   </div>`;
 }
 
-// ══════════════════════════════════════════════════
-//  MODAL MOVER CURSO
-// ══════════════════════════════════════════════════
-function openMoverCurso(num, side, ci){
-  const alo=state.alojamientos.find(a=>a.numero===num);
-  if(!alo) return;
+// ═══════════════════════════════════════
+//  MODAL MOVER
+// ═══════════════════════════════════════
+function openMoverCurso(num,side,ci){
+  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
   const c=alo[side].cursos[ci];
-
-  // Guardar contexto
-  _mv={aloNum:num, side, ci, destOpt:null, destNum:null, destSide:null};
-
-  // Rellenar vista previa
+  _mv={aloNum:num,side,ci,destOpt:null,destNum:null,destSide:null};
   document.getElementById('mvNombre').textContent=c.curso||'Sin nombre';
   document.getElementById('mvOrigen').textContent=
     `Origen: Barraca N° ${num} — ${labelAla(side)}  ·  FE: ${c.fe||0}`;
-
-  // Resetear selección
-  document.getElementById('dopt1').classList.remove('selected');
-  document.getElementById('dopt2').classList.remove('selected');
-  document.getElementById('dopt1check').textContent='';
-  document.getElementById('dopt2check').textContent='';
+  ['dopt1','dopt2'].forEach(id=>document.getElementById(id).classList.remove('selected'));
+  ['dopt1check','dopt2check'].forEach(id=>document.getElementById(id).textContent='');
   document.getElementById('panelOpt1').style.display='none';
   document.getElementById('panelOpt2').style.display='none';
   document.getElementById('alaDestGrp').style.display='none';
   document.getElementById('capAviso').style.display='none';
-
-  // Verificar si puede cambiar de ala (máx cursos)
   const otraSide=otroLado(side);
-  const otraAla=alo[otraSide];
-  const opt1Dis=otraAla.cursos.length>=MAX_CURSOS;
+  const opt1Dis=alo[otraSide].cursos.length>=MAX_CURSOS;
   const opt1El=document.getElementById('dopt1');
   if(opt1Dis){
     opt1El.classList.add('disabled');
-    document.getElementById('dopt1sub').textContent=
-      `Ala ${labelAla(otraSide)} llena (máx ${MAX_CURSOS})`;
-  } else {
+    document.getElementById('dopt1sub').textContent=`${labelAla(otraSide)} llena (máx ${MAX_CURSOS})`;
+  }else{
     opt1El.classList.remove('disabled');
-    document.getElementById('dopt1sub').textContent=
-      `Mover a ${labelAla(otraSide)} de la misma barraca`;
+    document.getElementById('dopt1sub').textContent=`Mover a ${labelAla(otraSide)} de la misma barraca`;
   }
-
   openModal('modalMover');
 }
-
 function selDestino(opt){
-  _mv.destOpt=opt; _mv.destNum=null; _mv.destSide=null;
-
-  // Visual
+  _mv.destOpt=opt;_mv.destNum=null;_mv.destSide=null;
   document.getElementById('dopt1').classList.toggle('selected',opt===1);
   document.getElementById('dopt2').classList.toggle('selected',opt===2);
   document.getElementById('dopt1check').textContent=opt===1?'✓':'';
@@ -736,211 +723,157 @@ function selDestino(opt){
   document.getElementById('panelOpt1').style.display=opt===1?'block':'none';
   document.getElementById('panelOpt2').style.display=opt===2?'block':'none';
   document.getElementById('capAviso').style.display='none';
-
   if(opt===1){
-    // Mostrar info del destino automático
-    const alo=state.alojamientos.find(a=>a.numero===_mv.aloNum);
     const otraSide=otroLado(_mv.side);
     document.getElementById('opt1Info').textContent=
-      `→ Se moverá a: Barraca N° ${_mv.aloNum} — ${labelAla(otraSide)}`;
-    _mv.destNum=_mv.aloNum;
-    _mv.destSide=otraSide;
+      `→ Destino: Barraca N° ${_mv.aloNum} — ${labelAla(otraSide)}`;
+    _mv.destNum=_mv.aloNum;_mv.destSide=otraSide;
     actualizarAvisoCapacidad();
-  } else {
-    // Construir grilla de barracas disponibles
-    construirGridBarracas();
-  }
+  }else{construirGridBarracas();}
 }
-
 function construirGridBarracas(){
-  const grid=document.getElementById('barracasGridMini');
-  grid.innerHTML='';
+  const grid=document.getElementById('barracasGridMini');grid.innerHTML='';
   state.alojamientos.forEach(alo=>{
     const div=document.createElement('div');
     const esOrigen=alo.numero===_mv.aloNum;
     div.className='bn'+(esOrigen?' bn-origen':'');
     div.textContent=alo.numero;
-    div.title=esOrigen?'Barraca origen':`Barraca N° ${alo.numero}`;
-    if(!esOrigen){
-      div.onclick=()=>selBarracaDest(alo.numero);
-    }
+    if(!esOrigen)div.onclick=()=>selBarracaDest(alo.numero);
     grid.appendChild(div);
   });
   document.getElementById('alaDestGrp').style.display='none';
 }
-
 function selBarracaDest(num){
-  _mv.destNum=num; _mv.destSide=null;
-  // Marcar seleccionada
+  _mv.destNum=num;_mv.destSide=null;
   document.querySelectorAll('.bn').forEach(el=>{
     el.classList.toggle('bn-sel',parseInt(el.textContent)===num);
   });
-  // Mostrar selector de ala
   const aloD=state.alojamientos.find(a=>a.numero===num);
-  const grp=document.getElementById('alaDestGrp');
-  grp.style.display='block';
-  // Deshabilitar alas llenas
+  document.getElementById('alaDestGrp').style.display='block';
   const izqLlena=aloD.izquierda.cursos.length>=MAX_CURSOS;
   const derLlena=aloD.derecha.cursos.length>=MAX_CURSOS;
-  const btnIzq=document.getElementById('alaDestIzq');
-  const btnDer=document.getElementById('alaDestDer');
-  btnIzq.classList.remove('ala-sel','ala-dis');
-  btnDer.classList.remove('ala-sel','ala-dis');
-  if(izqLlena)btnIzq.classList.add('ala-dis');
-  if(derLlena)btnDer.classList.add('ala-dis');
+  const bi=document.getElementById('alaDestIzq'),bd=document.getElementById('alaDestDer');
+  bi.classList.remove('ala-sel','ala-dis');bd.classList.remove('ala-sel','ala-dis');
+  if(izqLlena)bi.classList.add('ala-dis');
+  if(derLlena)bd.classList.add('ala-dis');
   document.getElementById('capAviso').style.display='none';
 }
-
 function selAlaDest(side){
   _mv.destSide=side;
   document.getElementById('alaDestIzq').classList.toggle('ala-sel',side==='izquierda');
   document.getElementById('alaDestDer').classList.toggle('ala-sel',side==='derecha');
   actualizarAvisoCapacidad();
 }
-
 function actualizarAvisoCapacidad(){
   const aviso=document.getElementById('capAviso');
   if(!_mv.destNum||!_mv.destSide){aviso.style.display='none';return;}
   const aloD=state.alojamientos.find(a=>a.numero===_mv.destNum);
   if(!aloD){aviso.style.display='none';return;}
-
   const c=state.alojamientos.find(a=>a.numero===_mv.aloNum)[_mv.side].cursos[_mv.ci];
-  const feMover=Number(c.fe||0);
-  const feActD=feTotal(aloD);
-  const capD=aloD.capacidad||0;
-  const dispD=Math.max(0,capD-feActD);
-
+  const feMover=Number(c.fe||0),feActD=feTotal(aloD),capD=aloD.capacidad||0,dispD=Math.max(0,capD-feActD);
   aviso.style.display='block';
   if(_mv.destNum===_mv.aloNum){
-    // misma barraca — capacidad no cambia
     aviso.className='cap-aviso ok';
-    aviso.textContent=`✅ Misma barraca — la capacidad no se ve afectada (Disp: ${disponibles(aloD)})`;
-  } else if(capD===0){
+    aviso.textContent=`✅ Misma barraca — capacidad no cambia (Disp: ${disponibles(aloD)})`;
+  }else if(capD===0){
     aviso.className='cap-aviso warn';
-    aviso.textContent=`⚠️ Barraca ${_mv.destNum} no tiene capacidad definida. El traslado se realizará igualmente.`;
-  } else if(feMover>dispD){
+    aviso.textContent=`⚠️ Barraca ${_mv.destNum} sin capacidad definida. El traslado se realizará.`;
+  }else if(feMover>dispD){
     aviso.className='cap-aviso warn';
-    aviso.textContent=`⚠️ FE del curso (${feMover}) supera los disponibles en Barraca ${_mv.destNum} (${dispD}). Se moverá igualmente.`;
-  } else {
+    aviso.textContent=`⚠️ FE del curso (${feMover}) supera disponibles en B${_mv.destNum} (${dispD}). Se moverá igualmente.`;
+  }else{
     aviso.className='cap-aviso ok';
-    aviso.textContent=`✅ Disponibles en Barraca ${_mv.destNum}: ${dispD} → quedarán ${dispD-feMover} tras el traslado.`;
+    aviso.textContent=`✅ Disponibles B${_mv.destNum}: ${dispD} → quedarán ${dispD-feMover} tras el traslado.`;
   }
 }
-
 function ejecutarMover(){
-  // Validaciones
   if(!_mv.destOpt){alert('Seleccione un destino');return;}
   if(!_mv.destNum||!_mv.destSide){alert('Complete la selección de destino');return;}
-
-  // Verificar que no es exactamente el mismo lugar
-  if(_mv.destNum===_mv.aloNum && _mv.destSide===_mv.side){
-    alert('El destino es igual al origen. Seleccione un ala o barraca diferente.');return;
+  if(_mv.destNum===_mv.aloNum&&_mv.destSide===_mv.side){
+    alert('El destino es igual al origen.');return;
   }
-
   const aloOrig=state.alojamientos.find(a=>a.numero===_mv.aloNum);
   const aloDest=state.alojamientos.find(a=>a.numero===_mv.destNum);
   if(!aloOrig||!aloDest){alert('Error: barraca no encontrada');return;}
-
-  const alaDestArr=aloDest[_mv.destSide].cursos;
-  if(alaDestArr.length>=MAX_CURSOS){
-    alert(`El ala destino ya tiene el máximo de ${MAX_CURSOS} cursos.`);return;
+  if(aloDest[_mv.destSide].cursos.length>=MAX_CURSOS){
+    alert(`Ala destino llena (máx ${MAX_CURSOS} cursos).`);return;
   }
-
-  // Extraer curso del origen
-  const [curso]=aloOrig[_mv.side].cursos.splice(_mv.ci,1);
-
-  // Insertar en destino
+  const[curso]=aloOrig[_mv.side].cursos.splice(_mv.ci,1);
   aloDest[_mv.destSide].cursos.push(curso);
-
-  saveState(); checkAlerts(); closeModal('modalMover');
-
-  // Refrescar tarjetas afectadas
+  saveState();checkAlerts();closeModal('modalMover');
   refreshCard(_mv.aloNum);
-  if(_mv.destNum!==_mv.aloNum) refreshCard(_mv.destNum);
-
-  // Mensaje de éxito
+  if(_mv.destNum!==_mv.aloNum)refreshCard(_mv.destNum);
   const origLabel=`Barraca N° ${_mv.aloNum} — ${labelAla(_mv.side)}`;
   const destLabel=`Barraca N° ${_mv.destNum} — ${labelAla(_mv.destSide)}`;
-  setTimeout(()=>alert(`✅ "${curso.curso||'Curso'}" movido exitosamente\n\nDe: ${origLabel}\nA:  ${destLabel}`),50);
+  setTimeout(()=>alert(`✅ "${curso.curso||'Curso'}" movido\n\nDe: ${origLabel}\nA:  ${destLabel}`),50);
 }
 
 // ═══════════════════════════════════════
-//  CARRUSEL
+//  CARRUSEL — DOM
 // ═══════════════════════════════════════
 function buildCardDOM(alo){
   const wrapper=document.createElement('div');
-  wrapper.className='c-card';
-  wrapper.dataset.num=alo.numero;
+  wrapper.className='c-card';wrapper.dataset.num=alo.numero;
   const inner=document.createElement('div');
-  inner.className='c-card-inner';
-  inner.innerHTML=buildCardHTML(alo);
-  const shield=document.createElement('div');
-  shield.className='c-card-shield';
-  wrapper.appendChild(inner);
-  wrapper.appendChild(shield);
+  inner.className='c-card-inner';inner.innerHTML=buildCardHTML(alo);
+  const shield=document.createElement('div');shield.className='c-card-shield';
+  wrapper.appendChild(inner);wrapper.appendChild(shield);
   return wrapper;
 }
-
 function buildCardHTML(alo){
   const fe=feTotal(alo),disp=disponibles(alo),num=alo.numero;
-  return `
-    <div class="card-hdr">
-      <h2>🏛️ BARRACA N° ${num}</h2>
-      <div class="card-hdr-btns">
-        <button class="btn btn-sm" onclick="openParteModal(${num})">📄 Parte</button>
-        <button class="btn btn-sm btn-danger" onclick="confirmarEliminarBarraca(${num})">🗑️</button>
-      </div>
+  return`<div class="card-hdr">
+    <h2>🏛️ BARRACA N° ${num}</h2>
+    <div class="card-hdr-btns">
+      <button class="btn btn-sm" onclick="openParteModal(${num})">📄 Parte</button>
+      <button class="btn btn-sm btn-danger" onclick="confirmarEliminarBarraca(${num})">🗑️</button>
     </div>
-    <div class="cap-row">
-      <label>Capacidad:</label>
-      <input type="number" min="0" id="cap_${num}" value="${alo.capacidad||0}"
-        onkeydown="if(event.key==='Enter')guardarCap(${num})"/>
-      <button class="btn btn-sm" onclick="guardarCap(${num})">Guardar</button>
-      <span class="cap-badge">FE:${fe} &nbsp;·&nbsp; Disp:${disp}</span>
-    </div>
-    <div class="alas">
-      ${buildAlaHTML(alo,'izquierda')}
-      ${buildAlaHTML(alo,'derecha')}
-    </div>`;
+  </div>
+  <div class="cap-row">
+    <label>Capacidad:</label>
+    <input type="number" min="0" inputmode="numeric" id="cap_${num}" value="${alo.capacidad||0}"
+      onkeydown="if(event.key==='Enter')guardarCap(${num})"/>
+    <button class="btn btn-sm" onclick="guardarCap(${num})">Guardar</button>
+    <span class="cap-badge">FE:${fe} · Disp:${disp}</span>
+  </div>
+  <div class="alas">
+    ${buildAlaHTML(alo,'izquierda')}
+    ${buildAlaHTML(alo,'derecha')}
+  </div>`;
 }
-
 function buildAlaHTML(alo,side){
-  const ala=alo[side],label=side==='izquierda'?'◀ ALA IZQUIERDA':'ALA DERECHA ▶';
+  const ala=alo[side],label=side==='izquierda'?'◀ ALA IZQ':'DER ▶';
   const cursos=ala.cursos||[],canAdd=cursos.length<MAX_CURSOS;
   const cursosHTML=cursos.map((c,ci)=>{
     const st=cursoStatus(c),dr=diasRestantes(c.fechaFin);
     let badge='';
-    if(st==='vencido')badge='<span style="color:#ff4444;font-weight:700"> VENCIDO</span>';
-    else if(st==='alerta')badge=`<span style="color:#ffaa00;font-weight:700"> ⚠️ ${dr}d</span>`;
-    return `<div class="curso-item ${st}">
+    if(st==='vencido')badge='<span style="color:#ff4444;font-weight:700"> VENC.</span>';
+    else if(st==='alerta')badge=`<span style="color:#ffaa00;font-weight:700"> ⚠️${dr}d</span>`;
+    return`<div class="curso-item ${st}">
       <strong>${escHTML(c.curso||'Sin nombre')}${badge}</strong>
       <div class="ci-actions">
-        <button class="ci-btn move" title="Mover curso"
-          onclick="openMoverCurso(${alo.numero},'${side}',${ci})">↕</button>
-        <button class="ci-btn del" title="Eliminar curso"
-          onclick="deleteCurso(${alo.numero},'${side}',${ci})">✕</button>
+        <button class="ci-btn move" title="Mover" onclick="openMoverCurso(${alo.numero},'${side}',${ci})">↕</button>
+        <button class="ci-btn del" title="Eliminar" onclick="deleteCurso(${alo.numero},'${side}',${ci})">✕</button>
       </div>
       <div class="ci-row">
         ${c.cdte?`<span>👤 ${escHTML(c.cdte)}</span>`:''}
         ${c.tel?`<span>📞 ${escHTML(c.tel)}</span>`:''}
         <span>FE:${c.fe||0}</span>
-        <span>${escHTML(c.genero||'—')}</span>
       </div>
       <div class="ci-row">
         ${c.fechaIni?`<span>📅 ${fmtFecha(c.fechaIni)}</span>`:''}
-        ${c.fechaFin?`<span>→ ${fmtFecha(c.fechaFin)}</span>`:''}
+        ${c.fechaFin?`<span>→${fmtFecha(c.fechaFin)}</span>`:''}
       </div>
     </div>`;
   }).join('');
   const addBtn=canAdd
     ?`<button class="add-curso-btn" onclick="openAddCurso(${alo.numero},'${side}')">＋ Agregar curso</button>`
-    :`<div style="font-size:.68rem;color:var(--gris);text-align:center;padding:4px">Máx ${MAX_CURSOS} cursos</div>`;
-  return `<div class="ala">
+    :`<div style="font-size:.65rem;color:var(--gris);text-align:center;padding:4px">Máx ${MAX_CURSOS}</div>`;
+  return`<div class="ala">
     <div class="ala-hdr">${label}</div>
     <div class="ala-body">${cursosHTML}${addBtn}</div>
   </div>`;
 }
-
 function refreshCard(num){
   const alo=state.alojamientos.find(a=>a.numero===num);
   const entry=cardNodes.get(num);
@@ -948,6 +881,9 @@ function refreshCard(num){
   entry.card.querySelector('.c-card-inner').innerHTML=buildCardHTML(alo);
 }
 
+// ═══════════════════════════════════════
+//  CARRUSEL — TRANSFORMS
+// ═══════════════════════════════════════
 function applyCardTransforms(){
   state.alojamientos.forEach((alo,i)=>{
     const entry=cardNodes.get(alo.numero);if(!entry)return;
@@ -979,7 +915,6 @@ function applyCardTransforms(){
     card.style.transform=`translate(calc(-50% + ${tx}px),-50%) rotateY(${rotY}deg) scale(${scale}) translateZ(${tz}px)`;
   });
 }
-
 function syncCards(){
   const track=document.getElementById('carouselTrack');
   const nums=new Set(state.alojamientos.map(a=>a.numero));
@@ -1007,8 +942,14 @@ function syncNav(){
   const empty=document.getElementById('emptyState');
   const vp=document.getElementById('carouselViewport');
   const nav=document.getElementById('carouselNav');
-  if(!alos.length){empty.style.display='block';vp.style.display='none';nav.style.display='none';}
-  else{empty.style.display='none';vp.style.display='block';nav.style.display='flex';}
+  const hint=document.getElementById('swipeHint');
+  if(!alos.length){
+    empty.style.display='block';vp.style.display='none';
+    nav.style.display='none';hint.style.display='none';
+  }else{
+    empty.style.display='none';vp.style.display='block';nav.style.display='flex';
+    hint.style.display=alos.length>1?'block':'none';
+  }
 }
 function renderCarousel(){
   syncCards();syncNav();
@@ -1021,22 +962,95 @@ function navigate(dir){
 }
 function goTo(i){carouselIdx=i;syncNav();applyCardTransforms();}
 
+// ═══════════════════════════════════════════════════════════════
+//  SWIPE TÁCTIL — solución robusta para móvil
+//  Usa touchstart/touchmove/touchend con passive:false
+//  para poder llamar preventDefault y evitar scroll durante swipe
+// ═══════════════════════════════════════════════════════════════
 (function initSwipe(){
-  let startX=null,dragging=false;
   const vp=document.getElementById('carouselViewport');
-  vp.addEventListener('pointerdown',e=>{
-    if(e.target.closest('button,input,textarea,select,a'))return;
-    startX=e.clientX;dragging=false;
-    vp.setPointerCapture(e.pointerId);vp.classList.add('dragging');
+
+  let touchStartX=null;
+  let touchStartY=null;
+  let swipeActivo=false;   // true cuando el gesto es claramente horizontal
+  let bloqueado=false;     // true cuando el gesto es claramente vertical (scroll)
+
+  // ── TOUCH ──
+  vp.addEventListener('touchstart', e=>{
+    // No iniciar si el toque viene de un botón/input
+    if(e.target.closest('button,input,textarea,select,a,.ala-body')){return;}
+    const t=e.touches[0];
+    touchStartX=t.clientX;
+    touchStartY=t.clientY;
+    swipeActivo=false;
+    bloqueado=false;
+  },{passive:true});
+
+  vp.addEventListener('touchmove', e=>{
+    if(touchStartX===null)return;
+    const t=e.touches[0];
+    const dx=t.clientX-touchStartX;
+    const dy=t.clientY-touchStartY;
+    const absDx=Math.abs(dx),absDy=Math.abs(dy);
+
+    // Decidir dirección dominante solo una vez
+    if(!swipeActivo&&!bloqueado){
+      if(absDx>8||absDy>8){
+        if(absDx>absDy){
+          // Gesto horizontal → swipe de carrusel
+          swipeActivo=true;
+        }else{
+          // Gesto vertical → scroll normal, no interferir
+          bloqueado=true;
+        }
+      }
+    }
+
+    // Solo prevenir scroll cuando hacemos swipe horizontal
+    if(swipeActivo){
+      e.preventDefault();
+    }
+  },{passive:false}); // passive:false es NECESARIO para poder llamar preventDefault
+
+  vp.addEventListener('touchend', e=>{
+    if(touchStartX===null){return;}
+    if(swipeActivo){
+      const dx=e.changedTouches[0].clientX-touchStartX;
+      if(Math.abs(dx)>40){
+        navigate(dx<0?1:-1);
+      }
+    }
+    touchStartX=null;touchStartY=null;
+    swipeActivo=false;bloqueado=false;
+  },{passive:true});
+
+  vp.addEventListener('touchcancel',()=>{
+    touchStartX=null;touchStartY=null;
+    swipeActivo=false;bloqueado=false;
+  },{passive:true});
+
+  // ── MOUSE (escritorio) ──
+  let mouseStartX=null,mouseDragging=false;
+  vp.addEventListener('mousedown',e=>{
+    if(e.target.closest('button,input,textarea,select,a,.ala-body'))return;
+    mouseStartX=e.clientX;mouseDragging=false;
+    vp.style.cursor='grabbing';
   });
-  vp.addEventListener('pointermove',e=>{if(startX===null)return;if(Math.abs(e.clientX-startX)>8)dragging=true;});
-  vp.addEventListener('pointerup',e=>{
-    if(startX===null){vp.classList.remove('dragging');return;}
-    const dx=e.clientX-startX;
-    if(dragging&&Math.abs(dx)>45)navigate(dx<0?1:-1);
-    startX=null;dragging=false;vp.classList.remove('dragging');
+  vp.addEventListener('mousemove',e=>{
+    if(mouseStartX===null)return;
+    if(Math.abs(e.clientX-mouseStartX)>8)mouseDragging=true;
   });
-  vp.addEventListener('pointercancel',()=>{startX=null;dragging=false;vp.classList.remove('dragging');});
+  vp.addEventListener('mouseup',e=>{
+    if(mouseStartX===null){vp.style.cursor='';return;}
+    const dx=e.clientX-mouseStartX;
+    if(mouseDragging&&Math.abs(dx)>40)navigate(dx<0?1:-1);
+    mouseStartX=null;mouseDragging=false;vp.style.cursor='';
+  });
+  vp.addEventListener('mouseleave',()=>{
+    mouseStartX=null;mouseDragging=false;vp.style.cursor='';
+  });
+
+  // ── TECLADO ──
   document.addEventListener('keydown',e=>{
     if(document.querySelector('.overlay.open'))return;
     if(document.getElementById('porFinalizarSection').style.display!=='none')return;
@@ -1055,7 +1069,7 @@ function guardarCap(num){
   saveState();checkAlerts();refreshCard(num);
 }
 function confirmarEliminarBarraca(num){
-  if(!confirm(`¿Eliminar BARRACA N° ${num}? Se borrarán todos sus cursos.`))return;
+  if(!confirm(`¿Eliminar BARRACA N° ${num}?`))return;
   state.alojamientos=state.alojamientos.filter(a=>a.numero!==num);
   carouselIdx=Math.min(carouselIdx,Math.max(0,state.alojamientos.length-1));
   saveState();renderCarousel();checkAlerts();
@@ -1075,7 +1089,7 @@ function deleteCurso(num,side,ci){
 function openAddCurso(num,side){
   _curCtx={aloIdx:state.alojamientos.findIndex(a=>a.numero===num),side};
   document.getElementById('modalCursoTitle').textContent=
-    `Agregar Curso — Barraca ${num} · ${labelAla(side)}`;
+    `Agregar Curso — B${num} · ${labelAla(side)}`;
   ['cNombre','cCdte','cTel','cExtrPais','cNotas'].forEach(id=>document.getElementById(id).value='');
   ['cFE','cEjercito','cArmada','cAerea','cInpec','cExtrCant','cOtro'].forEach(id=>document.getElementById(id).value=0);
   document.getElementById('cFechaIni').value='';
