@@ -1,1314 +1,1278 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>BARRACAS-CENOP</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#05070d;--bg-panel:#0a0f1e;--bg-elevated:#0f1730;--bg-input:#0a1122;
-  --cyan:#00eaff;--magenta:#ff2ec4;--green:#39ff88;--orange:#ffa629;
-  --red:#ff3355;--yellow:#ffe033;--text:#d9f6ff;--text-dim:#6f89a8;--border:#1c2b4a;
+  --verde:#1a3a1a;--verde2:#2d5a2d;--verde3:#3d7a3d;
+  --oro:#c8a84b;--oro2:#e8c86b;
+  --rojo:#c0392b;--rojo2:#e74c3c;
+  --naranja:#e67e22;--naranja2:#f39c12;
+  --azul:#2980b9;--azul2:#3498db;
+  --fondo:#0d1f0d;--texto:#e8e8e8;--gris:#888;
 }
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
-body{
-  background:radial-gradient(ellipse 900px 500px at 15% -10%,rgba(0,234,255,0.08),transparent 60%),
-    radial-gradient(ellipse 900px 500px at 85% 110%,rgba(255,46,196,0.08),transparent 60%),var(--bg);
-  color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;
+body{background:var(--fondo);color:var(--texto);font-family:'Segoe UI',sans-serif;min-height:100vh}
+
+/* ── HEADER ── */
+header{background:linear-gradient(135deg,var(--verde),var(--verde2));
+  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:2px solid var(--oro);flex-wrap:wrap;gap:8px}
+header h1{color:var(--oro);font-size:1.3rem;letter-spacing:2px}
+header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
+.hdr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:7px 14px;border:1px solid var(--oro);background:transparent;
+  color:var(--oro);border-radius:6px;cursor:pointer;font-size:.8rem;transition:all .2s}
+.btn:hover{background:var(--oro);color:var(--verde)}
+.btn-sm{padding:4px 10px;font-size:.75rem}
+.btn-danger{border-color:var(--rojo);color:var(--rojo)}
+.btn-danger:hover{background:var(--rojo);color:#fff}
+.btn-primary{background:var(--oro);color:var(--verde);font-weight:700}
+.btn-primary:hover{background:var(--oro2)}
+.btn-warn{border-color:var(--naranja);color:var(--naranja);position:relative}
+.btn-warn:hover{background:var(--naranja);color:#fff}
+.btn-warn .badge{position:absolute;top:-7px;right:-7px;background:var(--rojo2);color:#fff;
+  border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;border:2px solid var(--fondo)}
+.btn-move{border-color:var(--azul2);color:var(--azul2)}
+.btn-move:hover{background:var(--azul2);color:#fff}
+
+/* ── ALERT BANNER ── */
+#alertBanner{display:none;background:linear-gradient(90deg,#7b0000,#c0392b,#7b0000);
+  color:#fff;padding:10px 20px;text-align:center;font-weight:700;font-size:.85rem;
+  border-bottom:2px solid #ff6b6b;animation:pulseBanner 1.5s infinite;cursor:pointer}
+@keyframes pulseBanner{0%,100%{opacity:1}50%{opacity:.75}}
+
+/* ══ SECCIONES ══ */
+#carouselSection{padding:20px 0 10px;position:relative}
+#porFinalizarSection{display:none;padding:20px}
+
+/* ══ POR FINALIZAR ══ */
+#pfCard{max-width:720px;margin:0 auto;
+  background:linear-gradient(160deg,var(--verde2),var(--verde));
+  border:2px solid var(--naranja);border-radius:16px;overflow:hidden;
+  box-shadow:0 0 30px rgba(230,126,34,.25);animation:pfGlow 2s infinite}
+@keyframes pfGlow{0%,100%{box-shadow:0 0 20px rgba(230,126,34,.2)}50%{box-shadow:0 0 40px rgba(230,126,34,.45)}}
+.pf-header{background:linear-gradient(90deg,#7b3a00,#c0620b,#7b3a00);
+  padding:14px 20px;display:flex;align-items:center;border-bottom:2px solid var(--naranja);flex-wrap:wrap;gap:10px}
+.pf-header-left{display:flex;align-items:center;gap:12px}
+.pf-header h2{color:#fff;font-size:1.1rem;letter-spacing:2px;font-weight:700}
+.pf-header p{color:rgba(255,255,255,.7);font-size:.72rem;margin-top:2px}
+.pf-icon{font-size:2rem;animation:pfPulse 1.2s infinite}
+@keyframes pfPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.pf-stats{display:flex;border-bottom:1px solid rgba(230,126,34,.3)}
+.pf-stat{flex:1;padding:10px 16px;text-align:center;border-right:1px solid rgba(230,126,34,.2)}
+.pf-stat:last-child{border-right:none}
+.pf-stat .num{font-size:1.6rem;font-weight:700;line-height:1}
+.pf-stat .lbl{font-size:.68rem;color:var(--gris);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+.pf-stat.warn .num{color:var(--naranja2)}.pf-stat.danger .num{color:var(--rojo2)}.pf-stat.ok .num{color:#2ecc71}
+.pf-body{padding:16px;max-height:calc(100vh - 320px);overflow-y:auto}
+.pf-body::-webkit-scrollbar{width:5px}
+.pf-body::-webkit-scrollbar-thumb{background:var(--naranja);border-radius:3px}
+.pf-grupo{margin-bottom:16px}
+.pf-grupo-hdr{display:flex;align-items:center;gap:8px;padding:6px 10px;
+  background:rgba(0,0,0,.3);border-radius:6px 6px 0 0;border-left:3px solid var(--naranja);
+  font-size:.8rem;font-weight:700;color:var(--oro)}
+.pf-grupo-body{border:1px solid rgba(230,126,34,.2);border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
+.pf-item{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);transition:background .2s}
+.pf-item:last-child{border-bottom:none}
+.pf-item:hover{background:rgba(255,255,255,.04)}
+.pf-item-ico{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.pf-item-body{flex:1;min-width:0}
+.pf-item-title{font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-item-sub{font-size:.72rem;color:var(--gris);margin-top:3px;display:flex;flex-wrap:wrap;gap:4px 12px}
+.pf-item-badge{flex-shrink:0;padding:4px 10px;border-radius:20px;font-size:.72rem;font-weight:700;align-self:center;white-space:nowrap}
+.badge-vencido{background:rgba(192,57,43,.25);color:#ff6b6b;border:1px solid #c0392b}
+.badge-alerta{background:rgba(230,126,34,.2);color:#f39c12;border:1px solid #e67e22}
+.pf-empty{text-align:center;padding:40px 20px}
+.pf-empty .ico{font-size:3rem;margin-bottom:10px}
+.pf-empty p{color:#2ecc71;font-size:.9rem;font-weight:700}
+.pf-empty small{color:var(--gris);font-size:.75rem}
+.pf-footer{padding:12px 16px;border-top:1px solid rgba(230,126,34,.2);
+  background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.pf-footer small{color:var(--gris);font-size:.72rem}
+.btn-regresar{display:flex;align-items:center;gap:8px;padding:9px 20px;border-radius:8px;
+  background:linear-gradient(135deg,var(--verde2),var(--verde3));border:1px solid var(--oro);
+  color:var(--oro);cursor:pointer;font-size:.85rem;font-weight:700;letter-spacing:1px;transition:all .25s}
+.btn-regresar:hover{background:var(--oro);color:var(--verde)}
+
+/* ══ CAROUSEL ══ */
+#carouselViewport{width:100%;height:560px;position:relative;overflow:hidden;
+  perspective:1100px;perspective-origin:50% 45%;cursor:grab}
+#carouselViewport.dragging{cursor:grabbing}
+#carouselTrack{width:100%;height:100%;position:relative;transform-style:preserve-3d}
+.c-card{position:absolute;width:340px;height:500px;top:50%;left:50%;border-radius:14px;
+  will-change:transform,opacity;pointer-events:none;
+  transition:transform .5s cubic-bezier(.25,.46,.45,.94),opacity .5s cubic-bezier(.25,.46,.45,.94),filter .5s ease}
+.c-card-inner{width:100%;height:100%;background:linear-gradient(160deg,var(--verde2),var(--verde));
+  border:2px solid var(--verde3);border-radius:14px;display:flex;flex-direction:column;
+  overflow:hidden;transition:border-color .4s,box-shadow .4s;pointer-events:none}
+.c-card.is-active .c-card-inner{pointer-events:all;border-color:var(--oro);box-shadow:0 8px 32px rgba(200,168,75,.2)}
+.c-card-shield{position:absolute;inset:0;border-radius:14px;pointer-events:none;z-index:20;cursor:pointer}
+.card-hdr{background:linear-gradient(90deg,var(--verde3),var(--verde2));padding:10px 14px;
+  border-bottom:1px solid var(--oro);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.card-hdr h2{color:var(--oro);font-size:1rem;letter-spacing:1px}
+.card-hdr-btns{display:flex;gap:6px}
+.cap-row{display:flex;align-items:center;gap:8px;padding:8px 14px;
+  background:rgba(0,0,0,.25);border-bottom:1px solid var(--verde3);flex-wrap:wrap}
+.cap-row label{color:var(--oro2);font-size:.75rem;white-space:nowrap}
+.cap-row input{width:64px;background:var(--verde2);color:var(--texto);
+  border:1px solid var(--oro);border-radius:4px;padding:3px 6px;font-size:.8rem;text-align:center}
+.cap-badge{margin-left:auto;font-size:.75rem;background:rgba(200,168,75,.15);
+  border:1px solid var(--oro);border-radius:6px;padding:2px 8px;color:var(--oro2)}
+.alas{display:flex;flex:1;overflow:hidden}
+.ala{flex:1;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--verde3)}
+.ala:last-child{border-right:none}
+.ala-hdr{background:rgba(0,0,0,.3);padding:6px 10px;color:var(--oro);font-size:.72rem;
+  font-weight:700;letter-spacing:1px;border-bottom:1px solid var(--verde3);text-align:center}
+.ala-body{flex:1;overflow-y:auto;padding:6px}
+.ala-body::-webkit-scrollbar{width:4px}
+.ala-body::-webkit-scrollbar-thumb{background:var(--oro);border-radius:2px}
+.curso-item{background:rgba(0,0,0,.2);border:1px solid var(--verde3);
+  border-radius:6px;padding:6px 8px;margin-bottom:5px;font-size:.72rem;position:relative}
+.curso-item.alerta{border-color:#ff6b6b;background:rgba(255,0,0,.08)}
+.curso-item.vencido{border-color:#ff4444;background:rgba(255,0,0,.15)}
+.curso-item strong{color:var(--oro2);display:block;font-size:.75rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 44px)}
+/* Botones de acción en el curso */
+.ci-actions{position:absolute;top:4px;right:4px;display:flex;gap:3px}
+.ci-btn{background:none;border:none;cursor:pointer;font-size:.78rem;
+  line-height:1;padding:2px 4px;border-radius:3px;transition:background .15s}
+.ci-btn.move{color:var(--azul2)}.ci-btn.move:hover{background:rgba(52,152,219,.2)}
+.ci-btn.del{color:var(--rojo)}.ci-btn.del:hover{background:rgba(192,57,43,.2)}
+.ci-row{display:flex;flex-wrap:wrap;gap:2px 10px;color:#aaa;margin-top:2px}
+.ci-row span{font-size:.68rem}
+.add-curso-btn{width:100%;margin-top:4px;padding:6px;background:rgba(200,168,75,.1);
+  border:1px dashed var(--oro);color:var(--oro);border-radius:6px;cursor:pointer;font-size:.73rem;transition:all .2s}
+.add-curso-btn:hover{background:rgba(200,168,75,.3)}
+
+/* ── NAV ── */
+#carouselNav{display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 0}
+.nav-arrow{background:rgba(200,168,75,.15);border:1px solid var(--oro);color:var(--oro);
+  width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.3rem;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;user-select:none}
+.nav-arrow:hover{background:var(--oro);color:var(--verde)}
+.nav-arrow:disabled{opacity:.25;cursor:default;pointer-events:none}
+#dotContainer{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:320px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--verde3);border:1px solid var(--oro);
+  cursor:pointer;transition:all .3s;flex-shrink:0}
+.dot.active{background:var(--oro);transform:scale(1.4)}
+
+/* ── RESUMEN ── */
+#resumenSection{margin:0 20px 16px;border:1px solid var(--verde3);border-radius:8px;overflow:hidden;display:none}
+#resumenHdr{background:var(--verde2);padding:8px 14px;display:flex;align-items:center;
+  justify-content:space-between;cursor:pointer;border-bottom:1px solid var(--verde3)}
+#resumenHdr h3{color:var(--oro);font-size:.85rem;letter-spacing:1px}
+#resumenBody{display:none;padding:12px 14px}
+#resumenPre{white-space:pre-wrap;font-size:.78rem;color:var(--texto);font-family:'Courier New',monospace;line-height:1.6}
+
+/* ══ MODALES ══ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:200;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:var(--verde);border:1px solid var(--oro);border-radius:12px;
+  width:100%;max-width:480px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-hdr{background:var(--verde2);padding:12px 16px;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid var(--oro)}
+.modal-hdr h2{color:var(--oro);font-size:.95rem;letter-spacing:1px}
+.modal-body{padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.modal-footer{padding:12px 16px;border-top:1px solid var(--verde3);
+  display:flex;justify-content:flex-end;gap:8px;background:var(--verde2)}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{color:var(--oro2);font-size:.78rem}
+.form-group input,.form-group select,.form-group textarea{
+  background:var(--verde2);color:var(--texto);border:1px solid var(--verde3);
+  border-radius:6px;padding:7px 10px;font-size:.83rem}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--oro)}
+.radio-group{display:flex;gap:14px;flex-wrap:wrap}
+.radio-group label{display:flex;align-items:center;gap:5px;color:var(--texto);font-size:.82rem;cursor:pointer}
+#selectorGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:12px}
+.sel-num{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;
+  font-size:.9rem;font-weight:700;cursor:pointer;border:2px solid var(--verde3);
+  background:var(--verde2);color:var(--texto);transition:all .2s}
+.sel-num.usado{background:rgba(61,122,61,.2);color:var(--gris);cursor:not-allowed;border-color:var(--gris);opacity:.45}
+.sel-num:not(.usado):hover{border-color:var(--oro);color:var(--oro);transform:scale(1.08)}
+.parte-out{white-space:pre-wrap;font-size:.78rem;font-family:'Courier New',monospace;
+  background:rgba(0,0,0,.3);padding:12px;border-radius:6px;max-height:55vh;overflow-y:auto;line-height:1.6}
+#emptyState{display:none;text-align:center;padding:60px 20px;color:var(--gris)}
+#emptyState p{font-size:1rem;margin-top:10px}
+
+/* ══ MODAL MOVER CURSO ══ */
+#modalMover .modal{max-width:420px}
+.curso-preview{background:rgba(0,0,0,.25);border:1px solid var(--azul2);border-radius:8px;padding:10px 14px;margin-bottom:4px}
+.curso-preview .cp-nombre{font-size:.9rem;font-weight:700;color:var(--oro2)}
+.curso-preview .cp-origen{font-size:.75rem;color:var(--gris);margin-top:3px}
+.destino-opts{display:flex;flex-direction:column;gap:8px}
+.destino-opt{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border-radius:8px;cursor:pointer;
+  border:2px solid var(--verde3);background:rgba(0,0,0,.2);
+  transition:all .2s;
 }
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(0,234,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,234,255,0.035) 1px,transparent 1px);
-  background-size:42px 42px;mask-image:radial-gradient(ellipse 80% 80% at 50% 20%,black 0%,transparent 75%);
+.destino-opt:hover{border-color:var(--azul2);background:rgba(52,152,219,.1)}
+.destino-opt.selected{border-color:var(--azul2);background:rgba(52,152,219,.15)}
+.destino-opt.disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+.destino-opt-ico{font-size:1.3rem;flex-shrink:0}
+.destino-opt-info{flex:1}
+.destino-opt-title{font-size:.85rem;font-weight:700;color:var(--texto)}
+.destino-opt-sub{font-size:.72rem;color:var(--gris);margin-top:2px}
+.destino-opt-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--verde3);
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;transition:all .2s}
+.destino-opt.selected .destino-opt-check{background:var(--azul2);border-color:var(--azul2);color:#fff}
+
+/* ── Selector barraca destino ── */
+.barracas-grid-mini{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:6px}
+.bn{padding:6px 4px;text-align:center;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:700;
+  border:1px solid var(--verde3);background:var(--verde2);color:var(--texto);transition:all .2s}
+.bn:hover{border-color:var(--azul2);color:var(--azul2)}
+.bn.bn-sel{border-color:var(--azul2);background:rgba(52,152,219,.2);color:var(--azul2)}
+.bn.bn-origen{border-color:var(--gris);color:var(--gris);cursor:default;opacity:.5}
+
+/* ── Selector ala destino ── */
+.ala-btns{display:flex;gap:8px;margin-top:6px}
+.ala-btn{flex:1;padding:8px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:700;
+  border:2px solid var(--verde3);background:rgba(0,0,0,.2);color:var(--texto);
+  text-align:center;transition:all .2s}
+.ala-btn:hover{border-color:var(--azul2);color:var(--azul2)}
+.ala-btn.ala-sel{border-color:var(--azul2);background:rgba(52,152,219,.2);color:var(--azul2)}
+.ala-btn.ala-dis{opacity:.35;cursor:not-allowed;pointer-events:none}
+
+/* Aviso capacidad */
+.cap-aviso{font-size:.75rem;padding:6px 10px;border-radius:6px;margin-top:4px;display:none}
+.cap-aviso.warn{background:rgba(230,126,34,.15);border:1px solid var(--naranja);color:var(--naranja2)}
+.cap-aviso.ok{background:rgba(46,204,113,.1);border:1px solid #2ecc71;color:#2ecc71}
+
+footer{text-align:center;padding:12px;color:var(--gris);font-size:.72rem;
+  border-top:1px solid var(--verde3);margin-top:8px}
+footer span{color:var(--oro)}
+@media(max-width:600px){
+  #carouselViewport{height:480px}.c-card{width:285px;height:430px}
+  .pf-stats{flex-wrap:wrap}.pf-stat{min-width:50%}
+  .barracas-grid-mini{grid-template-columns:repeat(4,1fr)}
 }
-.wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:28px 22px 80px;}
-header{text-align:center;margin-bottom:26px;}
-h1.brand{
-  font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:4px;
-  font-size:clamp(28px,5vw,46px);margin:0;color:#fff;
-  text-shadow:0 0 6px var(--cyan),0 0 22px rgba(0,234,255,0.7),0 0 46px rgba(255,46,196,0.35);
-  animation:flicker 6s infinite;
-}
-@keyframes flicker{0%,96%,100%{opacity:1;}97%{opacity:0.85;}97.5%{opacity:1;}98%{opacity:0.9;}}
-.brand-sub{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:5px;color:var(--magenta);text-shadow:0 0 8px rgba(255,46,196,0.6);margin-top:6px;}
-.motto{font-size:13px;letter-spacing:2px;color:var(--text-dim);margin-top:10px;}
-.storage-warning{
-  display:none;margin:0 auto 18px;max-width:820px;text-align:center;
-  border:1px solid var(--orange);color:var(--orange);background:rgba(255,166,41,0.07);
-  border-radius:10px;padding:10px 14px;font-size:12.5px;
-}
-.storage-warning.show{display:block;}
-.toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin:24px 0 18px;}
-.btn{
-  font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1.5px;font-size:14px;
-  text-transform:uppercase;cursor:pointer;border-radius:8px;padding:11px 20px;
-  background:var(--bg-elevated);color:var(--text);border:1px solid var(--border);transition:all .25s ease;
-}
-.btn:hover{transform:translateY(-1px);}
-.btn-cyan{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.15);}
-.btn-cyan:hover{box-shadow:0 0 18px rgba(0,234,255,0.5);background:rgba(0,234,255,0.08);}
-.btn-magenta{border-color:var(--magenta);color:var(--magenta);box-shadow:0 0 10px rgba(255,46,196,0.15);}
-.btn-magenta:hover{box-shadow:0 0 18px rgba(255,46,196,0.5);background:rgba(255,46,196,0.08);}
-.btn-green{border-color:var(--green);color:var(--green);box-shadow:0 0 10px rgba(57,255,136,0.15);}
-.btn-green:hover{box-shadow:0 0 18px rgba(57,255,136,0.5);background:rgba(57,255,136,0.08);}
-.btn-ghost{border-color:var(--border);color:var(--text-dim);font-size:12px;padding:9px 14px;}
-.btn-ghost:hover{color:var(--text);border-color:var(--text-dim);}
-.btn-danger{border-color:var(--red);color:var(--red);}
-.btn-danger:hover{box-shadow:0 0 16px rgba(255,51,85,0.5);background:rgba(255,51,85,0.08);}
-.btn:disabled{opacity:.4;cursor:not-allowed;}
-.searchbar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
-.searchbar input{
-  width:min(460px,100%);background:var(--bg-input);border:1px solid var(--border);color:var(--text);
-  border-radius:20px;padding:10px 18px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;outline:none;transition:.2s;
-}
-.searchbar input:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.35);}
-.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
-.pill{font-size:12px;letter-spacing:1px;padding:7px 14px;border-radius:20px;cursor:pointer;border:1px solid var(--border);color:var(--text-dim);background:var(--bg-panel);transition:.2s;}
-.pill.active{color:#fff;border-color:currentColor;}
-.pill[data-f="all"].active{color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.4);}
-.pill[data-f="rojo"].active{color:var(--red);box-shadow:0 0 10px rgba(255,51,85,0.4);}
-.pill[data-f="naranja"].active{color:var(--orange);box-shadow:0 0 10px rgba(255,166,41,0.4);}
-.pill[data-f="verde"].active{color:var(--green);box-shadow:0 0 10px rgba(57,255,136,0.4);}
-.pill[data-f="atencion"].active{color:var(--yellow);box-shadow:0 0 10px rgba(255,224,51,0.5);}
-/* ALERT BANNER */
-.alert-banner{
-  display:none;margin:0 auto 20px;
-  background:linear-gradient(135deg,rgba(255,224,51,0.12),rgba(255,46,196,0.08));
-  border:2px solid var(--yellow);border-radius:12px;padding:14px 18px;
-  animation:pulse-border 1.5s ease-in-out infinite;
-}
-.alert-banner.show{display:block;}
-@keyframes pulse-border{
-  0%,100%{box-shadow:0 0 10px rgba(255,224,51,0.3),0 0 30px rgba(255,224,51,0.1);}
-  50%{box-shadow:0 0 24px rgba(255,224,51,0.8),0 0 60px rgba(255,224,51,0.3);}
-}
-.alert-banner h4{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;color:var(--yellow);margin:0 0 10px;text-shadow:0 0 10px rgba(255,224,51,0.8);}
-.alert-item{font-size:12.5px;color:var(--text);padding:5px 0;border-bottom:1px dashed rgba(255,224,51,0.2);display:flex;align-items:flex-start;gap:8px;}
-.alert-item:last-child{border-bottom:none;}
-.alert-item .ai-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
-.alert-item .ai-text{flex:1;line-height:1.4;}
-.alert-item .ai-dias{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;padding:2px 8px;border-radius:10px;border:1px solid var(--yellow);color:var(--yellow);flex-shrink:0;white-space:nowrap;}
-.alert-item .ai-dias.vencido{border-color:var(--red);color:var(--red);}
-/* RESUMEN */
-.resumen-panel{background:var(--bg-panel);border:1px solid var(--cyan);border-radius:14px;margin-bottom:26px;overflow:hidden;box-shadow:0 0 18px rgba(0,234,255,0.1);}
-.resumen-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
-.resumen-header h3{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:3px;color:var(--cyan);margin:0;text-shadow:0 0 8px rgba(0,234,255,0.5);}
-.resumen-toggle{font-size:11px;letter-spacing:1px;color:var(--text-dim);background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;transition:.2s;font-family:'Rajdhani',sans-serif;font-weight:600;}
-.resumen-toggle:hover{color:var(--cyan);border-color:var(--cyan);}
-.resumen-body{padding:18px 22px;display:none;}
-.resumen-body.open{display:block;}
-.resumen-texto{font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.9;color:var(--text);white-space:pre-wrap;margin:0;background:none;border:none;width:100%;resize:none;outline:none;cursor:default;}
-.resumen-acciones{display:flex;gap:10px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);flex-wrap:wrap;}
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px;}
-.empty-msg{grid-column:1/-1;text-align:center;color:var(--text-dim);font-size:14px;letter-spacing:1px;border:1px dashed var(--border);border-radius:12px;padding:34px 18px;}
-.card{background:var(--bg-panel);border-radius:14px;padding:16px 16px 14px;border:1px solid var(--border);}
-.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:8px;}
-.card-head .num{font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:1px;}
-.card-head .num span{color:var(--cyan);text-shadow:0 0 8px rgba(0,234,255,0.6);}
-.card-head .tools{display:flex;align-items:center;gap:6px;}
-.cap-barraca-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px 10px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border);}
-.cap-barraca-row label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;white-space:nowrap;margin:0;}
-.cap-barraca-input{width:80px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;outline:none;transition:.2s;text-align:center;}
-.cap-barraca-input:focus{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
-.cap-barraca-info{font-size:12px;color:var(--text-dim);flex:1;}
-.cap-barraca-info b{color:var(--green);}
-.cap-barraca-info b.malo{color:var(--red);}
-.btn-save-cap{background:none;border:1px solid var(--cyan);color:var(--cyan);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;border-radius:6px;padding:5px 10px;cursor:pointer;transition:.2s;white-space:nowrap;}
-.btn-save-cap:hover{background:rgba(0,234,255,0.1);box-shadow:0 0 8px rgba(0,234,255,0.4);}
-.mini-btn{background:none;border:1px solid var(--border);color:var(--text-dim);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;white-space:nowrap;}
-.mini-btn:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
-.mini-btn.magenta:hover{color:var(--magenta);border-color:var(--magenta);}
-.del-alo{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;line-height:1;opacity:.5;transition:.2s;}
-.del-alo:hover{opacity:1;color:var(--red);}
-/* ALAS */
-.ala{border-radius:10px;padding:12px 13px;margin-bottom:10px;cursor:pointer;background:var(--bg-elevated);border:1px solid var(--border);position:relative;transition:transform .2s ease;overflow:hidden;}
-.ala:last-child{margin-bottom:0;}
-.ala:hover{transform:translateY(-2px);}
-.ala::before{
-  content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;opacity:.55;border:1px solid transparent;
-  background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 0deg,transparent 0 70%,var(--glow,var(--cyan)) 85%,transparent 100%) border-box;
-  animation:spin-border 5s linear infinite;
-}
-@keyframes spin-border{
-  0%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 0deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
-  25%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 90deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
-  50%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 180deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
-  75%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 270deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
-  100%{background:linear-gradient(var(--bg-elevated),var(--bg-elevated)) padding-box,conic-gradient(from 360deg,transparent 70%,var(--glow,var(--cyan)) 85%,transparent) border-box;}
-}
-.ala.rojo{--glow:var(--red);}
-.ala.naranja{--glow:var(--orange);}
-.ala.verde{--glow:var(--green);}
-.ala.amarillo{--glow:var(--yellow);}
-.ala-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:8px;}
-.ala-name{font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:12.5px;color:var(--text-dim);}
-.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px;position:relative;top:1px;}
-.dot.rojo{background:var(--red);box-shadow:0 0 8px var(--red),0 0 16px var(--red);}
-.dot.naranja{background:var(--orange);box-shadow:0 0 8px var(--orange),0 0 16px var(--orange);}
-.dot.verde{background:var(--green);box-shadow:0 0 8px var(--green),0 0 16px var(--green);}
-.dot.amarillo{background:var(--yellow);box-shadow:0 0 8px var(--yellow),0 0 16px var(--yellow);}
-.ala-state{font-size:11px;color:var(--text-dim);letter-spacing:.5px;text-align:right;}
-.ala-meta{font-size:11.5px;color:var(--text-dim);margin-top:7px;display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;}
-.ala-meta b{color:var(--text);font-weight:600;}
-.bar{height:6px;border-radius:4px;background:#060b16;border:1px solid var(--border);overflow:hidden;margin-top:8px;}
-.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .35s ease;}
-.ala.rojo .bar i{background:linear-gradient(90deg,var(--orange),var(--red));}
-.ala.naranja .bar i{background:linear-gradient(90deg,var(--cyan),var(--orange));}
-.ala.amarillo .bar i{background:linear-gradient(90deg,var(--cyan),var(--yellow));}
-.warn-line{margin-top:8px;font-size:11.5px;color:var(--orange);letter-spacing:.5px;}
-.sin-datos{margin-top:8px;font-size:11.5px;color:var(--text-dim);letter-spacing:.3px;font-style:italic;}
-.curso-list{font-size:11.5px;color:var(--text);margin-top:8px;line-height:1.55;}
-.curso-line{display:block;}
-.curso-line+.curso-line{margin-top:2px;}
-.ala-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
-.fecha-chip{font-size:11px;color:var(--text-dim);letter-spacing:.3px;}
-.badge{font-size:10.5px;letter-spacing:.8px;padding:2px 8px;border-radius:20px;border:1px solid currentColor;margin-left:6px;white-space:nowrap;}
-.badge.cyan{color:var(--cyan);}.badge.green{color:var(--green);}.badge.orange{color:var(--orange);}
-.badge.gris{color:var(--text-dim);}.badge.magenta{color:var(--magenta);}.badge.yellow{color:var(--yellow);}
-/* MODAL */
-.overlay{position:fixed;inset:0;background:rgba(2,4,10,0.78);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 14px;overflow-y:auto;}
-.overlay.show{display:flex;}
-.modal{background:var(--bg-panel);border:1px solid var(--cyan);border-radius:16px;box-shadow:0 0 30px rgba(0,234,255,0.25),0 0 80px rgba(255,46,196,0.08);max-width:680px;width:100%;padding:24px 24px 20px;margin-top:10px;}
-.modal.report{border-color:var(--magenta);box-shadow:0 0 30px rgba(255,46,196,0.25);max-width:760px;}
-.modal.confirm{border-color:var(--orange);box-shadow:0 0 30px rgba(255,166,41,0.22);max-width:460px;}
-.modal.help{border-color:var(--green);box-shadow:0 0 30px rgba(57,255,136,0.2);max-width:680px;}
-.modal h2{font-family:'Orbitron',sans-serif;font-size:16px;letter-spacing:2px;margin:0 0 4px;color:#fff;}
-.modal .sub{font-size:12px;color:var(--text-dim);letter-spacing:1px;margin-bottom:18px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;}
-.field{display:flex;flex-direction:column;gap:5px;}
-.field.full{grid-column:1/-1;}
-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
-input[type=text],input[type=number],input[type=tel],input[type=date],input[type=search],select,textarea{
-  background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:9px 10px;
-  font-family:'Rajdhani',sans-serif;font-size:14.5px;font-weight:600;outline:none;transition:.2s;color-scheme:dark;
-}
-input[type=date]{cursor:pointer;}
-input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,234,255,0.35);}
-select{cursor:pointer;}
-.modal-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px;flex-wrap:wrap;}
-.modal-actions .left{display:flex;gap:10px;flex-wrap:wrap;}
-.hint{font-size:11px;color:var(--text-dim);letter-spacing:.5px;margin-top:2px;}
-.hint.bad{color:var(--red);}.hint.ok{color:var(--green);}
-.dates-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.chk-line{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text);cursor:pointer;text-transform:none;letter-spacing:.3px;margin-top:16px;border:1px dashed var(--border);border-radius:8px;padding:9px 12px;}
-.chk-line input[type=checkbox]{accent-color:var(--magenta);width:16px;height:16px;}
-.genero-radio{display:flex;gap:20px;padding-top:4px;flex-wrap:wrap;}
-.genero-radio label{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;font-weight:600;}
-.genero-radio input[type=radio]{accent-color:var(--cyan);width:16px;height:16px;cursor:pointer;}
-.curso-block{border:1px solid var(--border);border-radius:10px;padding:14px 14px 4px;margin-bottom:16px;background:rgba(0,234,255,0.02);}
-.curso-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;}
-.curso-title{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 6px rgba(0,234,255,0.5);}
-.btn-remove-curso{background:none;border:1px solid var(--red);color:var(--red);font-size:11px;letter-spacing:1px;border-radius:6px;padding:4px 9px;cursor:pointer;transition:.2s;}
-.btn-remove-curso:hover{background:rgba(255,51,85,0.12);box-shadow:0 0 8px rgba(255,51,85,0.4);}
-.sep-label{grid-column:1/-1;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600;border-top:1px dashed var(--border);padding-top:10px;margin-top:4px;}
-.btn-add-curso{width:100%;margin-bottom:18px;border:1px dashed var(--cyan);color:var(--cyan);background:none;border-radius:10px;padding:12px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1.5px;font-size:13px;text-transform:uppercase;cursor:pointer;transition:.2s;}
-.btn-add-curso:hover{background:rgba(0,234,255,0.08);box-shadow:0 0 12px rgba(0,234,255,0.35);}
-.btn-add-curso:disabled{opacity:.35;cursor:not-allowed;border-style:solid;}
-#reportText{width:100%;min-height:340px;background:var(--bg-input);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:14px;font-family:'Rajdhani',sans-serif;font-size:13.5px;line-height:1.55;white-space:pre-wrap;resize:vertical;}
-.copied-msg{font-size:12px;color:var(--green);letter-spacing:1px;visibility:hidden;}
-.copied-msg.show{visibility:visible;}
-.help-list{font-size:13.5px;line-height:1.65;color:var(--text);margin:0;padding-left:18px;}
-.help-list li{margin-bottom:8px;}
-.help-list b{color:var(--cyan);}
-.help-note{font-size:12.5px;color:var(--text-dim);margin-top:14px;border-top:1px dashed var(--border);padding-top:12px;}
-.numeros-disponibles{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;}
-.num-btn{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;width:46px;height:46px;border-radius:8px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-dim);cursor:pointer;transition:.2s;}
-.num-btn:hover:not(.usado){border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 10px rgba(0,234,255,0.4);}
-.num-btn.usado{opacity:.35;cursor:not-allowed;border-style:dashed;}
-::-webkit-scrollbar{width:9px;}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
-footer{text-align:center;margin-top:50px;font-size:11px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;}
-.saving-indicator{position:fixed;bottom:16px;right:18px;font-size:11px;color:var(--text-dim);letter-spacing:1px;opacity:0;transition:opacity .3s;z-index:60;}
-.saving-indicator.show{opacity:1;}
-.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,30px);background:var(--bg-elevated);border:1px solid var(--cyan);color:var(--text);border-radius:10px;padding:11px 20px;font-size:13px;letter-spacing:.6px;font-weight:600;box-shadow:0 0 20px rgba(0,234,255,0.3);opacity:0;pointer-events:none;transition:.3s;z-index:70;max-width:92vw;text-align:center;}
-.toast.show{opacity:1;transform:translate(-50%,0);}
-.toast.warn{border-color:var(--orange);box-shadow:0 0 20px rgba(255,166,41,0.35);color:var(--orange);}
-@media(max-width:520px){.form-grid{grid-template-columns:1fr;}.dates-row{grid-template-columns:1fr;}.modal{padding:18px 14px 16px;}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1 class="brand">BARRACAS-CENOP</h1>
-    <div class="brand-sub">SISTEMA DE ADMINISTRACIÓN DE BARRACAS</div>
-    <div class="motto">"LEALTAD, VALOR, ABNEGACIÓN"</div>
-  </header>
-  <div class="storage-warning" id="storageWarning">
-    ⚠ No se pudo guardar en este entorno. Descarga el archivo y ábrelo en tu navegador para que los datos queden guardados.
-  </div>
-  <div class="toolbar">
-    <button class="btn btn-magenta" id="btnReport">📋 Parte general</button>
-    <button class="btn btn-cyan" id="btnAdd">＋ Añadir barraca</button>
-    <button class="btn btn-green" id="btnBackup">⬇ Respaldar datos</button>
-    <button class="btn btn-ghost" id="btnRestore">⬆ Restaurar respaldo</button>
-    <button class="btn btn-ghost" id="btnHelp">❔ Ayuda</button>
-    <button class="btn btn-danger" id="btnResetAll">Restablecer todo</button>
-    <input type="file" id="restoreFile" accept=".json,application/json" style="display:none;">
-  </div>
-  <div class="searchbar">
-    <input type="search" id="searchBox" placeholder="🔎 Buscar por curso, grupo, CDTE, teléfono o N° de barraca...">
-  </div>
-  <div class="filters" id="filters">
-    <div class="pill active" data-f="all">TODAS</div>
-    <div class="pill" data-f="rojo">🔴 LLENA</div>
-    <div class="pill" data-f="naranja">🟠 PARCIAL</div>
-    <div class="pill" data-f="verde">🟢 DISPONIBLE</div>
-    <div class="pill" data-f="atencion">⚠️ ATENCIÓN</div>
-  </div>
-  <div class="alert-banner" id="alertBanner">
-    <h4>⚠ CURSOS POR TERMINAR O FINALIZADOS — REVISAR PARA DESOCUPAR</h4>
-    <div id="alertList"></div>
-  </div>
-  <div class="resumen-panel">
-    <div class="resumen-header" id="resumenHeader">
-      <h3>📅 RESUMEN DE CURSOS POR BARRACA</h3>
-      <button class="resumen-toggle" id="resumenToggleBtn">▼ Ver listado</button>
-    </div>
-    <div class="resumen-body" id="resumenBody">
-      <pre class="resumen-texto" id="resumenTexto"></pre>
-      <div class="resumen-acciones">
-        <button class="btn btn-ghost" id="btnCopyResumen">📋 Copiar listado</button>
-      </div>
-    </div>
-  </div>
-  <div class="grid" id="grid"></div>
-  <footer>CENOP &middot; Dios y Patria</footer>
-</div>
-<div class="saving-indicator" id="savingIndicator">Guardando...</div>
-<div class="toast" id="toast"></div>
 
-<!-- MODAL EDICIÓN -->
-<div class="overlay" id="editOverlay">
-  <div class="modal" id="editModal"></div>
+<div id="alertBanner" onclick="mostrarPorFinalizar()"></div>
+
+<header>
+  <div>
+    <h1>🏛️ BARRACAS-CENOP</h1>
+    <p>LEALTAD, VALOR, ABNEGACIÓN</p>
+  </div>
+  <div class="hdr-btns">
+    <button class="btn btn-sm btn-warn" onclick="mostrarPorFinalizar()">
+      ⏳ Por Finalizar
+      <span class="badge" id="alertBadge" style="display:none">0</span>
+    </button>
+    <button class="btn btn-sm" onclick="openParteGeneral()">📋 Parte General</button>
+    <button class="btn btn-sm" onclick="toggleResumen()">📊 Resumen</button>
+    <button class="btn btn-sm" onclick="exportJSON()">💾 Exportar</button>
+    <button class="btn btn-sm" onclick="document.getElementById('importFile').click()">📂 Importar</button>
+    <button class="btn btn-sm" onclick="openAddBarraca()">➕ Barraca</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)"/>
+  </div>
+</header>
+
+<div id="resumenSection">
+  <div id="resumenHdr" onclick="collapseResumen()">
+    <h3>📊 RESUMEN DE CURSOS POR BARRACA</h3>
+    <span id="resumenArrow" style="color:var(--oro)">▼</span>
+  </div>
+  <div id="resumenBody">
+    <pre id="resumenPre"></pre>
+    <button class="btn btn-sm" style="margin-top:8px" onclick="copyResumen()">📋 Copiar listado</button>
+  </div>
 </div>
-<!-- MODAL PARTE -->
-<div class="overlay" id="reportOverlay">
-  <div class="modal report">
-    <h2 id="reportTitle">PARTE GENERAL DE BARRACAS</h2>
-    <div class="sub" id="reportSub">Puedes editar el texto antes de copiarlo o enviarlo</div>
-    <textarea id="reportText"></textarea>
-    <div class="modal-actions">
-      <span class="copied-msg" id="copiedMsg">✔ Copiado al portapapeles</span>
-      <div class="left">
-        <button class="btn btn-ghost" id="btnCloseReport">Cerrar</button>
-        <button class="btn btn-ghost" id="btnDownloadReport">⬇ Descargar .txt</button>
-        <button class="btn btn-ghost" id="btnPrintReport">🖨 Imprimir</button>
-        <button class="btn btn-cyan" id="btnCopyReport">Copiar texto</button>
+
+<!-- CARRUSEL -->
+<div id="carouselSection">
+  <div id="emptyState">
+    <div style="font-size:3rem">🏛️</div>
+    <p>No hay barracas registradas.<br>Presione <strong style="color:var(--oro)">➕ Barraca</strong> para agregar.</p>
+  </div>
+  <div id="carouselViewport"><div id="carouselTrack"></div></div>
+  <div id="carouselNav">
+    <button class="nav-arrow" id="btnPrev" onclick="navigate(-1)">&#8592;</button>
+    <div id="dotContainer"></div>
+    <button class="nav-arrow" id="btnNext" onclick="navigate(1)">&#8594;</button>
+  </div>
+</div>
+
+<!-- POR FINALIZAR -->
+<div id="porFinalizarSection">
+  <div id="pfCard">
+    <div class="pf-header">
+      <div class="pf-header-left">
+        <div class="pf-icon">⏳</div>
+        <div><h2>POR FINALIZAR</h2><p>Cursos próximos a vencer o vencidos</p></div>
       </div>
     </div>
+    <div class="pf-stats">
+      <div class="pf-stat danger"><div class="num" id="pfNumVencidos">0</div><div class="lbl">Vencidos</div></div>
+      <div class="pf-stat warn"><div class="num" id="pfNumAlertas">0</div><div class="lbl">Por vencer (≤7d)</div></div>
+      <div class="pf-stat ok"><div class="num" id="pfNumOk">0</div><div class="lbl">Sin novedad</div></div>
+    </div>
+    <div class="pf-body" id="pfBody"></div>
+    <div class="pf-footer">
+      <small id="pfFecha"></small>
+      <button class="btn-regresar" onclick="ocultarPorFinalizar()">&#8592; REGRESAR</button>
+    </div>
   </div>
 </div>
-<!-- MODAL CONFIRMACIÓN -->
-<div class="overlay" id="confirmOverlay">
-  <div class="modal confirm">
-    <h2 id="confirmTitle">Confirmar</h2>
-    <div class="sub" id="confirmMsg" style="margin-bottom:6px;"></div>
-    <div class="modal-actions">
-      <span></span>
-      <div class="left">
-        <button class="btn btn-ghost" id="confirmNo">Cancelar</button>
-        <button class="btn btn-danger" id="confirmYes">Sí, continuar</button>
+
+<!-- ══ MODAL MOVER CURSO ══ -->
+<div class="overlay" id="modalMover">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-hdr" style="border-color:var(--azul2)">
+      <h2 style="color:var(--azul2)">↕️ Mover Curso</h2>
+      <button class="btn btn-sm btn-danger" onclick="closeModal('modalMover')">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Vista previa del curso -->
+      <div class="curso-preview">
+        <div class="cp-nombre" id="mvNombre">—</div>
+        <div class="cp-origen" id="mvOrigen">—</div>
       </div>
+
+      <!-- Destino: misma barraca otra ala / otra barraca -->
+      <div class="form-group">
+        <label>Destino</label>
+        <div class="destino-opts">
+
+          <!-- Opción 1: cambiar de ala en la misma barraca -->
+          <div class="destino-opt" id="dopt1" onclick="selDestino(1)">
+            <div class="destino-opt-ico">↔️</div>
+            <div class="destino-opt-info">
+              <div class="destino-opt-title">Cambiar de ala</div>
+              <div class="destino-opt-sub" id="dopt1sub">Mover al ala contraria de la misma barraca</div>
+            </div>
+            <div class="destino-opt-check" id="dopt1check"></div>
+          </div>
+
+          <!-- Opción 2: otra barraca -->
+          <div class="destino-opt" id="dopt2" onclick="selDestino(2)">
+            <div class="destino-opt-ico">🏛️</div>
+            <div class="destino-opt-info">
+              <div class="destino-opt-title">Otra barraca</div>
+              <div class="destino-opt-sub">Seleccionar barraca y ala destino</div>
+            </div>
+            <div class="destino-opt-check" id="dopt2check"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Panel opción 1: solo mostrar a qué ala irá -->
+      <div id="panelOpt1" style="display:none">
+        <div style="background:rgba(52,152,219,.1);border:1px solid var(--azul2);border-radius:8px;padding:10px 14px">
+          <div style="font-size:.8rem;color:var(--azul2);font-weight:700" id="opt1Info">—</div>
+        </div>
+      </div>
+
+      <!-- Panel opción 2: elegir barraca y ala -->
+      <div id="panelOpt2" style="display:none">
+        <div class="form-group">
+          <label>Seleccionar barraca destino</label>
+          <div class="barracas-grid-mini" id="barracasGridMini"></div>
+        </div>
+        <div class="form-group" id="alaDestGrp" style="display:none">
+          <label>Seleccionar ala destino</label>
+          <div class="ala-btns">
+            <div class="ala-btn" id="alaDestIzq" onclick="selAlaDest('izquierda')">◀ Ala Izquierda</div>
+            <div class="ala-btn" id="alaDestDer" onclick="selAlaDest('derecha')">Ala Derecha ▶</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aviso capacidad -->
+      <div class="cap-aviso" id="capAviso"></div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modalMover')">Cancelar</button>
+      <button class="btn btn-primary" id="btnEjecutarMover"
+        style="background:var(--azul2);border-color:var(--azul2)"
+        onclick="ejecutarMover()">↕️ Mover</button>
     </div>
   </div>
 </div>
-<!-- MODAL NÚMERO -->
-<div class="overlay" id="numOverlay">
-  <div class="modal confirm">
-    <h2>SELECCIONAR N° DE BARRACA</h2>
-    <div class="sub">Elige el número de la barraca que deseas añadir (1–20)</div>
-    <div class="numeros-disponibles" id="numBtns"></div>
-    <div class="modal-actions">
-      <span></span>
-      <div class="left"><button class="btn btn-ghost" id="btnCancelNum">Cancelar</button></div>
+
+<!-- ══ MODAL CURSO ══ -->
+<div class="overlay" id="modalCurso">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2 id="modalCursoTitle">Agregar Curso</h2>
+      <button class="btn btn-sm btn-danger" onclick="closeModal('modalCurso')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Nombre del curso *</label><input id="cNombre" placeholder="Ej: SITAB"/></div>
+      <div class="form-group"><label>Comandante / Asignación Barraca</label><input id="cCdte" placeholder="Nombre"/></div>
+      <div class="form-group"><label>Teléfono</label><input id="cTel" placeholder="Ej: 3001234567"/></div>
+      <div class="form-group"><label>FE (Fuerza en Entrenamiento)</label><input id="cFE" type="number" min="0" value="0"/></div>
+      <div class="form-group">
+        <label>Género</label>
+        <div class="radio-group">
+          <label><input type="radio" name="cGenero" value="HOMBRE" checked> HOMBRE</label>
+          <label><input type="radio" name="cGenero" value="MUJER"> MUJER</label>
+          <label><input type="radio" name="cGenero" value="Sin definir"> Sin definir</label>
+        </div>
+      </div>
+      <div class="form-group"><label>Ejército</label><input id="cEjercito" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>Armada</label><input id="cArmada" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>Fuerza Aérea</label><input id="cAerea" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>INPEC</label><input id="cInpec" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>Extranjero – País</label><input id="cExtrPais" placeholder="País"/></div>
+      <div class="form-group"><label>Extranjero – Cantidad</label><input id="cExtrCant" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>Otro</label><input id="cOtro" type="number" min="0" value="0"/></div>
+      <div class="form-group"><label>Fecha inicio</label><input id="cFechaIni" type="date"/></div>
+      <div class="form-group"><label>Fecha fin *</label><input id="cFechaFin" type="date"/></div>
+      <div class="form-group"><label>Notas</label><textarea id="cNotas" rows="2" placeholder="Observaciones..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modalCurso')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCurso()">Guardar</button>
     </div>
   </div>
 </div>
-<!-- MODAL AYUDA -->
-<div class="overlay" id="helpOverlay">
-  <div class="modal help">
-    <h2>CÓMO USAR EL SISTEMA</h2>
-    <div class="sub">Guía rápida de administración de barracas</div>
-    <ol class="help-list">
-      <li><b>Capacidad de la barraca:</b> se define directamente en la tarjeta de cada barraca. Es la capacidad total compartida entre las dos alas.</li>
-      <li><b>Editar un ala:</b> haz clic sobre el recuadro del ala. La FE resta a la capacidad total de la barraca.</li>
-      <li><b>Cursos:</b> hasta 20 cursos por ala. Selecciona HOMBRE o MUJER para el género del personal.</li>
-      <li><b>FF.MM y otros:</b> Ejército, Armada, Fuerza Aérea, INPEC, Extranjeros y Otro <b>no restan</b> a la capacidad.</li>
-      <li><b>Respaldar:</b> descarga el archivo .json y envíalo por WhatsApp. El receptor lo carga con "Restaurar respaldo" y verá todo actualizado.</li>
-      <li><b>El parte siempre muestra</b> BARRACA N° X en cada sección para identificar fácilmente cada ala.</li>
-    </ol>
-    <div class="help-note">Los datos se guardan en el navegador. Para compartir con otro equipo usa Respaldar / Restaurar.</div>
-    <div class="modal-actions">
-      <span></span>
-      <div class="left"><button class="btn btn-ghost" id="btnCloseHelp">Cerrar</button></div>
+
+<!-- ══ MODAL BARRACA ══ -->
+<div class="overlay" id="modalBarraca">
+  <div class="modal" style="max-width:340px">
+    <div class="modal-hdr">
+      <h2>Seleccionar Barraca</h2>
+      <button class="btn btn-sm btn-danger" onclick="closeModal('modalBarraca')">✕</button>
+    </div>
+    <div id="selectorGrid"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL PARTE INDIVIDUAL ══ -->
+<div class="overlay" id="modalParte">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-hdr">
+      <h2 id="parteTitulo">Parte</h2>
+      <button class="btn btn-sm btn-danger" onclick="closeModal('modalParte')">✕</button>
+    </div>
+    <div class="modal-body"><div id="parteOut" class="parte-out"></div></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="copyEl('parteOut')">📋 Copiar</button>
+      <button class="btn" onclick="closeModal('modalParte')">Cerrar</button>
     </div>
   </div>
 </div>
+
+<!-- ══ MODAL PARTE GENERAL ══ -->
+<div class="overlay" id="modalParteGen">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-hdr">
+      <h2>Parte General — CENOP</h2>
+      <button class="btn btn-sm btn-danger" onclick="closeModal('modalParteGen')">✕</button>
+    </div>
+    <div class="modal-body"><div id="parteGenOut" class="parte-out"></div></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="copyEl('parteGenOut')">📋 Copiar</button>
+      <button class="btn" onclick="closeModal('modalParteGen')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<footer>CENOP · <span>Dios y Patria</span></footer>
 
 <script>
-/* ============================================================
-   BARRACAS-CENOP · v5
-   - Respaldo corregido: carga correctamente entre usuarios
-   - Parte siempre muestra BARRACA N° X en cada sección
-   - Eliminado campo "Cantidad personal"
-   - FE es el único campo que resta a la capacidad
-   ============================================================ */
+// ═══════════════════════════════════════
+//  CONSTANTES
+// ═══════════════════════════════════════
+const STORAGE_KEY  = 'barracas-cenop-v5';
+const FALLBACK_KEY = 'barracas-cenop-data';
+const DEFAULT_NOS  = [1,2,3,4,5,11,13,14,15,16,17,18];
+const MAX_CURSOS   = 20;
+const ALERT_DAYS   = 7;
+const CFG={sepX:240,rotY:40,scaleSide:.75,scaleFar:.54,zSide:-60,zFar:-160,opSide:.75,opFar:.40};
 
-const GRUPOS=["GRANADEROS","COR","TIRO","GOER","JUNGLA","UNDMO","COPES","OTRO"];
-const STORAGE_KEY="barracas-cenop-v5";
-const MAX_CURSOS=20;
-const MS_DIA=86400000;
-const NUMS_DISPONIBLES=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-const NUMS_DEFAULT=[1,2,3,4,5,11,13,14,15,16,17,18];
+// ═══════════════════════════════════════
+//  ESTADO
+// ═══════════════════════════════════════
+let state       = {alojamientos:[]};
+let carouselIdx = 0;
+let _curCtx     = {aloIdx:null,side:null};
+const cardNodes = new Map();
 
-let state={alojamientos:[]};
-
-/* ── ALMACENAMIENTO ── */
-let storageOK=true;
-const storage={
-  get(k){try{const v=localStorage.getItem(k);return v?{value:v}:null;}catch(e){return null;}},
-  set(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
+// Estado del modal mover
+let _mv = {
+  aloNum:null, side:null, ci:null,   // origen
+  destOpt:null,                       // 1=misma barraca otra ala | 2=otra barraca
+  destNum:null, destSide:null         // destino
 };
-let saveTimer=null;
-function persist(){
-  const el=document.getElementById('savingIndicator');
-  el.classList.add('show');
-  const ok=storage.set(STORAGE_KEY,JSON.stringify(state));
-  if(!ok&&storageOK){storageOK=false;document.getElementById('storageWarning').classList.add('show');}
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>el.classList.remove('show'),700);
+
+// ═══════════════════════════════════════
+//  PERSISTENCIA
+// ═══════════════════════════════════════
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+function loadState(){
+  const raw=localStorage.getItem(STORAGE_KEY)||localStorage.getItem(FALLBACK_KEY);
+  if(raw){try{state=normalizeState(JSON.parse(raw));}catch(e){console.warn(e);}}
 }
-
-/* ── MODELOS ── */
-function defaultCurso(){
-  return{curso:"",grupo:"",grupoOtro:"",cdte:"",tel:"",fe:"",
-         fechaInicio:"",fechaFin:"",genero:"",
-         ejercito:"",armada:"",faerea:"",inpec:"",extPais:"",extCant:"",otro:""};
+function normalizeState(d){
+  if(!d) return {alojamientos:[]};
+  const alos=(d.alojamientos||(d.state&&d.state.alojamientos)||[]).map(normalizeAlo);
+  return {alojamientos:alos};
 }
-function defaultAla(){return{cursos:[defaultCurso()],updated:null};}
-function defaultBarraca(numero){return{numero,capacidad:"",izquierda:defaultAla(),derecha:defaultAla()};}
-
-const CAMPOS_TEXTO=["curso","grupo","grupoOtro","cdte","tel","fe",
-  "fechaInicio","fechaFin","genero","ejercito","armada","faerea","inpec","extPais","extCant","otro"];
-
+function normalizeAlo(a){
+  return {numero:a.numero||1,capacidad:a.capacidad||0,
+    izquierda:normalizeAla(a.izquierda||a.left||{}),
+    derecha:normalizeAla(a.derecha||a.right||{})};
+}
+function normalizeAla(a){return {cursos:Array.isArray(a.cursos)?a.cursos.map(normalizeCurso):[]};}
 function normalizeCurso(c){
-  const base=defaultCurso();
-  if(!c||typeof c!=='object') return base;
-  const out=Object.assign({},base,c);
-  /* compat versiones anteriores */
-  if(!out.genero){
-    if(num(c.hombres)>0) out.genero="HOMBRE";
-    else if(num(c.mujeres)>0) out.genero="MUJER";
-  }
-  /* eliminar campos obsoletos */
-  delete out.parte;delete out.hombres;delete out.mujeres;delete out.ffmm;delete out._cantidad;
-  CAMPOS_TEXTO.forEach(k=>{out[k]=(out[k]===undefined||out[k]===null)?'':String(out[k]);});
-  return out;
+  return {curso:c.curso||c.nombre||c.name||'',cdte:c.cdte||'',tel:c.tel||'',
+    fe:Number(c.fe)||0,genero:c.genero||'Sin definir',
+    ejercito:Number(c.ejercito)||0,armada:Number(c.armada)||0,
+    aerea:Number(c.aerea)||0,inpec:Number(c.inpec)||0,
+    extrPais:c.extrPais||'',extrCant:Number(c.extrCant)||0,otro:Number(c.otro)||0,
+    fechaIni:c.fechaIni||'',fechaFin:c.fechaFin||'',notas:c.notas||''};
 }
+function makeAlo(num){return {numero:num,capacidad:0,izquierda:{cursos:[]},derecha:{cursos:[]}};}
 
-function normalizeAla(ala){
-  if(!ala||typeof ala!=='object') return defaultAla();
-  let cursos;
-  if(Array.isArray(ala.cursos)&&ala.cursos.length){
-    cursos=ala.cursos.map(normalizeCurso);
-  }else{
-    const td=CAMPOS_TEXTO.some(k=>ala[k]);
-    cursos=[td?normalizeCurso(ala):defaultCurso()];
-  }
-  if(cursos.length>MAX_CURSOS) cursos=cursos.slice(0,MAX_CURSOS);
-  return{cursos,updated:ala.updated||null};
+// ═══════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════
+function hoy(){return new Date().toISOString().split('T')[0];}
+function fmtFecha(f){if(!f)return '—';const[y,m,d]=f.split('-');return `${d}/${m}/${y}`;}
+function diasRestantes(ff){
+  if(!ff)return null;
+  return Math.ceil((new Date(ff+'T00:00:00')-new Date())/86400000);
 }
+function cursoStatus(c){
+  const dr=diasRestantes(c.fechaFin);
+  if(dr===null)return 'normal';if(dr<0)return 'vencido';
+  if(dr<=ALERT_DAYS)return 'alerta';return 'normal';
+}
+function feTotal(alo){
+  return (alo.izquierda.cursos||[]).reduce((s,c)=>s+Number(c.fe||0),0)
+        +(alo.derecha.cursos||[]).reduce((s,c)=>s+Number(c.fe||0),0);
+}
+function disponibles(alo){return Math.max(0,(alo.capacidad||0)-feTotal(alo));}
+function escHTML(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function otroLado(side){return side==='izquierda'?'derecha':'izquierda';}
+function labelAla(side){return side==='izquierda'?'Ala Izquierda':'Ala Derecha';}
 
-function normalizeState(raw){
-  const out={alojamientos:[]};
-  /* aceptar tanto {alojamientos:[...]} como {state:{alojamientos:[...]}} */
-  let arr=[];
-  if(raw&&Array.isArray(raw.alojamientos)) arr=raw.alojamientos;
-  else if(raw&&raw.state&&Array.isArray(raw.state.alojamientos)) arr=raw.state.alojamientos;
-
-  arr.forEach(a=>{
-    if(!a) return;
-    const numero=num(a.numero);
-    if(!numero) return;
-    /* capacidad puede estar en la barraca o (versiones viejas) en el ala izquierda */
-    let cap="";
-    if(a.capacidad!==undefined&&a.capacidad!==null) cap=String(a.capacidad);
-    else if(a.izquierda&&a.izquierda.capacidad!==undefined&&a.izquierda.capacidad!==null) cap=String(a.izquierda.capacidad);
-    out.alojamientos.push({
-      numero,
-      capacidad:cap,
-      izquierda:normalizeAla(a.izquierda),
-      derecha:normalizeAla(a.derecha)
-    });
-  });
-  if(!out.alojamientos.length){
-    NUMS_DEFAULT.forEach(n=>out.alojamientos.push(defaultBarraca(n)));
-  }
-  out.alojamientos.sort((a,b)=>a.numero-b.numero);
-  return out;
-}
-
-/* ── CÁLCULOS ── */
-function num(v){const n=Math.floor(Number(v));return(isNaN(n)||n<0)?0:n;}
-
-/* Solo la FE resta a la capacidad */
-function feAla(ala){return ala.cursos.reduce((a,c)=>a+num(c.fe),0);}
-function feBarraca(alo){return feAla(alo.izquierda)+feAla(alo.derecha);}
-function disponiblesBarraca(alo){const d=num(alo.capacidad)-feBarraca(alo);return d>0?d:0;}
-function excesoBarraca(alo){const e=feBarraca(alo)-num(alo.capacidad);return(num(alo.capacidad)>0&&e>0)?e:0;}
-function pctOcupacionBarraca(alo){
-  const cap=num(alo.capacidad),oc=feBarraca(alo);
-  if(cap<=0) return oc>0?100:0;
-  return Math.min(100,Math.round(oc/cap*100));
-}
-
-function statusAla(alo,ala){
-  const s=_statusBaseAla(alo,ala);
-  if(s!=='verde'&&alaAlerta(ala)) return'amarillo';
-  return s;
-}
-function _statusBaseAla(alo,ala){
-  const cap=num(alo.capacidad),ocTotal=feBarraca(alo);
-  if(feAla(ala)<=0) return"verde";
-  if(cap<=0) return"naranja";
-  if(ocTotal>=cap) return"rojo";
-  return"naranja";
-}
-function statusEmoji(s){return s==="rojo"?"🔴":s==="naranja"?"🟠":s==="amarillo"?"⚠️":"🟢";}
-function statusLabelAla(alo,ala){
-  const s=statusAla(alo,ala);
-  if(s==='amarillo') return"REVISAR — VENCIMIENTO PRÓXIMO";
-  if(s==='verde') return"DISPONIBLE";
-  if(s==='rojo') return"BARRACA LLENA";
-  return num(alo.capacidad)<=0?"SIN CAPACIDAD":"PARCIAL";
-}
-
-/* ── FECHAS ── */
-function hoyISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function fechaDeISO(iso){if(!iso)return null;const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso));if(!m)return null;return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]));}
-function fmtFecha(iso){const d=fechaDeISO(iso);return d?d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';}
-function diasHasta(iso){const d=fechaDeISO(iso);if(!d)return null;return Math.round((d-fechaDeISO(hoyISO()))/MS_DIA);}
-function duracionDias(ini,fin){const a=fechaDeISO(ini),b=fechaDeISO(fin);if(!a||!b)return null;return Math.round((b-a)/MS_DIA)+1;}
-function fmtSello(iso){if(!iso)return'—';const d=new Date(iso);if(isNaN(d.getTime()))return'—';return d.toLocaleString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
-function fmtDate(){const d=new Date();return d.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})+' - '+d.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});}
-
-function cursoEstado(c){
-  const ini=c.fechaInicio||'',fin=c.fechaFin||'';
-  if(!ini&&!fin)return{tipo:'sin',label:'Sin fechas',cls:'gris',dIni:null,dFin:null};
-  const dIni=ini?diasHasta(ini):null;
-  const dFin=fin?diasHasta(fin):null;
-  if(dIni!==null&&dIni>0)return{tipo:'proximo',label:dIni===1?'Inicia mañana':'Inicia en '+dIni+' días',cls:'cyan',dIni,dFin};
-  if(dFin!==null&&dFin<0){const p=Math.abs(dFin);return{tipo:'vencido',label:p===1?'Finalizó ayer':'Finalizó hace '+p+' días',cls:'magenta',dIni,dFin};}
-  if(dFin!==null){
-    if(dFin===0)return{tipo:'ultimo',label:'Último día hoy',cls:'orange',dIni,dFin};
-    if(dFin<=7)return{tipo:'activo',label:'Termina en '+dFin+' días',cls:'yellow',dIni,dFin};
-    return{tipo:'activo',label:'Termina en '+dFin+' días',cls:'green',dIni,dFin};
-  }
-  return{tipo:'activo',label:'En curso',cls:'green',dIni,dFin};
-}
-function cursoAlerta(c){const e=cursoEstado(c);if(e.tipo==='sin')return false;if(e.tipo==='vencido')return true;return e.dFin!==null&&e.dFin>=0&&e.dFin<=7;}
-function alaAlerta(ala){return ala.cursos.some(c=>cursoConDatos(c)&&cursoAlerta(c));}
-function cursoConDatos(c){
-  return Boolean(c.curso||c.grupo||c.grupoOtro||c.cdte||c.tel||c.fe||c.otro||
-    c.extPais||c.fechaInicio||c.fechaFin||c.genero||
-    num(c.ejercito)||num(c.armada)||num(c.faerea)||num(c.inpec)||num(c.extCant));
-}
-function alaConDatos(ala){return ala.cursos.some(cursoConDatos);}
-
-/* ── TOAST Y CONFIRM ── */
-let toastTimer=null;
-function toast(msg,tipo){
-  const el=document.getElementById('toast');
-  el.textContent=msg;
-  el.className='toast show'+(tipo==='warn'?' warn':'');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.className='toast',3600);
-}
-let confirmResolve=null;
-function uiConfirm(opts){
-  const o=Object.assign({title:'Confirmar',msg:'',okLabel:'Sí, continuar',danger:true},opts||{});
-  document.getElementById('confirmTitle').textContent=o.title;
-  document.getElementById('confirmMsg').textContent=o.msg;
-  const yes=document.getElementById('confirmYes');
-  yes.textContent=o.okLabel;
-  yes.className='btn '+(o.danger?'btn-danger':'btn-cyan');
-  document.getElementById('confirmOverlay').classList.add('show');
-  return new Promise(res=>{confirmResolve=res;});
-}
-function cerrarConfirm(v){
-  document.getElementById('confirmOverlay').classList.remove('show');
-  if(confirmResolve){const r=confirmResolve;confirmResolve=null;r(v);}
-}
-document.getElementById('confirmYes').addEventListener('click',()=>cerrarConfirm(true));
-document.getElementById('confirmNo').addEventListener('click',()=>cerrarConfirm(false));
-document.getElementById('confirmOverlay').addEventListener('click',e=>{if(e.target.id==='confirmOverlay')cerrarConfirm(false);});
-
-/* ── CARGA ── */
-function load(){
-  let raw=null;
-  try{
-    /* intentar clave v5 primero, luego la anterior */
-    let res=storage.get(STORAGE_KEY);
-    if(!res) res=storage.get("barracas-cenop-data");
-    if(res&&res.value) raw=JSON.parse(res.value);
-  }catch(e){raw=null;}
-  state=normalizeState(raw);
-  persist();
-  render();
-}
-
-/* ── RESUMEN COLAPSABLE ── */
-let resumenAbierto=false;
-document.getElementById('resumenHeader').addEventListener('click',()=>{
-  resumenAbierto=!resumenAbierto;
-  document.getElementById('resumenBody').classList.toggle('open',resumenAbierto);
-  document.getElementById('resumenToggleBtn').textContent=resumenAbierto?'▲ Ocultar listado':'▼ Ver listado';
-  if(resumenAbierto) actualizarResumenTexto();
-});
-function buildResumenTexto(){
-  const lineas=[];
-  state.alojamientos.forEach(alo=>{
-    const todosCursos=[];
-    ['izquierda','derecha'].forEach(side=>{
-      alo[side].cursos.filter(cursoConDatos).forEach(c=>todosCursos.push(c));
-    });
-    lineas.push('BARRACA '+alo.numero);
-    if(!todosCursos.length){
-      lineas.push('  (Sin cursos registrados)');
-    }else{
-      todosCursos.forEach((c,i)=>{
-        const nombre=c.curso||(c.grupo==='OTRO'?(c.grupoOtro||'SIN NOMBRE'):c.grupo)||'Sin nombre';
-        const fi=c.fechaInicio?fmtFecha(c.fechaInicio):'—';
-        const ff=c.fechaFin?fmtFecha(c.fechaFin):'—';
-        const alerta=cursoAlerta(c)?'  ⚠':'';
-        lineas.push('  '+(i+1)+'. '+nombre+' — '+fi+' al '+ff+alerta);
-      });
-    }
-    lineas.push('');
-  });
-  return lineas.join('\n').trimEnd();
-}
-function actualizarResumenTexto(){
-  document.getElementById('resumenTexto').textContent=buildResumenTexto();
-}
-document.getElementById('btnCopyResumen').addEventListener('click',async()=>{
-  const txt=document.getElementById('resumenTexto').textContent;
-  let ok=false;
-  try{await navigator.clipboard.writeText(txt);ok=true;}
-  catch(e){try{document.execCommand('copy');ok=true;}catch(e2){}}
-  toast(ok?'📋 Listado copiado al portapapeles':'⚠ No se pudo copiar automáticamente',ok?undefined:'warn');
-});
-
-/* ── ALERT BANNER ── */
-function renderAlertBanner(){
+// ═══════════════════════════════════════
+//  ALERTAS
+// ═══════════════════════════════════════
+function recopilarAlertas(){
   const lista=[];
   state.alojamientos.forEach(alo=>{
     ['izquierda','derecha'].forEach(side=>{
-      const ala=alo[side];
-      const lbl=side==='izquierda'?'Ala Izq.':'Ala Der.';
-      ala.cursos.filter(c=>cursoConDatos(c)&&cursoAlerta(c)).forEach(c=>{
-        const e=cursoEstado(c);
-        lista.push({alo,lbl,c,e});
+      (alo[side].cursos||[]).forEach(c=>{
+        const st=cursoStatus(c);
+        if(st==='vencido'||st==='alerta')
+          lista.push({alo,side,curso:c,st,dr:diasRestantes(c.fechaFin)});
       });
     });
   });
+  lista.sort((a,b)=>{
+    if(a.st==='vencido'&&b.st!=='vencido')return -1;
+    if(b.st==='vencido'&&a.st!=='vencido')return 1;
+    return (a.dr??0)-(b.dr??0);
+  });
+  return lista;
+}
+function checkAlerts(){
+  const lista=recopilarAlertas(),total=lista.length;
   const banner=document.getElementById('alertBanner');
-  const listEl=document.getElementById('alertList');
-  if(!lista.length){banner.classList.remove('show');return;}
-  banner.classList.add('show');
-  listEl.innerHTML=lista.map(x=>{
-    const nombre=x.c.curso||'Sin nombre';
-    const rango=(x.c.fechaInicio||x.c.fechaFin)?fmtFecha(x.c.fechaInicio)+' al '+fmtFecha(x.c.fechaFin):'Sin fechas';
-    const icon=x.e.tipo==='vencido'?'🔴':'⚠️';
-    const cls=x.e.tipo==='vencido'?'vencido':'';
-    return`<div class="alert-item">
-      <span class="ai-icon">${icon}</span>
-      <span class="ai-text"><b>Barraca ${x.alo.numero} · ${x.lbl}</b> · ${nombre} · ${rango}</span>
-      <span class="ai-dias ${cls}">${x.e.label}</span>
-    </div>`;
-  }).join('');
+  if(total){
+    banner.style.display='block';
+    const msgs=lista.slice(0,4).map(x=>{
+      const lab=x.side==='izquierda'?'IZQ':'DER';
+      return x.st==='vencido'
+        ?`B${x.alo.numero} ${lab} · ${x.curso.curso||'—'} · VENCIDO`
+        :`B${x.alo.numero} ${lab} · ${x.curso.curso||'—'} · ⚠️ ${x.dr}d`;
+    });
+    banner.textContent='⚠️  '+msgs.join('   |   ')+(total>4?`  ...(+${total-4} más)`:'');
+  } else {banner.style.display='none';}
+  const badge=document.getElementById('alertBadge');
+  if(total){badge.style.display='flex';badge.textContent=total>99?'99+':total;}
+  else{badge.style.display='none';}
 }
 
-/* ── FILTROS ── */
-let currentFilter="all",searchTerm="";
-function sinAcentos(t){return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function cursoCoincide(c,q){
-  return[c.curso,c.grupo,c.grupoOtro,c.cdte,c.tel,c.fe,c.otro,c.extPais,c.genero,
-         fmtFecha(c.fechaInicio),fmtFecha(c.fechaFin)].some(v=>v&&sinAcentos(v).includes(q));
+// ═══════════════════════════════════════
+//  POR FINALIZAR
+// ═══════════════════════════════════════
+function mostrarPorFinalizar(){
+  document.getElementById('carouselSection').style.display='none';
+  document.getElementById('resumenSection').style.display='none';
+  document.getElementById('porFinalizarSection').style.display='block';
+  renderPorFinalizar();
 }
-function coincideNumero(n,q){return String(n).includes(q)||sinAcentos('barraca '+n).includes(q);}
-function alaCoincideBusqueda(alo,ala){
-  if(!searchTerm)return true;
-  if(coincideNumero(alo.numero,searchTerm))return true;
-  return ala.cursos.some(c=>cursoCoincide(c,searchTerm));
+function ocultarPorFinalizar(){
+  document.getElementById('porFinalizarSection').style.display='none';
+  document.getElementById('carouselSection').style.display='block';
 }
-function alaPasaFiltro(alo,ala){
-  if(currentFilter==='all')return true;
-  if(currentFilter==='atencion')return alaAlerta(ala);
-  return _statusBaseAla(alo,ala)===currentFilter;
-}
-document.getElementById('filters').addEventListener('click',e=>{
-  const p=e.target.closest('.pill');if(!p)return;
-  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-  p.classList.add('active');currentFilter=p.getAttribute('data-f');render();
-});
-let searchTimer=null;
-document.getElementById('searchBox').addEventListener('input',e=>{
-  clearTimeout(searchTimer);
-  const v=e.target.value;
-  searchTimer=setTimeout(()=>{searchTerm=sinAcentos(v.trim());render();},180);
-});
-
-/* ── RENDER PRINCIPAL ── */
-function render(){
-  renderAlertBanner();
-  if(resumenAbierto) actualizarResumenTexto();
-  const grid=document.getElementById('grid');
-  grid.innerHTML='';
-  let visibles=0;
-
-  state.alojamientos.forEach(alo=>{
-    const coincideN=searchTerm&&coincideNumero(alo.numero,searchTerm);
-    const showIzq=(coincideN||alaCoincideBusqueda(alo,alo.izquierda))&&alaPasaFiltro(alo,alo.izquierda);
-    const showDer=(coincideN||alaCoincideBusqueda(alo,alo.derecha))&&alaPasaFiltro(alo,alo.derecha);
-    if(!showIzq&&!showDer)return;
-    visibles++;
-
-    const cap=num(alo.capacidad);
-    const ocTotal=feBarraca(alo);
-    const dispTotal=disponiblesBarraca(alo);
-    const excTotal=excesoBarraca(alo);
-
-    let capInfoHtml='';
-    if(cap<=0) capInfoHtml=`<span class="cap-barraca-info">Define la capacidad para calcular disponibilidad</span>`;
-    else if(ocTotal>cap) capInfoHtml=`<span class="cap-barraca-info">FE total: <b class="malo">${ocTotal}/${cap}</b> · excede en <b class="malo">${excTotal}</b></span>`;
-    else capInfoHtml=`<span class="cap-barraca-info">FE total: ${ocTotal}/${cap} · Disponible: <b>${dispTotal}</b> cupos</span>`;
-
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=`
-      <div class="card-head">
-        <div class="num">BARRACA <span>N° ${alo.numero}</span></div>
-        <div class="tools">
-          <button class="mini-btn magenta" data-part-alo="${alo.numero}">📋 Parte barraca</button>
-          <button class="del-alo" title="Eliminar barraca" data-del="${alo.numero}">✕</button>
-        </div>
-      </div>
-      <div class="cap-barraca-row">
-        <label>Capacidad:</label>
-        <input type="number" min="0" class="cap-barraca-input" value="${alo.capacidad}" placeholder="—" data-cap-input="${alo.numero}">
-        <button class="btn-save-cap" data-cap-save="${alo.numero}">Guardar</button>
-        ${capInfoHtml}
-      </div>
-      ${showIzq?alaHtml(alo,'izquierda',alo.izquierda,'ALA IZQUIERDA'):''}
-      ${showDer?alaHtml(alo,'derecha',alo.derecha,'ALA DERECHA'):''}
-    `;
-    grid.appendChild(card);
-  });
-
-  if(!visibles){
-    const v=document.createElement('div');v.className='empty-msg';
-    v.textContent='No hay barracas que coincidan con la búsqueda o el filtro.';
-    grid.appendChild(v);
+function renderPorFinalizar(){
+  const lista=recopilarAlertas();
+  const vencidos=lista.filter(x=>x.st==='vencido').length;
+  const alertas=lista.filter(x=>x.st==='alerta').length;
+  const totalCursos=state.alojamientos.reduce((s,a)=>
+    s+(a.izquierda.cursos||[]).length+(a.derecha.cursos||[]).length,0);
+  document.getElementById('pfNumVencidos').textContent=vencidos;
+  document.getElementById('pfNumAlertas').textContent=alertas;
+  document.getElementById('pfNumOk').textContent=Math.max(0,totalCursos-lista.length);
+  document.getElementById('pfFecha').textContent='Actualizado: '+fmtFecha(hoy());
+  const body=document.getElementById('pfBody');
+  if(!lista.length){
+    body.innerHTML=`<div class="pf-empty"><div class="ico">✅</div>
+      <p>¡Todo en orden!</p><small>No hay cursos vencidos ni próximos a vencer.</small></div>`;
+    return;
   }
-
-  /* eventos capacidad */
-  grid.querySelectorAll('[data-cap-save]').forEach(btn=>{
-    btn.addEventListener('click',e=>{
-      e.stopPropagation();
-      const n=parseInt(btn.getAttribute('data-cap-save'),10);
-      const inp=grid.querySelector(`[data-cap-input="${n}"]`);
-      const alo=state.alojamientos.find(a=>a.numero===n);
-      if(!alo||!inp)return;
-      alo.capacidad=inp.value;
-      persist();render();
-      toast('✔ Capacidad de la barraca N° '+n+' guardada');
-    });
+  const grupos=new Map();
+  lista.forEach(item=>{
+    const k=item.alo.numero;
+    if(!grupos.has(k))grupos.set(k,{alo:item.alo,items:[]});
+    grupos.get(k).items.push(item);
   });
-  grid.querySelectorAll('[data-cap-input]').forEach(inp=>{
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){inp.closest('.cap-barraca-row').querySelector('[data-cap-save]').click();}});
-    inp.addEventListener('click',e=>e.stopPropagation());
+  let html='';
+  grupos.forEach(({alo,items})=>{
+    const hayVenc=items.some(x=>x.st==='vencido');
+    html+=`<div class="pf-grupo">
+      <div class="pf-grupo-hdr">
+        <span>${hayVenc?'🔴':'🟡'}</span>
+        <span>BARRACA N° ${alo.numero}</span>
+        <span style="margin-left:auto;font-size:.7rem;color:var(--gris)">${items.length} novedad${items.length>1?'es':''}</span>
+      </div>
+      <div class="pf-grupo-body">${items.map(renderPfItem).join('')}</div>
+    </div>`;
   });
-  grid.querySelectorAll('[data-open]').forEach(elm=>{
-    elm.addEventListener('click',()=>{const p=elm.getAttribute('data-open').split('|');openEdit(parseInt(p[0],10),p[1]);});
-  });
-  grid.querySelectorAll('[data-part]').forEach(elm=>{
-    elm.addEventListener('click',e=>{
-      e.stopPropagation();
-      const p=elm.getAttribute('data-part').split('|');
-      const alo=state.alojamientos.find(a=>a.numero===parseInt(p[0],10));
-      if(alo)abrirParteAla(alo,p[1]);
-    });
-  });
-  grid.querySelectorAll('[data-part-alo]').forEach(elm=>{
-    elm.addEventListener('click',e=>{
-      e.stopPropagation();
-      const alo=state.alojamientos.find(a=>a.numero===parseInt(elm.getAttribute('data-part-alo'),10));
-      if(alo)abrirParteBarraca(alo);
-    });
-  });
-  grid.querySelectorAll('[data-del]').forEach(elm=>{
-    elm.addEventListener('click',async e=>{
-      e.stopPropagation();
-      const n=parseInt(elm.getAttribute('data-del'),10);
-      const ok=await uiConfirm({title:'Eliminar barraca',msg:'¿Eliminar la barraca N° '+n+'? Esta acción no se puede deshacer.',okLabel:'Sí, eliminar'});
-      if(ok){state.alojamientos=state.alojamientos.filter(a=>a.numero!==n);persist();render();toast('🗑 Barraca N° '+n+' eliminada');}
-    });
-  });
+  body.innerHTML=html;
 }
-
-function alaHtml(alo,side,ala,label){
-  const s=statusAla(alo,ala);
-  const ocAla=feAla(ala);
-  const nCursos=ala.cursos.filter(cursoConDatos).length;
-  const hayDatos=alaConDatos(ala);
-  const alerta=alaAlerta(ala);
-  const cap=num(alo.capacidad);
-  const pct=cap>0?Math.min(100,Math.round(feBarraca(alo)/cap*100)):0;
-
-  const cursosResumen=ala.cursos.filter(cursoConDatos).map(c=>{
-    const g=c.grupo==='OTRO'?(c.grupoOtro||'OTRO'):(c.grupo||'-');
-    return`<span class="curso-line">${c.curso||'Sin curso'} <span style="color:var(--text-dim)">(${g}) · FE: <b>${num(c.fe)}</b></span></span>`;
-  }).join('');
-
-  const cursosConFecha=ala.cursos.filter(c=>cursoConDatos(c)&&(c.fechaInicio||c.fechaFin));
-  let fechaLinea='';
-  if(cursosConFecha.length){
-    const e0=cursoEstado(cursosConFecha[0]);
-    fechaLinea=`<span class="fecha-chip">📅 <b>${fmtFecha(cursosConFecha[0].fechaInicio)} → ${fmtFecha(cursosConFecha[0].fechaFin)}</b>
-      <span class="badge ${e0.cls}">${e0.label}</span></span>`;
+function renderPfItem({alo,side,curso,st,dr}){
+  const sideLabel=labelAla(side);
+  const ico=st==='vencido'?'🔴':'⚠️';
+  let badgeHTML,diasTxt;
+  if(st==='vencido'){
+    diasTxt=`Venció hace ${Math.abs(dr)} día${Math.abs(dr)!==1?'s':''}`;
+    badgeHTML=`<span class="pf-item-badge badge-vencido">VENCIDO</span>`;
   }else{
-    fechaLinea=`<span class="fecha-chip">📅 <span class="badge gris">${hayDatos?'Sin fechas del curso':'Sin curso registrado'}</span></span>`;
+    diasTxt=dr===0?'Vence HOY':`Vence en ${dr} día${dr!==1?'s':''}`;
+    badgeHTML=`<span class="pf-item-badge badge-alerta">⚠️ ${dr}d</span>`;
   }
-
-  return`
-    <div class="ala ${s}" data-open="${alo.numero}|${side}">
-      <div class="ala-row">
-        <span class="ala-name"><span class="dot ${s}"></span>${label}</span>
-        <span class="ala-state">${statusEmoji(s)} ${statusLabelAla(alo,ala)}${nCursos>1?' · '+nCursos+' cursos':''}${alerta?' <span class="badge yellow">⚠ REVISAR</span>':''}</span>
+  return `<div class="pf-item">
+    <div class="pf-item-ico">${ico}</div>
+    <div class="pf-item-body">
+      <div class="pf-item-title">${escHTML(curso.curso||'Sin nombre')}</div>
+      <div class="pf-item-sub">
+        <span>🏛️ ${sideLabel}</span>
+        ${curso.cdte?`<span>👤 ${escHTML(curso.cdte)}</span>`:''}
+        ${curso.tel?`<span>📞 ${escHTML(curso.tel)}</span>`:''}
+        <span>FE: ${curso.fe||0}</span>
       </div>
-      <div class="ala-meta"><span>FE en esta ala: <b>${ocAla}</b></span></div>
-      <div class="bar"><i style="width:${pct}%"></i></div>
-      ${!hayDatos?`<div class="sin-datos">Sin ocupación registrada · pulsa para asignar curso y fechas</div>`:''}
-      ${cursosResumen?`<div class="curso-list">${cursosResumen}</div>`:''}
-      <div class="ala-foot">
-        ${fechaLinea}
-        <button class="mini-btn" data-part="${alo.numero}|${side}">📋 Parte</button>
+      <div class="pf-item-sub" style="margin-top:4px">
+        ${curso.fechaIni?`<span>📅 ${fmtFecha(curso.fechaIni)}</span>`:''}
+        ${curso.fechaFin?`<span>🏁 ${fmtFecha(curso.fechaFin)}</span>`:''}
+        <span style="color:${st==='vencido'?'#ff6b6b':'#f39c12'};font-weight:700">${diasTxt}</span>
       </div>
-    </div>`;
+    </div>
+    ${badgeHTML}
+  </div>`;
 }
 
-/* ── MODAL EDICIÓN ── */
-const editOverlay=document.getElementById('editOverlay');
-const editModal=document.getElementById('editModal');
-let editState=null;
+// ══════════════════════════════════════════════════
+//  MODAL MOVER CURSO
+// ══════════════════════════════════════════════════
+function openMoverCurso(num, side, ci){
+  const alo=state.alojamientos.find(a=>a.numero===num);
+  if(!alo) return;
+  const c=alo[side].cursos[ci];
 
-function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  // Guardar contexto
+  _mv={aloNum:num, side, ci, destOpt:null, destNum:null, destSide:null};
 
-function cursoBlockHtml(curso,idx,canRemove){
-  const e=cursoEstado(curso);
-  const dur=duracionDias(curso.fechaInicio,curso.fechaFin);
-  let hintTxt='Sin fechas registradas';
-  if(curso.fechaInicio&&curso.fechaFin&&dur) hintTxt='📅 '+fmtFecha(curso.fechaInicio)+' → '+fmtFecha(curso.fechaFin)+' · '+dur+' día'+(dur===1?'':'s')+' · '+e.label;
-  else if(curso.fechaInicio) hintTxt='Inicio: '+fmtFecha(curso.fechaInicio)+' · falta la fecha de finalización';
-  else if(curso.fechaFin) hintTxt='Finalización: '+fmtFecha(curso.fechaFin)+' · falta la fecha de inicio';
+  // Rellenar vista previa
+  document.getElementById('mvNombre').textContent=c.curso||'Sin nombre';
+  document.getElementById('mvOrigen').textContent=
+    `Origen: Barraca N° ${num} — ${labelAla(side)}  ·  FE: ${c.fe||0}`;
 
-  return`
-    <div class="curso-block" data-idx="${idx}">
-      <div class="curso-head">
-        <span class="curso-title">CURSO ${idx+1}</span>
-        ${canRemove?`<button type="button" class="btn-remove-curso" data-idx="${idx}">✕ Quitar curso</button>`:''}
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label>Curso</label>
-          <input type="text" class="c_curso" value="${esc(curso.curso)}">
-        </div>
-        <div class="field">
-          <label>Grupo</label>
-          <select class="c_grupo">
-            <option value="">-- Seleccionar --</option>
-            ${GRUPOS.map(g=>`<option value="${g}" ${curso.grupo===g?'selected':''}>${g}</option>`).join('')}
-          </select>
-        </div>
-        <div class="field grupoOtroWrap" style="${curso.grupo==='OTRO'?'':'display:none;'}">
-          <label>¿Cuál grupo?</label>
-          <input type="text" class="c_grupoOtro" value="${esc(curso.grupoOtro)}">
-        </div>
-        <div class="field">
-          <label>CDTE asignación barraca</label>
-          <input type="text" class="c_cdte" value="${esc(curso.cdte)}">
-        </div>
-        <div class="field">
-          <label>Tel</label>
-          <input type="tel" class="c_tel" value="${esc(curso.tel)}">
-        </div>
-        <div class="field">
-          <label>FE (resta a la capacidad de la barraca)</label>
-          <input type="number" min="0" class="c_fe" value="${esc(curso.fe)}">
-        </div>
-        <div class="field full">
-          <label>📅 Fechas del curso</label>
-          <div class="dates-row">
-            <div class="field">
-              <label style="text-transform:none;letter-spacing:0;">Fecha de inicio</label>
-              <input type="date" class="c_fechaInicio" value="${esc(curso.fechaInicio)}">
-            </div>
-            <div class="field">
-              <label style="text-transform:none;letter-spacing:0;">Fecha de finalización</label>
-              <input type="date" class="c_fechaFin" value="${esc(curso.fechaFin)}">
-            </div>
-          </div>
-          <div class="hint c_duracion">${hintTxt}</div>
-        </div>
-        <div class="field full">
-          <label>Género del personal</label>
-          <div class="genero-radio">
-            <label><input type="radio" class="c_genero" name="gen_${idx}" value="HOMBRE" ${curso.genero==='HOMBRE'?'checked':''}> HOMBRE</label>
-            <label><input type="radio" class="c_genero" name="gen_${idx}" value="MUJER" ${curso.genero==='MUJER'?'checked':''}> MUJER</label>
-            <label><input type="radio" class="c_genero" name="gen_${idx}" value="" ${!curso.genero?'checked':''}> Sin definir</label>
-          </div>
-        </div>
-        <div class="sep-label">Los siguientes campos NO restan a la capacidad de la barraca</div>
-        <div class="field"><label>Ejército</label><input type="number" min="0" class="c_ejercito" value="${esc(curso.ejercito)}"></div>
-        <div class="field"><label>Armada</label><input type="number" min="0" class="c_armada" value="${esc(curso.armada)}"></div>
-        <div class="field"><label>Fuerza Aérea</label><input type="number" min="0" class="c_faerea" value="${esc(curso.faerea)}"></div>
-        <div class="field"><label>INPEC</label><input type="number" min="0" class="c_inpec" value="${esc(curso.inpec)}"></div>
-        <div class="field"><label>Extranjero — País</label><input type="text" class="c_extPais" value="${esc(curso.extPais)}"></div>
-        <div class="field"><label>Extranjero — Cantidad</label><input type="number" min="0" class="c_extCant" value="${esc(curso.extCant)}"></div>
-        <div class="field full"><label>Otro</label><input type="text" class="c_otro" value="${esc(curso.otro)}"></div>
-      </div>
-    </div>`;
-}
+  // Resetear selección
+  document.getElementById('dopt1').classList.remove('selected');
+  document.getElementById('dopt2').classList.remove('selected');
+  document.getElementById('dopt1check').textContent='';
+  document.getElementById('dopt2check').textContent='';
+  document.getElementById('panelOpt1').style.display='none';
+  document.getElementById('panelOpt2').style.display='none';
+  document.getElementById('alaDestGrp').style.display='none';
+  document.getElementById('capAviso').style.display='none';
 
-function syncEditStateFromDOM(){
-  if(!editState)return;
-  editState.cursos=Array.from(editModal.querySelectorAll('.curso-block')).map(block=>{
-    const genEl=block.querySelector('.c_genero:checked');
-    return{
-      curso:block.querySelector('.c_curso').value,
-      grupo:block.querySelector('.c_grupo').value,
-      grupoOtro:block.querySelector('.c_grupoOtro')?block.querySelector('.c_grupoOtro').value:'',
-      cdte:block.querySelector('.c_cdte').value,
-      tel:block.querySelector('.c_tel').value,
-      fe:block.querySelector('.c_fe').value,
-      fechaInicio:block.querySelector('.c_fechaInicio').value,
-      fechaFin:block.querySelector('.c_fechaFin').value,
-      genero:genEl?genEl.value:'',
-      ejercito:block.querySelector('.c_ejercito').value,
-      armada:block.querySelector('.c_armada').value,
-      faerea:block.querySelector('.c_faerea').value,
-      inpec:block.querySelector('.c_inpec').value,
-      extPais:block.querySelector('.c_extPais').value,
-      extCant:block.querySelector('.c_extCant').value,
-      otro:block.querySelector('.c_otro').value
-    };
-  });
-}
-
-function wireCursoBlock(block){
-  const ini=block.querySelector('.c_fechaInicio');
-  const fin=block.querySelector('.c_fechaFin');
-  const out=block.querySelector('.c_duracion');
-  if(!ini||!fin||!out)return;
-  function act(){
-    if(ini.value) fin.min=ini.value; else fin.removeAttribute('min');
-    out.classList.remove('bad','ok');
-    if(!ini.value&&!fin.value){out.textContent='Sin fechas registradas';return;}
-    if(ini.value&&!fin.value){out.textContent='Inicio: '+fmtFecha(ini.value)+' · falta la fecha de finalización';return;}
-    if(!ini.value&&fin.value){out.textContent='Finalización: '+fmtFecha(fin.value)+' · falta la fecha de inicio';return;}
-    const d=duracionDias(ini.value,fin.value);
-    if(d!==null&&d<1){out.textContent='⚠ La fecha de finalización no puede ser anterior a la de inicio';out.classList.add('bad');return;}
-    const e=cursoEstado({fechaInicio:ini.value,fechaFin:fin.value});
-    out.textContent='📅 '+fmtFecha(ini.value)+' → '+fmtFecha(fin.value)+' · '+d+' día'+(d===1?'':'s')+' · '+e.label;
-    out.classList.add('ok');
+  // Verificar si puede cambiar de ala (máx cursos)
+  const otraSide=otroLado(side);
+  const otraAla=alo[otraSide];
+  const opt1Dis=otraAla.cursos.length>=MAX_CURSOS;
+  const opt1El=document.getElementById('dopt1');
+  if(opt1Dis){
+    opt1El.classList.add('disabled');
+    document.getElementById('dopt1sub').textContent=
+      `Ala ${labelAla(otraSide)} llena (máx ${MAX_CURSOS})`;
+  } else {
+    opt1El.classList.remove('disabled');
+    document.getElementById('dopt1sub').textContent=
+      `Mover a ${labelAla(otraSide)} de la misma barraca`;
   }
-  ini.addEventListener('change',act);fin.addEventListener('change',act);act();
+
+  openModal('modalMover');
 }
 
-function renderEditModal(){
-  const{numero,side,cursos}=editState;
-  const alo=state.alojamientos.find(a=>a.numero===numero);
-  const cap=num(alo?alo.capacidad:0);
-  const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
-  const canRemove=cursos.length>1;
-  const otroSide=side==='izquierda'?'derecha':'izquierda';
-  const feOtra=alo?feAla(alo[otroSide]):0;
+function selDestino(opt){
+  _mv.destOpt=opt; _mv.destNum=null; _mv.destSide=null;
 
-  editModal.innerHTML=`
-    <h2>BARRACA N° ${numero} &middot; ${label}</h2>
-    <div class="sub">Capacidad de la barraca: <b style="color:var(--cyan)">${cap||'No definida'}</b>${cap>0?' · FE otra ala: '+feOtra+' · Disponible para esta ala: '+Math.max(0,cap-feOtra):''}</div>
-    <div class="hint" id="cap_hint_modal" style="margin-bottom:16px;padding:8px 10px;border:1px dashed var(--border);border-radius:7px;"></div>
-    ${cursos.map((c,i)=>cursoBlockHtml(c,i,canRemove)).join('')}
-    <button type="button" class="btn-add-curso" id="btnAddCurso" ${cursos.length>=MAX_CURSOS?'disabled':''}>
-      ＋ Anexar curso ${cursos.length>=MAX_CURSOS?'(máximo alcanzado)':''}
-    </button>
-    <label class="chk-line">
-      <input type="checkbox" id="chkAutoParte" checked>
-      Generar el parte de esta ala al guardar los cambios
-    </label>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" id="btnClearAla">Limpiar campos</button>
-      <div class="left">
-        <button class="btn btn-ghost" id="btnCancelEdit">Cancelar</button>
-        <button class="btn btn-cyan" id="btnSaveEdit">Guardar cambios</button>
-      </div>
-    </div>`;
+  // Visual
+  document.getElementById('dopt1').classList.toggle('selected',opt===1);
+  document.getElementById('dopt2').classList.toggle('selected',opt===2);
+  document.getElementById('dopt1check').textContent=opt===1?'✓':'';
+  document.getElementById('dopt2check').textContent=opt===2?'✓':'';
+  document.getElementById('panelOpt1').style.display=opt===1?'block':'none';
+  document.getElementById('panelOpt2').style.display=opt===2?'block':'none';
+  document.getElementById('capAviso').style.display='none';
 
-  editModal.querySelectorAll('.c_grupo').forEach(sel=>{
-    sel.addEventListener('change',e=>{
-      const wrap=e.target.closest('.curso-block').querySelector('.grupoOtroWrap');
-      wrap.style.display=e.target.value==='OTRO'?'':'none';
-    });
-  });
-  editModal.querySelectorAll('.curso-block').forEach(wireCursoBlock);
-
-  const hint=editModal.querySelector('#cap_hint_modal');
-  function updHint(){
-    if(cap<=0){hint.textContent='Define la capacidad en la tarjeta de la barraca para ver disponibilidad.';hint.className='hint';return;}
-    const feEsta=Array.from(editModal.querySelectorAll('.curso-block')).reduce((a,b)=>a+num(b.querySelector('.c_fe').value),0);
-    const feTotal=feOtra+feEsta;
-    hint.classList.remove('bad','ok');
-    if(feTotal>cap){hint.textContent='⚠ FE total '+feTotal+'/'+cap+' · excede en '+(feTotal-cap);hint.classList.add('bad');}
-    else{hint.textContent='FE total '+feTotal+'/'+cap+' · quedan '+(cap-feTotal)+' cupos libres en la barraca';hint.classList.add('ok');}
+  if(opt===1){
+    // Mostrar info del destino automático
+    const alo=state.alojamientos.find(a=>a.numero===_mv.aloNum);
+    const otraSide=otroLado(_mv.side);
+    document.getElementById('opt1Info').textContent=
+      `→ Se moverá a: Barraca N° ${_mv.aloNum} — ${labelAla(otraSide)}`;
+    _mv.destNum=_mv.aloNum;
+    _mv.destSide=otraSide;
+    actualizarAvisoCapacidad();
+  } else {
+    // Construir grilla de barracas disponibles
+    construirGridBarracas();
   }
-  editModal.querySelectorAll('.c_fe').forEach(inp=>inp.addEventListener('input',()=>{syncEditStateFromDOM();updHint();}));
-  updHint();
-
-  editModal.querySelectorAll('.btn-remove-curso').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      syncEditStateFromDOM();
-      const idx=parseInt(btn.getAttribute('data-idx'),10);
-      if(editState.cursos.length<=1)return;
-      editState.cursos.splice(idx,1);renderEditModal();
-    });
-  });
-  editModal.querySelector('#btnAddCurso').addEventListener('click',()=>{
-    syncEditStateFromDOM();
-    if(editState.cursos.length>=MAX_CURSOS)return;
-    editState.cursos.push(defaultCurso());renderEditModal();
-    setTimeout(()=>editModal.lastElementChild&&editModal.lastElementChild.scrollIntoView({behavior:'smooth'}),80);
-  });
-  editModal.querySelector('#btnCancelEdit').addEventListener('click',closeEdit);
-  editModal.querySelector('#btnClearAla').addEventListener('click',async()=>{
-    const ok=await uiConfirm({title:'Limpiar campos',msg:'¿Limpiar todos los campos de esta ala?',okLabel:'Sí, limpiar'});
-    if(!ok)return;
-    const a=state.alojamientos.find(a=>a.numero===editState.numero);
-    a[editState.side]=defaultAla();persist();render();closeEdit();toast('🧽 Ala limpiada');
-  });
-  editModal.querySelector('#btnSaveEdit').addEventListener('click',guardarCambios);
 }
 
-async function guardarCambios(){
-  if(!editState)return;
-  syncEditStateFromDOM();
-  for(let i=0;i<editState.cursos.length;i++){
-    const c=editState.cursos[i];
-    if(c.fechaInicio&&c.fechaFin){
-      const d=duracionDias(c.fechaInicio,c.fechaFin);
-      if(d!==null&&d<1){toast('⚠ Curso '+(i+1)+': la fecha de finalización es anterior a la de inicio','warn');editModal.querySelectorAll('.curso-block')[i].scrollIntoView({behavior:'smooth',block:'center'});return;}
-    }
-    if((c.fechaInicio&&!c.fechaFin)||(!c.fechaInicio&&c.fechaFin)){
-      const ok=await uiConfirm({title:'Fechas incompletas',msg:'En el curso '+(i+1)+' solo registraste una fecha. ¿Guardar igual?',okLabel:'Sí, guardar',danger:false});
-      if(!ok)return;
-    }
-  }
-  const alo=state.alojamientos.find(a=>a.numero===editState.numero);
-  const feEsta=editState.cursos.reduce((a,c)=>a+num(c.fe),0);
-  const otroSide=editState.side==='izquierda'?'derecha':'izquierda';
-  const feOtra=feAla(alo[otroSide]);
-  const feTotal=feEsta+feOtra;
-  const cap=num(alo.capacidad);
-  if(cap>0&&feTotal>cap){
-    const ok=await uiConfirm({title:'FE mayor a la capacidad',msg:'La FE total ('+feTotal+') supera la capacidad de la barraca ('+cap+'). ¿Guardar de todas formas?',okLabel:'Sí, guardar'});
-    if(!ok)return;
-  }
-  const quiereParte=editModal.querySelector('#chkAutoParte')?.checked??true;
-  const{numero,side}=editState;
-  alo[side]={cursos:editState.cursos.map(normalizeCurso),updated:new Date().toISOString()};
-  persist();render();closeEdit();toast('✔ Cambios guardados');
-  if(quiereParte){const aloAct=state.alojamientos.find(a=>a.numero===numero);abrirParteAla(aloAct,side,'Generado al guardar los cambios');}
-}
-
-function openEdit(numero,side){
-  const alo=state.alojamientos.find(a=>a.numero===numero);
-  const ala=alo[side];
-  editState={numero,side,cursos:JSON.parse(JSON.stringify(ala.cursos.map(normalizeCurso)))};
-  renderEditModal();editOverlay.classList.add('show');
-}
-function closeEdit(){editOverlay.classList.remove('show');editState=null;}
-editOverlay.addEventListener('click',e=>{if(e.target===editOverlay)closeEdit();});
-
-/* ── GENERADORES DE PARTE ── */
-/* CORRECCIÓN PRINCIPAL: cada bloque lleva siempre "BARRACA N° X" */
-function lineaCurso(c,i,multi){
-  const grupo=c.grupo==='OTRO'?(c.grupoOtro||'OTRO'):(c.grupo||'-');
-  const e=cursoEstado(c);
-  const fe=num(c.fe);
-  let fechas='No registradas';
-  if(c.fechaInicio||c.fechaFin){
-    fechas=fmtFecha(c.fechaInicio)+' al '+fmtFecha(c.fechaFin);
-    const d=duracionDias(c.fechaInicio,c.fechaFin);
-    if(d) fechas+=' ('+d+' día'+(d===1?'':'s')+')';
-    fechas+=' · '+e.label;
-  }
-  return(multi?'  — CURSO '+(i+1)+' —\n':'')+
-    '  • Curso: '+(c.curso||'-')+'\n'+
-    '  • GRUPO: '+grupo+'\n'+
-    '  • CDTE ASIGNACIÓN BARRACA: '+(c.cdte||'-')+'\n'+
-    '  • Tel: '+(c.tel||'-')+'\n'+
-    '  • FE (resta capacidad): '+fe+'\n'+
-    '  • 📅 FECHA DE INICIO: '+(c.fechaInicio?fmtFecha(c.fechaInicio):'-')+'\n'+
-    '  • 📅 FECHA DE FINALIZACIÓN: '+(c.fechaFin?fmtFecha(c.fechaFin):'-')+'\n'+
-    '  • DURACIÓN / ESTADO: '+fechas+'\n'+
-    '  • GÉNERO: '+(c.genero||'Sin definir')+'\n'+
-    '  • EJÉRCITO: '+(c.ejercito||0)+'\n'+
-    '  • ARMADA: '+(c.armada||0)+'\n'+
-    '  • FUERZA AÉREA: '+(c.faerea||0)+'\n'+
-    '  • INPEC: '+(c.inpec||0)+'\n'+
-    '  • EXTRANJEROS — PAÍS: '+(c.extPais||'-')+' ('+(c.extCant||0)+')\n'+
-    '  • OTRO: '+(c.otro||'-');
-}
-
-/* Bloque de un ala — SIEMPRE incluye BARRACA N° X */
-function parteAlaBloque(alo,side,modo){
-  const ala=alo[side];
-  const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
-  const s=statusAla(alo,ala);
-  const feA=feAla(ala);
-  const cursos=ala.cursos.filter(cursoConDatos);
-  const detalle=cursos.length
-    ?cursos.map((c,i)=>lineaCurso(c,i,cursos.length>1)).join('\n\n')
-    :'  (Sin cursos registrados en esta ala)';
-
-  if(modo==='individual'){
-    const cap=num(alo.capacidad),ocT=feBarraca(alo),disp=disponiblesBarraca(alo),exc=excesoBarraca(alo);
-    return'🛏️ *BARRACA N° '+alo.numero+' — '+label+'*\n'+
-      statusEmoji(s)+' Estado: '+statusLabelAla(alo,ala)+'\n'+
-      '🕒 '+fmtDate()+'\n\n'+
-      '• Capacidad total de la barraca: '+(cap>0?cap:'Sin definir')+'\n'+
-      '• FE total barraca (ambas alas): '+ocT+'\n'+
-      '• FE en esta ala: '+feA+'\n'+
-      '• DISPONIBILIDAD: '+(cap>0?disp+' cupo(s) libre(s)':'sin capacidad definida')+'\n'+
-      (exc>0?'• ⚠ SOBREOCUPADA: excede la capacidad en '+exc+' persona(s)\n':'')+
-      '• Última actualización: '+fmtSello(ala.updated)+'\n\n'+
-      detalle+'\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
-  }
-  /* modo compacto para el parte general — también lleva BARRACA N° X */
-  return'▸ *BARRACA N° '+alo.numero+' — '+label+'*  '+statusEmoji(s)+' '+statusLabelAla(alo,ala)+'\n'+
-    '  FE esta ala: '+feA+' | Últ. actualiz.: '+fmtSello(ala.updated)+'\n\n'+
-    detalle;
-}
-
-function buildAlaParte(alo,side,nota){
-  return parteAlaBloque(alo,side,'individual')+(nota?'\n('+nota+')':'');
-}
-
-function buildBarracaParte(alo){
-  const cap=num(alo.capacidad),oc=feBarraca(alo),disp=disponiblesBarraca(alo),pct=pctOcupacionBarraca(alo);
-  return'🏠 *BARRACA N° '+alo.numero+' — PARTE COMPLETO (AMBAS ALAS)*\n'+
-    '🕒 '+fmtDate()+'\n\n'+
-    'RESUMEN DE LA BARRACA\n'+
-    '• Capacidad total: '+(cap>0?cap:'Sin definir')+'\n'+
-    '• FE total: '+oc+'\n'+
-    '• DISPONIBILIDAD: '+(cap>0?disp+' cupo(s) libre(s) ('+(100-pct)+'% libre)':'sin capacidad definida')+'\n\n'+
-    parteAlaBloque(alo,'izquierda','compacto')+'\n\n'+
-    parteAlaBloque(alo,'derecha','compacto')+'\n\n'+
-    '"LEALTAD, VALOR, ABNEGACIÓN"';
-}
-
-function buildReport(){
-  let capTotal=0,ocTotal=0;
-  const bloques=[],alertas=[];
-  let sinOcup=0;
+function construirGridBarracas(){
+  const grid=document.getElementById('barracasGridMini');
+  grid.innerHTML='';
   state.alojamientos.forEach(alo=>{
-    capTotal+=num(alo.capacidad);
-    ocTotal+=feBarraca(alo);
+    const div=document.createElement('div');
+    const esOrigen=alo.numero===_mv.aloNum;
+    div.className='bn'+(esOrigen?' bn-origen':'');
+    div.textContent=alo.numero;
+    div.title=esOrigen?'Barraca origen':`Barraca N° ${alo.numero}`;
+    if(!esOrigen){
+      div.onclick=()=>selBarracaDest(alo.numero);
+    }
+    grid.appendChild(div);
+  });
+  document.getElementById('alaDestGrp').style.display='none';
+}
+
+function selBarracaDest(num){
+  _mv.destNum=num; _mv.destSide=null;
+  // Marcar seleccionada
+  document.querySelectorAll('.bn').forEach(el=>{
+    el.classList.toggle('bn-sel',parseInt(el.textContent)===num);
+  });
+  // Mostrar selector de ala
+  const aloD=state.alojamientos.find(a=>a.numero===num);
+  const grp=document.getElementById('alaDestGrp');
+  grp.style.display='block';
+  // Deshabilitar alas llenas
+  const izqLlena=aloD.izquierda.cursos.length>=MAX_CURSOS;
+  const derLlena=aloD.derecha.cursos.length>=MAX_CURSOS;
+  const btnIzq=document.getElementById('alaDestIzq');
+  const btnDer=document.getElementById('alaDestDer');
+  btnIzq.classList.remove('ala-sel','ala-dis');
+  btnDer.classList.remove('ala-sel','ala-dis');
+  if(izqLlena)btnIzq.classList.add('ala-dis');
+  if(derLlena)btnDer.classList.add('ala-dis');
+  document.getElementById('capAviso').style.display='none';
+}
+
+function selAlaDest(side){
+  _mv.destSide=side;
+  document.getElementById('alaDestIzq').classList.toggle('ala-sel',side==='izquierda');
+  document.getElementById('alaDestDer').classList.toggle('ala-sel',side==='derecha');
+  actualizarAvisoCapacidad();
+}
+
+function actualizarAvisoCapacidad(){
+  const aviso=document.getElementById('capAviso');
+  if(!_mv.destNum||!_mv.destSide){aviso.style.display='none';return;}
+  const aloD=state.alojamientos.find(a=>a.numero===_mv.destNum);
+  if(!aloD){aviso.style.display='none';return;}
+
+  const c=state.alojamientos.find(a=>a.numero===_mv.aloNum)[_mv.side].cursos[_mv.ci];
+  const feMover=Number(c.fe||0);
+  const feActD=feTotal(aloD);
+  const capD=aloD.capacidad||0;
+  const dispD=Math.max(0,capD-feActD);
+
+  aviso.style.display='block';
+  if(_mv.destNum===_mv.aloNum){
+    // misma barraca — capacidad no cambia
+    aviso.className='cap-aviso ok';
+    aviso.textContent=`✅ Misma barraca — la capacidad no se ve afectada (Disp: ${disponibles(aloD)})`;
+  } else if(capD===0){
+    aviso.className='cap-aviso warn';
+    aviso.textContent=`⚠️ Barraca ${_mv.destNum} no tiene capacidad definida. El traslado se realizará igualmente.`;
+  } else if(feMover>dispD){
+    aviso.className='cap-aviso warn';
+    aviso.textContent=`⚠️ FE del curso (${feMover}) supera los disponibles en Barraca ${_mv.destNum} (${dispD}). Se moverá igualmente.`;
+  } else {
+    aviso.className='cap-aviso ok';
+    aviso.textContent=`✅ Disponibles en Barraca ${_mv.destNum}: ${dispD} → quedarán ${dispD-feMover} tras el traslado.`;
+  }
+}
+
+function ejecutarMover(){
+  // Validaciones
+  if(!_mv.destOpt){alert('Seleccione un destino');return;}
+  if(!_mv.destNum||!_mv.destSide){alert('Complete la selección de destino');return;}
+
+  // Verificar que no es exactamente el mismo lugar
+  if(_mv.destNum===_mv.aloNum && _mv.destSide===_mv.side){
+    alert('El destino es igual al origen. Seleccione un ala o barraca diferente.');return;
+  }
+
+  const aloOrig=state.alojamientos.find(a=>a.numero===_mv.aloNum);
+  const aloDest=state.alojamientos.find(a=>a.numero===_mv.destNum);
+  if(!aloOrig||!aloDest){alert('Error: barraca no encontrada');return;}
+
+  const alaDestArr=aloDest[_mv.destSide].cursos;
+  if(alaDestArr.length>=MAX_CURSOS){
+    alert(`El ala destino ya tiene el máximo de ${MAX_CURSOS} cursos.`);return;
+  }
+
+  // Extraer curso del origen
+  const [curso]=aloOrig[_mv.side].cursos.splice(_mv.ci,1);
+
+  // Insertar en destino
+  aloDest[_mv.destSide].cursos.push(curso);
+
+  saveState(); checkAlerts(); closeModal('modalMover');
+
+  // Refrescar tarjetas afectadas
+  refreshCard(_mv.aloNum);
+  if(_mv.destNum!==_mv.aloNum) refreshCard(_mv.destNum);
+
+  // Mensaje de éxito
+  const origLabel=`Barraca N° ${_mv.aloNum} — ${labelAla(_mv.side)}`;
+  const destLabel=`Barraca N° ${_mv.destNum} — ${labelAla(_mv.destSide)}`;
+  setTimeout(()=>alert(`✅ "${curso.curso||'Curso'}" movido exitosamente\n\nDe: ${origLabel}\nA:  ${destLabel}`),50);
+}
+
+// ═══════════════════════════════════════
+//  CARRUSEL
+// ═══════════════════════════════════════
+function buildCardDOM(alo){
+  const wrapper=document.createElement('div');
+  wrapper.className='c-card';
+  wrapper.dataset.num=alo.numero;
+  const inner=document.createElement('div');
+  inner.className='c-card-inner';
+  inner.innerHTML=buildCardHTML(alo);
+  const shield=document.createElement('div');
+  shield.className='c-card-shield';
+  wrapper.appendChild(inner);
+  wrapper.appendChild(shield);
+  return wrapper;
+}
+
+function buildCardHTML(alo){
+  const fe=feTotal(alo),disp=disponibles(alo),num=alo.numero;
+  return `
+    <div class="card-hdr">
+      <h2>🏛️ BARRACA N° ${num}</h2>
+      <div class="card-hdr-btns">
+        <button class="btn btn-sm" onclick="openParteModal(${num})">📄 Parte</button>
+        <button class="btn btn-sm btn-danger" onclick="confirmarEliminarBarraca(${num})">🗑️</button>
+      </div>
+    </div>
+    <div class="cap-row">
+      <label>Capacidad:</label>
+      <input type="number" min="0" id="cap_${num}" value="${alo.capacidad||0}"
+        onkeydown="if(event.key==='Enter')guardarCap(${num})"/>
+      <button class="btn btn-sm" onclick="guardarCap(${num})">Guardar</button>
+      <span class="cap-badge">FE:${fe} &nbsp;·&nbsp; Disp:${disp}</span>
+    </div>
+    <div class="alas">
+      ${buildAlaHTML(alo,'izquierda')}
+      ${buildAlaHTML(alo,'derecha')}
+    </div>`;
+}
+
+function buildAlaHTML(alo,side){
+  const ala=alo[side],label=side==='izquierda'?'◀ ALA IZQUIERDA':'ALA DERECHA ▶';
+  const cursos=ala.cursos||[],canAdd=cursos.length<MAX_CURSOS;
+  const cursosHTML=cursos.map((c,ci)=>{
+    const st=cursoStatus(c),dr=diasRestantes(c.fechaFin);
+    let badge='';
+    if(st==='vencido')badge='<span style="color:#ff4444;font-weight:700"> VENCIDO</span>';
+    else if(st==='alerta')badge=`<span style="color:#ffaa00;font-weight:700"> ⚠️ ${dr}d</span>`;
+    return `<div class="curso-item ${st}">
+      <strong>${escHTML(c.curso||'Sin nombre')}${badge}</strong>
+      <div class="ci-actions">
+        <button class="ci-btn move" title="Mover curso"
+          onclick="openMoverCurso(${alo.numero},'${side}',${ci})">↕</button>
+        <button class="ci-btn del" title="Eliminar curso"
+          onclick="deleteCurso(${alo.numero},'${side}',${ci})">✕</button>
+      </div>
+      <div class="ci-row">
+        ${c.cdte?`<span>👤 ${escHTML(c.cdte)}</span>`:''}
+        ${c.tel?`<span>📞 ${escHTML(c.tel)}</span>`:''}
+        <span>FE:${c.fe||0}</span>
+        <span>${escHTML(c.genero||'—')}</span>
+      </div>
+      <div class="ci-row">
+        ${c.fechaIni?`<span>📅 ${fmtFecha(c.fechaIni)}</span>`:''}
+        ${c.fechaFin?`<span>→ ${fmtFecha(c.fechaFin)}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  const addBtn=canAdd
+    ?`<button class="add-curso-btn" onclick="openAddCurso(${alo.numero},'${side}')">＋ Agregar curso</button>`
+    :`<div style="font-size:.68rem;color:var(--gris);text-align:center;padding:4px">Máx ${MAX_CURSOS} cursos</div>`;
+  return `<div class="ala">
+    <div class="ala-hdr">${label}</div>
+    <div class="ala-body">${cursosHTML}${addBtn}</div>
+  </div>`;
+}
+
+function refreshCard(num){
+  const alo=state.alojamientos.find(a=>a.numero===num);
+  const entry=cardNodes.get(num);
+  if(!alo||!entry)return;
+  entry.card.querySelector('.c-card-inner').innerHTML=buildCardHTML(alo);
+}
+
+function applyCardTransforms(){
+  state.alojamientos.forEach((alo,i)=>{
+    const entry=cardNodes.get(alo.numero);if(!entry)return;
+    const{card,shield}=entry;
+    const offset=i-carouselIdx,abs=Math.abs(offset),sign=Math.sign(offset)||1;
+    let tx,rotY,scale,tz,op,blur,zi;
+    if(offset===0){
+      tx=0;rotY=0;scale=1;tz=0;op=1;blur=0;zi=10;
+      card.classList.add('is-active');
+      shield.style.pointerEvents='none';shield.onclick=null;
+    }else if(abs===1){
+      tx=sign*CFG.sepX;rotY=-sign*CFG.rotY;scale=CFG.scaleSide;
+      tz=CFG.zSide;op=CFG.opSide;blur=1;zi=8;
+      card.classList.remove('is-active');
+      shield.style.pointerEvents='all';shield.onclick=()=>goTo(i);
+    }else if(abs===2){
+      tx=sign*CFG.sepX*1.8;rotY=-sign*CFG.rotY*1.15;scale=CFG.scaleFar;
+      tz=CFG.zFar;op=CFG.opFar;blur=2;zi=6;
+      card.classList.remove('is-active');
+      shield.style.pointerEvents='all';shield.onclick=()=>goTo(i);
+    }else{
+      tx=sign*CFG.sepX*3;rotY=-sign*CFG.rotY*1.3;scale=0.35;
+      tz=-260;op=0;blur=4;zi=1;
+      card.classList.remove('is-active');
+      shield.style.pointerEvents='none';shield.onclick=null;
+    }
+    card.style.zIndex=zi;card.style.opacity=op;
+    card.style.filter=blur?`blur(${blur}px)`:'none';
+    card.style.transform=`translate(calc(-50% + ${tx}px),-50%) rotateY(${rotY}deg) scale(${scale}) translateZ(${tz}px)`;
+  });
+}
+
+function syncCards(){
+  const track=document.getElementById('carouselTrack');
+  const nums=new Set(state.alojamientos.map(a=>a.numero));
+  cardNodes.forEach((entry,num)=>{
+    if(!nums.has(num)){track.removeChild(entry.card);cardNodes.delete(num);}
+  });
+  state.alojamientos.forEach(alo=>{
+    if(!cardNodes.has(alo.numero)){
+      const card=buildCardDOM(alo);
+      const shield=card.querySelector('.c-card-shield');
+      track.appendChild(card);cardNodes.set(alo.numero,{card,shield});
+    }else{refreshCard(alo.numero);}
+  });
+}
+function syncNav(){
+  const alos=state.alojamientos;
+  const dots=document.getElementById('dotContainer');dots.innerHTML='';
+  alos.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===carouselIdx?' active':'');
+    d.onclick=()=>goTo(i);dots.appendChild(d);
+  });
+  document.getElementById('btnPrev').disabled=carouselIdx===0;
+  document.getElementById('btnNext').disabled=carouselIdx===alos.length-1;
+  const empty=document.getElementById('emptyState');
+  const vp=document.getElementById('carouselViewport');
+  const nav=document.getElementById('carouselNav');
+  if(!alos.length){empty.style.display='block';vp.style.display='none';nav.style.display='none';}
+  else{empty.style.display='none';vp.style.display='block';nav.style.display='flex';}
+}
+function renderCarousel(){
+  syncCards();syncNav();
+  requestAnimationFrame(()=>requestAnimationFrame(applyCardTransforms));
+}
+function navigate(dir){
+  const n=state.alojamientos.length;if(!n)return;
+  carouselIdx=Math.max(0,Math.min(n-1,carouselIdx+dir));
+  syncNav();applyCardTransforms();
+}
+function goTo(i){carouselIdx=i;syncNav();applyCardTransforms();}
+
+(function initSwipe(){
+  let startX=null,dragging=false;
+  const vp=document.getElementById('carouselViewport');
+  vp.addEventListener('pointerdown',e=>{
+    if(e.target.closest('button,input,textarea,select,a'))return;
+    startX=e.clientX;dragging=false;
+    vp.setPointerCapture(e.pointerId);vp.classList.add('dragging');
+  });
+  vp.addEventListener('pointermove',e=>{if(startX===null)return;if(Math.abs(e.clientX-startX)>8)dragging=true;});
+  vp.addEventListener('pointerup',e=>{
+    if(startX===null){vp.classList.remove('dragging');return;}
+    const dx=e.clientX-startX;
+    if(dragging&&Math.abs(dx)>45)navigate(dx<0?1:-1);
+    startX=null;dragging=false;vp.classList.remove('dragging');
+  });
+  vp.addEventListener('pointercancel',()=>{startX=null;dragging=false;vp.classList.remove('dragging');});
+  document.addEventListener('keydown',e=>{
+    if(document.querySelector('.overlay.open'))return;
+    if(document.getElementById('porFinalizarSection').style.display!=='none')return;
+    if(e.key==='ArrowLeft')navigate(-1);
+    if(e.key==='ArrowRight')navigate(1);
+  });
+})();
+
+// ═══════════════════════════════════════
+//  ACCIONES
+// ═══════════════════════════════════════
+function guardarCap(num){
+  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
+  const inp=document.getElementById('cap_'+num);if(!inp)return;
+  alo.capacidad=Math.max(0,parseInt(inp.value)||0);
+  saveState();checkAlerts();refreshCard(num);
+}
+function confirmarEliminarBarraca(num){
+  if(!confirm(`¿Eliminar BARRACA N° ${num}? Se borrarán todos sus cursos.`))return;
+  state.alojamientos=state.alojamientos.filter(a=>a.numero!==num);
+  carouselIdx=Math.min(carouselIdx,Math.max(0,state.alojamientos.length-1));
+  saveState();renderCarousel();checkAlerts();
+}
+function deleteCurso(num,side,ci){
+  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
+  const c=alo[side].cursos[ci];
+  if(!confirm(`¿Eliminar curso "${c.curso||'sin nombre'}"?`))return;
+  alo[side].cursos.splice(ci,1);
+  saveState();checkAlerts();refreshCard(num);
+  if(document.getElementById('porFinalizarSection').style.display!=='none')renderPorFinalizar();
+}
+
+// ═══════════════════════════════════════
+//  MODAL CURSO
+// ═══════════════════════════════════════
+function openAddCurso(num,side){
+  _curCtx={aloIdx:state.alojamientos.findIndex(a=>a.numero===num),side};
+  document.getElementById('modalCursoTitle').textContent=
+    `Agregar Curso — Barraca ${num} · ${labelAla(side)}`;
+  ['cNombre','cCdte','cTel','cExtrPais','cNotas'].forEach(id=>document.getElementById(id).value='');
+  ['cFE','cEjercito','cArmada','cAerea','cInpec','cExtrCant','cOtro'].forEach(id=>document.getElementById(id).value=0);
+  document.getElementById('cFechaIni').value='';
+  document.getElementById('cFechaFin').value='';
+  document.querySelector('input[name="cGenero"][value="HOMBRE"]').checked=true;
+  openModal('modalCurso');
+}
+function saveCurso(){
+  const{aloIdx,side}=_curCtx;if(aloIdx<0)return;
+  const alo=state.alojamientos[aloIdx];
+  const nombre=document.getElementById('cNombre').value.trim();
+  if(!nombre){alert('Ingrese el nombre del curso');return;}
+  const fechaFin=document.getElementById('cFechaFin').value;
+  if(!fechaFin){alert('Ingrese la fecha de fin');return;}
+  if(alo[side].cursos.length>=MAX_CURSOS){alert(`Máximo ${MAX_CURSOS} cursos por ala`);return;}
+  const genero=document.querySelector('input[name="cGenero"]:checked').value;
+  alo[side].cursos.push({
+    curso:nombre,cdte:document.getElementById('cCdte').value.trim(),
+    tel:document.getElementById('cTel').value.trim(),
+    fe:parseInt(document.getElementById('cFE').value)||0,genero,
+    ejercito:parseInt(document.getElementById('cEjercito').value)||0,
+    armada:parseInt(document.getElementById('cArmada').value)||0,
+    aerea:parseInt(document.getElementById('cAerea').value)||0,
+    inpec:parseInt(document.getElementById('cInpec').value)||0,
+    extrPais:document.getElementById('cExtrPais').value.trim(),
+    extrCant:parseInt(document.getElementById('cExtrCant').value)||0,
+    otro:parseInt(document.getElementById('cOtro').value)||0,
+    fechaIni:document.getElementById('cFechaIni').value,
+    fechaFin,notas:document.getElementById('cNotas').value.trim()
+  });
+  saveState();checkAlerts();closeModal('modalCurso');refreshCard(alo.numero);
+}
+
+// ═══════════════════════════════════════
+//  MODAL BARRACA
+// ═══════════════════════════════════════
+function openAddBarraca(){
+  const usados=new Set(state.alojamientos.map(a=>a.numero));
+  const grid=document.getElementById('selectorGrid');grid.innerHTML='';
+  for(let n=1;n<=20;n++){
+    const div=document.createElement('div');
+    div.className='sel-num'+(usados.has(n)?' usado':'');
+    div.textContent=n;
+    if(!usados.has(n))div.onclick=()=>addBarraca(n);
+    grid.appendChild(div);
+  }
+  openModal('modalBarraca');
+}
+function addBarraca(num){
+  if(state.alojamientos.find(a=>a.numero===num))return;
+  state.alojamientos.push(makeAlo(num));
+  state.alojamientos.sort((a,b)=>a.numero-b.numero);
+  carouselIdx=state.alojamientos.findIndex(a=>a.numero===num);
+  saveState();closeModal('modalBarraca');renderCarousel();
+}
+
+// ═══════════════════════════════════════
+//  PARTES
+// ═══════════════════════════════════════
+function parteAlaBloque(alo,side){
+  const ala=alo[side],label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
+  const cursos=ala.cursos||[],fe=cursos.reduce((s,c)=>s+Number(c.fe||0),0);
+  let txt=`🛏️ *BARRACA N° ${alo.numero} — ${label}*\nFE esta ala: ${fe}\n`;
+  if(!cursos.length){txt+='(Sin cursos asignados)\n';}
+  else{cursos.forEach((c,i)=>{
+    const st=cursoStatus(c),dr=diasRestantes(c.fechaFin);
+    txt+=`\n  ${i+1}. *${c.curso||'—'}*`;
+    if(st==='vencido')txt+=' [VENCIDO]';else if(st==='alerta')txt+=` [⚠️ ${dr}d]`;
+    txt+='\n';
+    if(c.cdte)txt+=`     CDTE ASIGNACIÓN BARRACA: ${c.cdte}\n`;
+    if(c.tel)txt+=`     • Tel: ${c.tel}\n`;
+    txt+=`     • FE: ${c.fe||0}\n`;
+    txt+=`     • Género: ${c.genero||'—'}\n`;
+    if(c.ejercito)txt+=`     • Ejército: ${c.ejercito}\n`;
+    if(c.armada)txt+=`     • Armada: ${c.armada}\n`;
+    if(c.aerea)txt+=`     • Fuerza Aérea: ${c.aerea}\n`;
+    if(c.inpec)txt+=`     • INPEC: ${c.inpec}\n`;
+    if(c.extrCant)txt+=`     • Extranjero (${c.extrPais||'—'}): ${c.extrCant}\n`;
+    if(c.otro)txt+=`     • Otro: ${c.otro}\n`;
+    if(c.fechaIni)txt+=`     • Inicio: ${fmtFecha(c.fechaIni)}\n`;
+    if(c.fechaFin)txt+=`     • Fin: ${fmtFecha(c.fechaFin)}\n`;
+    if(c.notas)txt+=`     • Nota: ${c.notas}\n`;
+  });}
+  return txt;
+}
+function openParteModal(num){
+  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
+  document.getElementById('parteOut').textContent=
+    `📋 PARTE — BARRACA N° ${alo.numero}\nFecha: ${fmtFecha(hoy())}\n`+
+    `Capacidad: ${alo.capacidad||0} · FE total: ${feTotal(alo)} · Disponibles: ${disponibles(alo)}\n`+
+    `${'─'.repeat(40)}\n\n`+parteAlaBloque(alo,'izquierda')+'\n'+parteAlaBloque(alo,'derecha');
+  document.getElementById('parteTitulo').textContent=`Parte — Barraca N° ${num}`;
+  openModal('modalParte');
+}
+function openParteGeneral(){
+  let txt=`📋 PARTE GENERAL — CENOP\nFecha: ${fmtFecha(hoy())}\n${'═'.repeat(45)}\n\n`;
+  state.alojamientos.forEach(alo=>{
+    txt+=`${'─'.repeat(40)}\n`;
+    txt+=parteAlaBloque(alo,'izquierda')+'\n'+parteAlaBloque(alo,'derecha')+'\n';
+  });
+  const feG=state.alojamientos.reduce((s,a)=>s+feTotal(a),0);
+  const capG=state.alojamientos.reduce((s,a)=>s+(a.capacidad||0),0);
+  txt+=`${'═'.repeat(45)}\nTOTALES — Capacidad: ${capG} · FE: ${feG} · Disponibles: ${Math.max(0,capG-feG)}\n`;
+  document.getElementById('parteGenOut').textContent=txt;
+  openModal('modalParteGen');
+}
+
+// ═══════════════════════════════════════
+//  RESUMEN
+// ═══════════════════════════════════════
+function toggleResumen(){
+  const sec=document.getElementById('resumenSection');
+  const showing=sec.style.display==='block';
+  sec.style.display=showing?'none':'block';
+  if(!showing){buildResumen();document.getElementById('resumenBody').style.display='block';}
+}
+function collapseResumen(){
+  const body=document.getElementById('resumenBody'),arrow=document.getElementById('resumenArrow');
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';arrow.textContent=open?'▶':'▼';
+  if(!open)buildResumen();
+}
+function buildResumen(){
+  let txt='';
+  state.alojamientos.forEach(alo=>{
+    txt+=`BARRACA ${alo.numero}\n`;
     ['izquierda','derecha'].forEach(side=>{
-      const ala=alo[side];
-      const lbl=side==='izquierda'?'Ala Izq.':'Ala Der.';
-      if(!alaConDatos(ala)){sinOcup++;return;}
-      ala.cursos.filter(cursoConDatos).forEach(c=>{
-        if(!cursoAlerta(c))return;
-        const e=cursoEstado(c);
-        const rango=(c.fechaInicio||c.fechaFin)?' ('+fmtFecha(c.fechaInicio)+' al '+fmtFecha(c.fechaFin)+')':'';
-        /* alerta también lleva BARRACA N° X */
-        alertas.push('• BARRACA N° '+alo.numero+' · '+lbl+' · '+(c.curso||'Sin nombre')+rango+': '+e.label);
-      });
-      bloques.push(parteAlaBloque(alo,side,'compacto'));
+      const cursos=alo[side].cursos||[];
+      if(cursos.length){
+        txt+=`  ${labelAla(side)}:\n`;
+        cursos.forEach((c,i)=>{
+          txt+=`    ${i+1}. ${c.curso||'—'} — ${fmtFecha(c.fechaIni)} al ${fmtFecha(c.fechaFin)}\n`;
+        });
+      }
     });
   });
-  const libres=Math.max(0,capTotal-ocTotal);
-  const pct=capTotal>0?Math.round(ocTotal/capTotal*100):0;
-  return'📋 *PARTE GENERAL DE BARRACAS — CENOP*\n'+
-    'Dios y patria, respetuosamente envío parte de las Barracas o alojamientos CENOP así:\n'+
-    '🕒 '+fmtDate()+'\n\n'+
-    '*RESUMEN GENERAL*\n'+
-    '• Barracas: '+state.alojamientos.length+'\n'+
-    '• Capacidad total: '+capTotal+' · FE total: '+ocTotal+' · DISPONIBLES: '+libres+' ('+(100-pct)+'% libre)\n'+
-    '• Alas sin ocupación registrada: '+sinOcup+'\n'+
-    '• ⚠ Cursos por terminar o finalizados (7 días o menos): '+alertas.length+'\n\n'+
-    bloques.join('\n\n')+
-    (alertas.length?'\n\n⚠ *ALERTAS DE FECHAS*\n'+alertas.join('\n'):'')+
-    '\n\n"LEALTAD, VALOR, ABNEGACIÓN"';
+  document.getElementById('resumenPre').textContent=txt||'(Sin cursos registrados)';
+}
+function copyResumen(){
+  buildResumen();
+  navigator.clipboard.writeText(document.getElementById('resumenPre').textContent)
+    .then(()=>alert('✅ Copiado')).catch(()=>alert('No se pudo copiar'));
 }
 
-/* ── VENTANA PARTE ── */
-const reportOverlay=document.getElementById('reportOverlay');
-let reportCtx={titulo:'PARTE GENERAL DE BARRACAS'};
-function abrirParteAla(alo,side,nota){
-  const label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
-  openReport(buildAlaParte(alo,side,nota),'PARTE — BARRACA N° '+alo.numero+' · '+label,'Solo esta ala');
-}
-function abrirParteBarraca(alo){
-  openReport(buildBarracaParte(alo),'PARTE — BARRACA N° '+alo.numero+' (AMBAS ALAS)','Incluye ala izquierda y ala derecha');
-}
-function openReport(txt,titulo,sub){
-  reportCtx={titulo:titulo||'PARTE GENERAL DE BARRACAS'};
-  document.getElementById('reportTitle').textContent=titulo;
-  document.getElementById('reportSub').textContent=sub;
-  document.getElementById('reportText').value=txt;
-  document.getElementById('copiedMsg').classList.remove('show');
-  reportOverlay.classList.add('show');
-}
-document.getElementById('btnReport').addEventListener('click',()=>openReport(buildReport(),'PARTE GENERAL DE BARRACAS','Listo para copiar y enviar por WhatsApp'));
-document.getElementById('btnCloseReport').addEventListener('click',()=>reportOverlay.classList.remove('show'));
-reportOverlay.addEventListener('click',e=>{if(e.target===reportOverlay)reportOverlay.classList.remove('show');});
-document.getElementById('btnCopyReport').addEventListener('click',async()=>{
-  const ta=document.getElementById('reportText');
-  let ok=false;
-  try{await navigator.clipboard.writeText(ta.value);ok=true;}
-  catch(e){try{ta.select();ta.setSelectionRange(0,999999);ok=document.execCommand('copy');}catch(e2){}}
-  const msg=document.getElementById('copiedMsg');
-  if(ok){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),2500);}
-  else{ta.focus();ta.select();toast('⚠ Selecciona el texto y presiona Ctrl+C','warn');}
-});
-document.getElementById('btnDownloadReport').addEventListener('click',()=>{
-  const nombre='parte-'+slug(reportCtx.titulo)+'-'+hoyISO()+'.txt';
-  descargarArchivo(nombre,document.getElementById('reportText').value,'text/plain');
-  toast('⬇ Archivo '+nombre+' generado');
-});
-document.getElementById('btnPrintReport').addEventListener('click',()=>imprimirTexto(document.getElementById('reportText').value,reportCtx.titulo));
-
-/* ── UTILIDADES ── */
-function slug(t){return sinAcentos(t).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'parte';}
-function descargarArchivo(nombre,contenido,mime){
-  try{
-    const blob=new Blob([contenido],{type:(mime||'text/plain')+';charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;a.download=nombre;document.body.appendChild(a);a.click();
-    setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},800);
-  }catch(e){toast('⚠ No se pudo descargar el archivo en este entorno','warn');}
-}
-function imprimirTexto(txt,titulo){
-  let w=null;try{w=window.open('','_blank');}catch(e){w=null;}
-  if(!w){toast('⚠ La impresión no está disponible aquí','warn');return;}
-  const e2=txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  w.document.write('<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>'+titulo+'</title><style>body{font-family:Arial,sans-serif;white-space:pre-wrap;padding:26px;font-size:13px;line-height:1.5;color:#111}</style></head><body>'+e2+'</body></html>');
-  w.document.close();
-  setTimeout(()=>{try{w.focus();w.print();}catch(e){}},350);
-}
-
-/* ── RESPALDO ── */
-document.getElementById('btnBackup').addEventListener('click',()=>{
-  if(!state.alojamientos.length){toast('⚠ No hay datos para respaldar','warn');return;}
-  /* El respaldo incluye los datos directamente en "alojamientos" para máxima compatibilidad */
-  const data=JSON.stringify({
-    app:'BARRACAS-CENOP',
-    version:5,
-    exportado:new Date().toISOString(),
-    alojamientos:state.alojamientos
-  },null,2);
-  descargarArchivo('respaldo-barracas-'+hoyISO()+'.json',data,'application/json');
-  toast('⬇ Respaldo descargado · envíalo por WhatsApp como archivo adjunto · el receptor lo carga con "Restaurar respaldo"');
-});
-
-document.getElementById('btnRestore').addEventListener('click',()=>document.getElementById('restoreFile').click());
-document.getElementById('restoreFile').addEventListener('change',e=>{
-  const file=e.target.files&&e.target.files[0];if(!file)return;
-  const lector=new FileReader();
-  lector.onload=async()=>{
-    try{
-      const raw=String(lector.result);
-      if(raw.length>5*1024*1024){toast('⚠ El archivo es demasiado grande','warn');return;}
-      const obj=JSON.parse(raw);
-      /* aceptar cualquier formato: {alojamientos:[...]}, {state:{alojamientos:[...]}}, o array directo */
-      const nuevo=normalizeState(obj);
-      if(!nuevo.alojamientos.length) throw new Error('sin datos');
-      const ok=await uiConfirm({
-        title:'Restaurar respaldo',
-        msg:'Se cargará la información del respaldo ('+nuevo.alojamientos.length+' barracas). Esto reemplazará los datos actuales. ¿Continuar?',
-        okLabel:'Sí, restaurar',danger:false
-      });
-      if(!ok)return;
-      state=nuevo;
-      persist();render();
-      toast('✔ Respaldo restaurado correctamente · '+state.alojamientos.length+' barracas cargadas');
-    }catch(err){
-      toast('⚠ El archivo no es un respaldo válido de BARRACAS-CENOP','warn');
-    }
-    e.target.value='';
-  };
-  lector.readAsText(file);
-});
-
-/* ── AÑADIR BARRACA ── */
-const numOverlay=document.getElementById('numOverlay');
-document.getElementById('btnCancelNum').addEventListener('click',()=>numOverlay.classList.remove('show'));
-numOverlay.addEventListener('click',e=>{if(e.target===numOverlay)numOverlay.classList.remove('show');});
-document.getElementById('btnAdd').addEventListener('click',()=>{
-  const usados=new Set(state.alojamientos.map(a=>a.numero));
-  const cont=document.getElementById('numBtns');cont.innerHTML='';
-  NUMS_DISPONIBLES.forEach(n=>{
-    const btn=document.createElement('button');
-    btn.className='num-btn'+(usados.has(n)?' usado':'');
-    btn.textContent=n;
-    btn.title=usados.has(n)?'Barraca '+n+' ya existe':'Añadir barraca '+n;
-    if(!usados.has(n)){
-      btn.addEventListener('click',async()=>{
-        numOverlay.classList.remove('show');
-        state.alojamientos.push(defaultBarraca(n));
-        state.alojamientos.sort((a,b)=>a.numero-b.numero);
-        persist();render();toast('＋ Barraca N° '+n+' añadida');
-      });
-    }
-    cont.appendChild(btn);
+// ═══════════════════════════════════════
+//  EXPORT / IMPORT
+// ═══════════════════════════════════════
+function exportJSON(){
+  const data={app:'BARRACAS-CENOP',version:5,exportado:new Date().toISOString(),alojamientos:state.alojamientos};
+  const a=Object.assign(document.createElement('a'),{
+    href:URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),
+    download:`barracas-cenop-${hoy()}.json`
   });
-  numOverlay.classList.add('show');
+  a.click();URL.revokeObjectURL(a.href);
+}
+function importJSON(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      state=normalizeState(JSON.parse(ev.target.result));
+      carouselIdx=0;cardNodes.clear();
+      document.getElementById('carouselTrack').innerHTML='';
+      saveState();renderCarousel();checkAlerts();
+      alert('✅ Importado correctamente');
+    }catch(err){alert('Error al importar: '+err.message);}
+  };
+  reader.readAsText(file);e.target.value='';
+}
+
+// ═══════════════════════════════════════
+//  UTIL
+// ═══════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function copyEl(id){
+  navigator.clipboard.writeText(document.getElementById(id).textContent)
+    .then(()=>alert('✅ Copiado')).catch(()=>alert('No se pudo copiar'));
+}
+document.querySelectorAll('.overlay').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');});
 });
 
-/* ── RESTABLECER ── */
-document.getElementById('btnResetAll').addEventListener('click',async()=>{
-  const ok=await uiConfirm({title:'Restablecer todo',msg:'Esto borrará TODOS los datos y volverá a las barracas por defecto (1,2,3,4,5,11,13,14,15,16,17,18). ¿Continuar?',okLabel:'Sí, borrar todo'});
-  if(!ok)return;
-  state={alojamientos:[]};
-  NUMS_DEFAULT.forEach(n=>state.alojamientos.push(defaultBarraca(n)));
-  persist();render();toast('♻ Sistema restablecido');
-});
-
-/* ── AYUDA ── */
-const helpOverlay=document.getElementById('helpOverlay');
-document.getElementById('btnHelp').addEventListener('click',()=>helpOverlay.classList.add('show'));
-document.getElementById('btnCloseHelp').addEventListener('click',()=>helpOverlay.classList.remove('show'));
-helpOverlay.addEventListener('click',e=>{if(e.target===helpOverlay)helpOverlay.classList.remove('show');});
-
-/* ── ESC ── */
-document.addEventListener('keydown',e=>{
-  if(e.key!=='Escape')return;
-  if(document.getElementById('confirmOverlay').classList.contains('show')){cerrarConfirm(false);return;}
-  if(numOverlay.classList.contains('show')){numOverlay.classList.remove('show');return;}
-  editOverlay.classList.remove('show');editState=null;
-  reportOverlay.classList.remove('show');
-  helpOverlay.classList.remove('show');
-});
-
-/* ── INICIO ── */
-load();
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+function init(){
+  loadState();
+  if(!state.alojamientos.length){
+    DEFAULT_NOS.forEach(n=>state.alojamientos.push(makeAlo(n)));
+    saveState();
+  }
+  carouselIdx=0;
+  renderCarousel();
+  checkAlerts();
+}
+init();
 </script>
 </body>
 </html>
