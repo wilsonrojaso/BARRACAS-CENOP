@@ -1,1292 +1,1196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>BARRACAS-CENOP</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --verde:#1a3a1a;--verde2:#2d5a2d;--verde3:#3d7a3d;
-  --oro:#c8a84b;--oro2:#e8c86b;
-  --rojo:#c0392b;--rojo2:#e74c3c;
-  --naranja:#e67e22;--naranja2:#f39c12;
-  --azul:#2980b9;--azul2:#3498db;
-  --fondo:#0d1f0d;--texto:#e8e8e8;--gris:#888;
-}
-body{background:var(--fondo);color:var(--texto);font-family:'Segoe UI',sans-serif;min-height:100vh;
-  -webkit-tap-highlight-color:transparent;touch-action:pan-y;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Horario Semanal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-/* ── HEADER ── */
-header{background:linear-gradient(135deg,var(--verde),var(--verde2));
-  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
-  border-bottom:2px solid var(--oro);flex-wrap:wrap;gap:8px}
-header h1{color:var(--oro);font-size:1.3rem;letter-spacing:2px}
-header p{color:var(--oro2);font-size:.7rem;letter-spacing:1px}
-.hdr-btns{display:flex;gap:6px;flex-wrap:wrap}
-.btn{padding:7px 14px;border:1px solid var(--oro);background:transparent;
-  color:var(--oro);border-radius:6px;cursor:pointer;font-size:.8rem;transition:all .2s}
-.btn:hover,.btn:active{background:var(--oro);color:var(--verde)}
-.btn-sm{padding:4px 10px;font-size:.75rem}
-.btn-danger{border-color:var(--rojo);color:var(--rojo)}
-.btn-danger:hover,.btn-danger:active{background:var(--rojo);color:#fff}
-.btn-primary{background:var(--oro);color:var(--verde);font-weight:700}
-.btn-primary:hover,.btn-primary:active{background:var(--oro2)}
-.btn-warn{border-color:var(--naranja);color:var(--naranja);position:relative}
-.btn-warn:hover,.btn-warn:active{background:var(--naranja);color:#fff}
-.btn-warn .badge{position:absolute;top:-7px;right:-7px;background:var(--rojo2);color:#fff;
-  border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:700;
-  display:flex;align-items:center;justify-content:center;border:2px solid var(--fondo)}
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a2e;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
 
-/* ── ALERT BANNER ── */
-#alertBanner{display:none;background:linear-gradient(90deg,#7b0000,#c0392b,#7b0000);
-  color:#fff;padding:10px 20px;text-align:center;font-weight:700;font-size:.85rem;
-  border-bottom:2px solid #ff6b6b;animation:pulseBanner 1.5s infinite;cursor:pointer}
-@keyframes pulseBanner{0%,100%{opacity:1}50%{opacity:.75}}
+        .header {
+            background: linear-gradient(135deg, #1a1a4e 0%, #2d2d7e 100%);
+            padding: 15px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
 
-/* ══ SECCIONES ══ */
-#carouselSection{padding:20px 0 10px;position:relative}
-#porFinalizarSection{display:none;padding:16px}
+        .header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
 
-/* ══ POR FINALIZAR ══ */
-#pfCard{max-width:720px;margin:0 auto;
-  background:linear-gradient(160deg,var(--verde2),var(--verde));
-  border:2px solid var(--naranja);border-radius:16px;overflow:hidden;
-  box-shadow:0 0 30px rgba(230,126,34,.25);animation:pfGlow 2s infinite}
-@keyframes pfGlow{0%,100%{box-shadow:0 0 20px rgba(230,126,34,.2)}50%{box-shadow:0 0 40px rgba(230,126,34,.45)}}
-.pf-header{background:linear-gradient(90deg,#7b3a00,#c0620b,#7b3a00);
-  padding:14px 20px;display:flex;align-items:center;border-bottom:2px solid var(--naranja);flex-wrap:wrap;gap:10px}
-.pf-header-left{display:flex;align-items:center;gap:12px}
-.pf-header h2{color:#fff;font-size:1.1rem;letter-spacing:2px;font-weight:700}
-.pf-header p{color:rgba(255,255,255,.7);font-size:.72rem;margin-top:2px}
-.pf-icon{font-size:2rem;animation:pfPulse 1.2s infinite}
-@keyframes pfPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
-.pf-stats{display:flex;border-bottom:1px solid rgba(230,126,34,.3)}
-.pf-stat{flex:1;padding:10px 16px;text-align:center;border-right:1px solid rgba(230,126,34,.2)}
-.pf-stat:last-child{border-right:none}
-.pf-stat .num{font-size:1.6rem;font-weight:700;line-height:1}
-.pf-stat .lbl{font-size:.68rem;color:var(--gris);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
-.pf-stat.warn .num{color:var(--naranja2)}.pf-stat.danger .num{color:var(--rojo2)}.pf-stat.ok .num{color:#2ecc71}
-.pf-body{padding:16px;max-height:calc(100vh - 320px);overflow-y:auto}
-.pf-body::-webkit-scrollbar{width:5px}
-.pf-body::-webkit-scrollbar-thumb{background:var(--naranja);border-radius:3px}
-.pf-grupo{margin-bottom:16px}
-.pf-grupo-hdr{display:flex;align-items:center;gap:8px;padding:6px 10px;
-  background:rgba(0,0,0,.3);border-radius:6px 6px 0 0;border-left:3px solid var(--naranja);
-  font-size:.8rem;font-weight:700;color:var(--oro)}
-.pf-grupo-body{border:1px solid rgba(230,126,34,.2);border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
-.pf-item{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;
-  border-bottom:1px solid rgba(255,255,255,.06);transition:background .2s}
-.pf-item:last-child{border-bottom:none}
-.pf-item:hover{background:rgba(255,255,255,.04)}
-.pf-item-ico{font-size:1.4rem;flex-shrink:0;margin-top:2px}
-.pf-item-body{flex:1;min-width:0}
-.pf-item-title{font-size:.85rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pf-item-sub{font-size:.72rem;color:var(--gris);margin-top:3px;display:flex;flex-wrap:wrap;gap:4px 12px}
-.pf-item-badge{flex-shrink:0;padding:4px 10px;border-radius:20px;font-size:.72rem;font-weight:700;align-self:center;white-space:nowrap}
-.badge-vencido{background:rgba(192,57,43,.25);color:#ff6b6b;border:1px solid #c0392b}
-.badge-alerta{background:rgba(230,126,34,.2);color:#f39c12;border:1px solid #e67e22}
-.pf-empty{text-align:center;padding:40px 20px}
-.pf-empty .ico{font-size:3rem;margin-bottom:10px}
-.pf-empty p{color:#2ecc71;font-size:.9rem;font-weight:700}
-.pf-empty small{color:var(--gris);font-size:.75rem}
-.pf-footer{padding:12px 16px;border-top:1px solid rgba(230,126,34,.2);
-  background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.pf-footer small{color:var(--gris);font-size:.72rem}
-.btn-regresar{display:flex;align-items:center;gap:8px;padding:9px 20px;border-radius:8px;
-  background:linear-gradient(135deg,var(--verde2),var(--verde3));border:1px solid var(--oro);
-  color:var(--oro);cursor:pointer;font-size:.85rem;font-weight:700;letter-spacing:1px;transition:all .25s}
-.btn-regresar:hover,.btn-regresar:active{background:var(--oro);color:var(--verde)}
+        .week-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 8px;
+        }
 
-/* ══ CAROUSEL ══ */
-#carouselViewport{
-  width:100%;height:560px;position:relative;overflow:hidden;
-  perspective:1100px;perspective-origin:50% 45%;
-  /* touch-action:none permite capturar todos los gestos táctiles */
-  touch-action:none;
-  user-select:none;
-  -webkit-user-select:none;
-}
-#carouselTrack{width:100%;height:100%;position:relative;transform-style:preserve-3d}
+        .week-selector button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-.c-card{
-  position:absolute;width:340px;height:500px;top:50%;left:50%;
-  border-radius:14px;will-change:transform,opacity;pointer-events:none;
-  transition:transform .5s cubic-bezier(.25,.46,.45,.94),
-             opacity   .5s cubic-bezier(.25,.46,.45,.94),
-             filter    .5s ease;
-}
-.c-card-inner{
-  width:100%;height:100%;
-  background:linear-gradient(160deg,var(--verde2),var(--verde));
-  border:2px solid var(--verde3);border-radius:14px;
-  display:flex;flex-direction:column;overflow:hidden;
-  transition:border-color .4s,box-shadow .4s;pointer-events:none;
-}
-.c-card.is-active .c-card-inner{
-  pointer-events:all;border-color:var(--oro);
-  box-shadow:0 8px 32px rgba(200,168,75,.2);
-}
-.c-card-shield{
-  position:absolute;inset:0;border-radius:14px;
-  pointer-events:none;z-index:20;cursor:pointer;
-}
+        .week-selector span {
+            font-size: 1rem;
+            min-width: 200px;
+        }
 
-/* ── card header ── */
-.card-hdr{background:linear-gradient(90deg,var(--verde3),var(--verde2));
-  padding:10px 14px;border-bottom:1px solid var(--oro);
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
-.card-hdr h2{color:var(--oro);font-size:1rem;letter-spacing:1px}
-.card-hdr-btns{display:flex;gap:6px}
-.cap-row{display:flex;align-items:center;gap:8px;padding:8px 14px;
-  background:rgba(0,0,0,.25);border-bottom:1px solid var(--verde3);flex-wrap:wrap}
-.cap-row label{color:var(--oro2);font-size:.75rem;white-space:nowrap}
-.cap-row input{width:64px;background:var(--verde2);color:var(--texto);
-  border:1px solid var(--oro);border-radius:4px;padding:3px 6px;font-size:.8rem;text-align:center}
-.cap-badge{margin-left:auto;font-size:.75rem;background:rgba(200,168,75,.15);
-  border:1px solid var(--oro);border-radius:6px;padding:2px 8px;color:var(--oro2)}
-.alas{display:flex;flex:1;overflow:hidden}
-.ala{flex:1;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--verde3)}
-.ala:last-child{border-right:none}
-.ala-hdr{background:rgba(0,0,0,.3);padding:6px 10px;color:var(--oro);
-  font-size:.72rem;font-weight:700;letter-spacing:1px;
-  border-bottom:1px solid var(--verde3);text-align:center}
-.ala-body{flex:1;overflow-y:auto;padding:6px;
-  /* en móvil el scroll vertical dentro del ala sí funciona */
-  touch-action:pan-y;}
-.ala-body::-webkit-scrollbar{width:4px}
-.ala-body::-webkit-scrollbar-thumb{background:var(--oro);border-radius:2px}
-.curso-item{background:rgba(0,0,0,.2);border:1px solid var(--verde3);
-  border-radius:6px;padding:6px 8px;margin-bottom:5px;font-size:.72rem;position:relative}
-.curso-item.alerta{border-color:#ff6b6b;background:rgba(255,0,0,.08)}
-.curso-item.vencido{border-color:#ff4444;background:rgba(255,0,0,.15)}
-.curso-item strong{color:var(--oro2);display:block;font-size:.75rem;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 50px)}
-.ci-actions{position:absolute;top:4px;right:4px;display:flex;gap:3px}
-.ci-btn{background:none;border:none;cursor:pointer;font-size:.82rem;
-  line-height:1;padding:3px 5px;border-radius:3px;transition:background .15s}
-.ci-btn.move{color:var(--azul2)}.ci-btn.move:hover{background:rgba(52,152,219,.2)}
-.ci-btn.del{color:var(--rojo)}.ci-btn.del:hover{background:rgba(192,57,43,.2)}
-.ci-row{display:flex;flex-wrap:wrap;gap:2px 10px;color:#aaa;margin-top:2px}
-.ci-row span{font-size:.68rem}
-.add-curso-btn{width:100%;margin-top:4px;padding:6px;
-  background:rgba(200,168,75,.1);border:1px dashed var(--oro);
-  color:var(--oro);border-radius:6px;cursor:pointer;font-size:.73rem;transition:all .2s}
-.add-curso-btn:hover,.add-curso-btn:active{background:rgba(200,168,75,.3)}
+        .tab-container {
+            display: flex;
+            background: #1a1a4e;
+            position: sticky;
+            top: 80px;
+            z-index: 99;
+        }
 
-/* ── NAV ── */
-#carouselNav{display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 0}
-.nav-arrow{background:rgba(200,168,75,.15);border:1px solid var(--oro);color:var(--oro);
-  width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:1.3rem;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;user-select:none}
-.nav-arrow:hover,.nav-arrow:active{background:var(--oro);color:var(--verde)}
-.nav-arrow:disabled{opacity:.25;cursor:default;pointer-events:none}
-#dotContainer{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:300px}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--verde3);
-  border:1px solid var(--oro);cursor:pointer;transition:all .3s;flex-shrink:0}
-.dot.active{background:var(--oro);transform:scale(1.4)}
+        .tab {
+            flex: 1;
+            padding: 12px 5px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
 
-/* ── RESUMEN ── */
-#resumenSection{margin:0 16px 16px;border:1px solid var(--verde3);border-radius:8px;overflow:hidden;display:none}
-#resumenHdr{background:var(--verde2);padding:8px 14px;display:flex;
-  align-items:center;justify-content:space-between;cursor:pointer;border-bottom:1px solid var(--verde3)}
-#resumenHdr h3{color:var(--oro);font-size:.85rem;letter-spacing:1px}
-#resumenBody{display:none;padding:12px 14px}
-#resumenPre{white-space:pre-wrap;font-size:.78rem;color:var(--texto);font-family:'Courier New',monospace;line-height:1.6}
+        .tab.active {
+            background: rgba(255,255,255,0.1);
+            border-bottom-color: #00d4ff;
+            color: #00d4ff;
+        }
 
-/* ══ MODALES ══ */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
-  z-index:300;align-items:center;justify-content:center;padding:12px}
-.overlay.open{display:flex}
-.modal{background:var(--verde);border:1px solid var(--oro);border-radius:12px;
-  width:100%;max-width:480px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
-.modal-hdr{background:var(--verde2);padding:12px 16px;display:flex;
-  align-items:center;justify-content:space-between;border-bottom:1px solid var(--oro);flex-shrink:0}
-.modal-hdr h2{color:var(--oro);font-size:.95rem;letter-spacing:1px}
-.modal-body{padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;flex:1}
-.modal-footer{padding:12px 16px;border-top:1px solid var(--verde3);
-  display:flex;justify-content:flex-end;gap:8px;background:var(--verde2);flex-shrink:0}
-.form-group{display:flex;flex-direction:column;gap:4px}
-.form-group label{color:var(--oro2);font-size:.78rem}
-.form-group input,.form-group select,.form-group textarea{
-  background:var(--verde2);color:var(--texto);border:1px solid var(--verde3);
-  border-radius:6px;padding:8px 10px;font-size:.85rem}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--oro)}
-.radio-group{display:flex;gap:14px;flex-wrap:wrap}
-.radio-group label{display:flex;align-items:center;gap:5px;color:var(--texto);font-size:.82rem;cursor:pointer}
-#selectorGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:12px}
-.sel-num{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;
-  font-size:.9rem;font-weight:700;cursor:pointer;border:2px solid var(--verde3);
-  background:var(--verde2);color:var(--texto);transition:all .2s}
-.sel-num.usado{background:rgba(61,122,61,.2);color:var(--gris);cursor:not-allowed;border-color:var(--gris);opacity:.45}
-.sel-num:not(.usado):hover,.sel-num:not(.usado):active{border-color:var(--oro);color:var(--oro);transform:scale(1.08)}
-.parte-out{white-space:pre-wrap;font-size:.78rem;font-family:'Courier New',monospace;
-  background:rgba(0,0,0,.3);padding:12px;border-radius:6px;max-height:50vh;overflow-y:auto;line-height:1.6}
-#emptyState{display:none;text-align:center;padding:60px 20px;color:var(--gris)}
-#emptyState p{font-size:1rem;margin-top:10px}
+        .schedule-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+        }
 
-/* ══ MODAL MOVER ══ */
-.curso-preview{background:rgba(0,0,0,.25);border:1px solid var(--azul2);border-radius:8px;padding:10px 14px}
-.curso-preview .cp-nombre{font-size:.9rem;font-weight:700;color:var(--oro2)}
-.curso-preview .cp-origen{font-size:.75rem;color:var(--gris);margin-top:3px}
-.destino-opts{display:flex;flex-direction:column;gap:8px}
-.destino-opt{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;
-  cursor:pointer;border:2px solid var(--verde3);background:rgba(0,0,0,.2);transition:all .2s}
-.destino-opt:hover,.destino-opt:active{border-color:var(--azul2);background:rgba(52,152,219,.1)}
-.destino-opt.selected{border-color:var(--azul2);background:rgba(52,152,219,.15)}
-.destino-opt.disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
-.destino-opt-ico{font-size:1.3rem;flex-shrink:0}
-.destino-opt-info{flex:1}
-.destino-opt-title{font-size:.85rem;font-weight:700;color:var(--texto)}
-.destino-opt-sub{font-size:.72rem;color:var(--gris);margin-top:2px}
-.destino-opt-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--verde3);
-  display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;transition:all .2s}
-.destino-opt.selected .destino-opt-check{background:var(--azul2);border-color:var(--azul2);color:#fff}
-.barracas-grid-mini{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:6px}
-.bn{padding:6px 4px;text-align:center;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:700;
-  border:1px solid var(--verde3);background:var(--verde2);color:var(--texto);transition:all .2s}
-.bn:hover,.bn:active{border-color:var(--azul2);color:var(--azul2)}
-.bn.bn-sel{border-color:var(--azul2);background:rgba(52,152,219,.2);color:var(--azul2)}
-.bn.bn-origen{border-color:var(--gris);color:var(--gris);cursor:default;opacity:.5}
-.ala-btns{display:flex;gap:8px;margin-top:6px}
-.ala-btn{flex:1;padding:9px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:700;
-  border:2px solid var(--verde3);background:rgba(0,0,0,.2);color:var(--texto);text-align:center;transition:all .2s}
-.ala-btn:hover,.ala-btn:active{border-color:var(--azul2);color:var(--azul2)}
-.ala-btn.ala-sel{border-color:var(--azul2);background:rgba(52,152,219,.2);color:var(--azul2)}
-.ala-btn.ala-dis{opacity:.35;cursor:not-allowed;pointer-events:none}
-.cap-aviso{font-size:.75rem;padding:7px 10px;border-radius:6px;margin-top:4px;display:none}
-.cap-aviso.warn{background:rgba(230,126,34,.15);border:1px solid var(--naranja);color:var(--naranja2)}
-.cap-aviso.ok{background:rgba(46,204,113,.1);border:1px solid #2ecc71;color:#2ecc71}
+        .day-section {
+            display: none;
+        }
 
-/* ── INDICADOR SWIPE (solo móvil) ── */
-#swipeHint{
-  display:none;
-  text-align:center;font-size:.7rem;color:var(--gris);
-  padding:0 0 6px;letter-spacing:1px;
-  animation:fadeHint 3s forwards;
-}
-@keyframes fadeHint{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
-@media(max-width:700px){
-  #swipeHint{display:block}
-  #carouselViewport{height:480px}
-  .c-card{width:290px;height:440px}
-  .pf-stats{flex-wrap:wrap}.pf-stat{min-width:50%}
-  .barracas-grid-mini{grid-template-columns:repeat(4,1fr)}
-  header h1{font-size:1.1rem}
-  .hdr-btns .btn-sm{padding:5px 8px;font-size:.72rem}
-}
+        .day-section.active {
+            display: block;
+        }
 
-footer{text-align:center;padding:12px;color:var(--gris);font-size:.72rem;
-  border-top:1px solid var(--verde3);margin-top:8px}
-footer span{color:var(--oro)}
-</style>
+        .time-slot-group {
+            margin-bottom: 8px;
+        }
+
+        .time-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .time-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #333;
+        }
+
+        .wings-container {
+            display: flex;
+            gap: 8px;
+            padding: 0 5px;
+        }
+
+        .wing-column {
+            flex: 1;
+        }
+
+        .wing-header {
+            text-align: center;
+            padding: 5px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 2px;
+        }
+
+        .wing-a-header { background: linear-gradient(135deg, #2196F3, #1565C0); }
+        .wing-b-header { background: linear-gradient(135deg, #FF9800, #E65100); }
+
+        .course-card {
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            user-select: none;
+            min-height: 60px;
+        }
+
+        .course-card:active {
+            transform: scale(0.97);
+        }
+
+        .course-card.wing-a {
+            background: linear-gradient(135deg, #1a3a5c, #1e4d7a);
+            border-left: 4px solid #2196F3;
+        }
+
+        .course-card.wing-b {
+            background: linear-gradient(135deg, #4a2800, #5c3a00);
+            border-left: 4px solid #FF9800;
+        }
+
+        .course-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .course-teacher {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .course-room {
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
+        .empty-slot {
+            border: 2px dashed #333;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            color: #555;
+            cursor: pointer;
+            font-size: 0.8rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-slot:hover {
+            border-color: #00d4ff;
+            color: #00d4ff;
+        }
+
+        /* EXPANDED PANEL OVERLAY */
+        .expanded-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 500;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .expanded-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .expanded-panel {
+            width: 94%;
+            max-width: 500px;
+            min-height: 50vh;
+            max-height: 85vh;
+            border-radius: 20px;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: slideUp 0.3s ease;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .expanded-panel.wing-a {
+            background: linear-gradient(145deg, #0d2948, #1a4a7a, #0d2948);
+            border: 2px solid #2196F3;
+            box-shadow: 0 0 40px rgba(33, 150, 243, 0.3);
+        }
+
+        .expanded-panel.wing-b {
+            background: linear-gradient(145deg, #3d1f00, #5c3a00, #3d1f00);
+            border: 2px solid #FF9800;
+            box-shadow: 0 0 40px rgba(255, 152, 0, 0.3);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .expanded-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .expanded-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            padding-right: 40px;
+        }
+
+        .expanded-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+
+        .detail-row .icon {
+            font-size: 1.3rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .detail-row .label {
+            color: #aaa;
+            font-size: 0.8rem;
+            min-width: 70px;
+        }
+
+        .detail-row .value {
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .expanded-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            padding: 18px 15px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            color: white;
+            min-height: 65px;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-btn .btn-icon {
+            font-size: 1.5rem;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        }
+
+        .btn-move {
+            background: linear-gradient(135deg, #2196F3, #1565C0);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #f44336, #c62828);
+        }
+
+        .btn-call {
+            background: linear-gradient(135deg, #9C27B0, #6A1B9A);
+        }
+
+        /* FAB */
+        .fab-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 200;
+        }
+
+        .fab-main {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,212,255,0.4);
+            transition: transform 0.3s;
+        }
+
+        .fab-main.active {
+            transform: rotate(45deg);
+        }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .fab-menu.show {
+            display: flex;
+        }
+
+        .fab-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .fab-item-label {
+            background: white;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .fab-item-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1a4e;
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 30px;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #333;
+            background: #0a0a2e;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #00d4ff;
+            outline: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-actions button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #00d4ff, #0088cc);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #333;
+            color: white;
+        }
+
+        /* MOVE MODAL */
+        .move-modal .move-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .move-option {
+            padding: 14px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .move-option:hover, .move-option.selected {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .move-option .move-day {
+            font-weight: bold;
+        }
+
+        .move-option .move-time {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            z-index: 2000;
+            transition: transform 0.3s;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Status indicator */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-active { background: #4CAF50; }
+        .status-inactive { background: #f44336; }
+
+        .wing-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .wing-a .wing-badge { background: rgba(33,150,243,0.3); }
+        .wing-b .wing-badge { background: rgba(255,152,0,0.3); }
+
+        .no-courses {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+        }
+
+        .no-courses .emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-
-<div id="alertBanner" onclick="mostrarPorFinalizar()"></div>
-
-<header>
-  <div>
-    <h1>🏛️ BARRACAS-CENOP</h1>
-    <p>LEALTAD, VALOR, ABNEGACIÓN</p>
-  </div>
-  <div class="hdr-btns">
-    <button class="btn btn-sm btn-warn" onclick="mostrarPorFinalizar()">
-      ⏳ Por Finalizar
-      <span class="badge" id="alertBadge" style="display:none">0</span>
-    </button>
-    <button class="btn btn-sm" onclick="openParteGeneral()">📋 Parte General</button>
-    <button class="btn btn-sm" onclick="toggleResumen()">📊 Resumen</button>
-    <button class="btn btn-sm" onclick="exportJSON()">💾 Exportar</button>
-    <button class="btn btn-sm" onclick="document.getElementById('importFile').click()">📂 Importar</button>
-    <button class="btn btn-sm" onclick="openAddBarraca()">➕ Barraca</button>
-    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)"/>
-  </div>
-</header>
-
-<div id="resumenSection">
-  <div id="resumenHdr" onclick="collapseResumen()">
-    <h3>📊 RESUMEN DE CURSOS POR BARRACA</h3>
-    <span id="resumenArrow" style="color:var(--oro)">▼</span>
-  </div>
-  <div id="resumenBody">
-    <pre id="resumenPre"></pre>
-    <button class="btn btn-sm" style="margin-top:8px" onclick="copyResumen()">📋 Copiar listado</button>
-  </div>
-</div>
-
-<!-- CARRUSEL -->
-<div id="carouselSection">
-  <div id="emptyState">
-    <div style="font-size:3rem">🏛️</div>
-    <p>No hay barracas.<br>Toque <strong style="color:var(--oro)">➕ Barraca</strong> para agregar.</p>
-  </div>
-  <div id="swipeHint">◀ deslice para cambiar barraca ▶</div>
-  <div id="carouselViewport">
-    <div id="carouselTrack"></div>
-  </div>
-  <div id="carouselNav">
-    <button class="nav-arrow" id="btnPrev" onclick="navigate(-1)">&#8592;</button>
-    <div id="dotContainer"></div>
-    <button class="nav-arrow" id="btnNext" onclick="navigate(1)">&#8594;</button>
-  </div>
-</div>
-
-<!-- POR FINALIZAR -->
-<div id="porFinalizarSection">
-  <div id="pfCard">
-    <div class="pf-header">
-      <div class="pf-header-left">
-        <div class="pf-icon">⏳</div>
-        <div><h2>POR FINALIZAR</h2><p>Cursos próximos a vencer o vencidos</p></div>
-      </div>
+    <div class="header">
+        <h1>📅 Mi Horario</h1>
+        <div class="week-selector">
+            <button onclick="changeWeek(-1)">◀</button>
+            <span id="weekRange"></span>
+            <button onclick="changeWeek(1)">▶</button>
+        </div>
     </div>
-    <div class="pf-stats">
-      <div class="pf-stat danger"><div class="num" id="pfNumVencidos">0</div><div class="lbl">Vencidos</div></div>
-      <div class="pf-stat warn"><div class="num" id="pfNumAlertas">0</div><div class="lbl">Por vencer (≤7d)</div></div>
-      <div class="pf-stat ok"><div class="num" id="pfNumOk">0</div><div class="lbl">Sin novedad</div></div>
-    </div>
-    <div class="pf-body" id="pfBody"></div>
-    <div class="pf-footer">
-      <small id="pfFecha"></small>
-      <button class="btn-regresar" onclick="ocultarPorFinalizar()">&#8592; REGRESAR</button>
-    </div>
-  </div>
-</div>
 
-<!-- MODAL MOVER -->
-<div class="overlay" id="modalMover">
-  <div class="modal" style="max-width:440px">
-    <div class="modal-hdr" style="border-color:var(--azul2)">
-      <h2 style="color:var(--azul2)">↕️ Mover Curso</h2>
-      <button class="btn btn-sm btn-danger" onclick="closeModal('modalMover')">✕</button>
+    <div class="tab-container" id="tabContainer"></div>
+    <div class="schedule-container" id="scheduleContainer"></div>
+
+    <!-- EXPANDED OVERLAY -->
+    <div class="expanded-overlay" id="expandedOverlay" onclick="handleOverlayClick(event)">
+        <div class="expanded-panel" id="expandedPanel" onclick="event.stopPropagation()">
+            <button class="expanded-close" onclick="collapseCard()">✕</button>
+            <div class="expanded-title" id="expTitle"></div>
+            <div class="expanded-details" id="expDetails"></div>
+            <div class="expanded-actions" id="expActions"></div>
+        </div>
     </div>
-    <div class="modal-body">
-      <div class="curso-preview">
-        <div class="cp-nombre" id="mvNombre">—</div>
-        <div class="cp-origen" id="mvOrigen">—</div>
-      </div>
-      <div class="form-group">
-        <label>Seleccionar destino</label>
-        <div class="destino-opts">
-          <div class="destino-opt" id="dopt1" onclick="selDestino(1)">
-            <div class="destino-opt-ico">↔️</div>
-            <div class="destino-opt-info">
-              <div class="destino-opt-title">Cambiar de ala</div>
-              <div class="destino-opt-sub" id="dopt1sub">Ala contraria de la misma barraca</div>
+
+    <div class="fab-container">
+        <div class="fab-menu" id="fabMenu">
+            <div class="fab-item">
+                <span class="fab-item-label">Agregar Curso</span>
+                <button class="fab-item-btn" style="background: #4CAF50;" onclick="openAddModal()">📚</button>
             </div>
-            <div class="destino-opt-check" id="dopt1check"></div>
-          </div>
-          <div class="destino-opt" id="dopt2" onclick="selDestino(2)">
-            <div class="destino-opt-ico">🏛️</div>
-            <div class="destino-opt-info">
-              <div class="destino-opt-title">Otra barraca</div>
-              <div class="destino-opt-sub">Elegir barraca y ala destino</div>
+            <div class="fab-item">
+                <span class="fab-item-label">Exportar</span>
+                <button class="fab-item-btn" style="background: #FF9800;" onclick="exportData()">📤</button>
             </div>
-            <div class="destino-opt-check" id="dopt2check"></div>
-          </div>
+            <div class="fab-item">
+                <span class="fab-item-label">Importar</span>
+                <button class="fab-item-btn" style="background: #2196F3;" onclick="importData()">📥</button>
+            </div>
         </div>
-      </div>
-      <div id="panelOpt1" style="display:none">
-        <div style="background:rgba(52,152,219,.1);border:1px solid var(--azul2);border-radius:8px;padding:10px 14px">
-          <div style="font-size:.82rem;color:var(--azul2);font-weight:700" id="opt1Info">—</div>
+        <button class="fab-main" id="fabMain" onclick="toggleFab()">+</button>
+    </div>
+
+    <div class="modal-overlay" id="courseModal">
+        <div class="modal">
+            <h2 id="modalTitle">Agregar Curso</h2>
+            <div class="form-group">
+                <label>Nombre del curso *</label>
+                <input type="text" id="courseName" placeholder="Ej: Matemáticas I">
+            </div>
+            <div class="form-group">
+                <label>Profesor</label>
+                <input type="text" id="courseTeacher" placeholder="Ej: Prof. García">
+            </div>
+            <div class="form-group">
+                <label>Teléfono del profesor</label>
+                <input type="tel" id="coursePhone" placeholder="Ej: 999888777">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Día *</label>
+                    <select id="courseDay">
+                        <option value="lunes">Lunes</option>
+                        <option value="martes">Martes</option>
+                        <option value="miercoles">Miércoles</option>
+                        <option value="jueves">Jueves</option>
+                        <option value="viernes">Viernes</option>
+                        <option value="sabado">Sábado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ala *</label>
+                    <select id="courseWing">
+                        <option value="A">Ala A</option>
+                        <option value="B">Ala B</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Hora inicio *</label>
+                    <input type="time" id="courseStart" value="07:00">
+                </div>
+                <div class="form-group">
+                    <label>Hora fin *</label>
+                    <input type="time" id="courseEnd" value="08:30">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Aula</label>
+                <input type="text" id="courseRoom" placeholder="Ej: Aula 301">
+            </div>
+            <div class="form-group">
+                <label>Notas</label>
+                <textarea id="courseNotes" rows="2" placeholder="Notas adicionales..."></textarea>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveCourse()">Guardar</button>
+            </div>
         </div>
-      </div>
-      <div id="panelOpt2" style="display:none">
-        <div class="form-group">
-          <label>Barraca destino</label>
-          <div class="barracas-grid-mini" id="barracasGridMini"></div>
+    </div>
+
+    <!-- MOVE MODAL -->
+    <div class="modal-overlay" id="moveModal">
+        <div class="modal move-modal">
+            <h2>↕️ Mover Curso</h2>
+            <p style="text-align:center; color:#aaa; margin-bottom:15px;" id="moveCourseName"></p>
+            <div class="form-row" style="margin-bottom:15px;">
+                <div class="form-group">
+                    <label>Nuevo Día</label>
+                    <select id="moveDay">
+                        <option value="lunes">Lunes</option>
+                        <option value="martes">Martes</option>
+                        <option value="miercoles">Miércoles</option>
+                        <option value="jueves">Jueves</option>
+                        <option value="viernes">Viernes</option>
+                        <option value="sabado">Sábado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nueva Ala</label>
+                    <select id="moveWing">
+                        <option value="A">Ala A</option>
+                        <option value="B">Ala B</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row" style="margin-bottom:15px;">
+                <div class="form-group">
+                    <label>Nueva Hora Inicio</label>
+                    <input type="time" id="moveStart">
+                </div>
+                <div class="form-group">
+                    <label>Nueva Hora Fin</label>
+                    <input type="time" id="moveEnd">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel" onclick="closeMoveModal()">Cancelar</button>
+                <button class="btn-save" onclick="confirmMove()">Mover</button>
+            </div>
         </div>
-        <div class="form-group" id="alaDestGrp" style="display:none">
-          <label>Ala destino</label>
-          <div class="ala-btns">
-            <div class="ala-btn" id="alaDestIzq" onclick="selAlaDest('izquierda')">◀ Ala Izquierda</div>
-            <div class="ala-btn" id="alaDestDer" onclick="selAlaDest('derecha')">Ala Derecha ▶</div>
-          </div>
-        </div>
-      </div>
-      <div class="cap-aviso" id="capAviso"></div>
     </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modalMover')">Cancelar</button>
-      <button class="btn btn-primary" style="background:var(--azul2);border-color:var(--azul2)"
-        onclick="ejecutarMover()">↕️ Mover</button>
-    </div>
-  </div>
-</div>
 
-<!-- MODAL CURSO -->
-<div class="overlay" id="modalCurso">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h2 id="modalCursoTitle">Agregar Curso</h2>
-      <button class="btn btn-sm btn-danger" onclick="closeModal('modalCurso')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group"><label>Nombre del curso *</label><input id="cNombre" placeholder="Ej: SITAB"/></div>
-      <div class="form-group"><label>Comandante / Asignación Barraca</label><input id="cCdte" placeholder="Nombre"/></div>
-      <div class="form-group"><label>Teléfono</label><input id="cTel" placeholder="Ej: 3001234567"/></div>
-      <div class="form-group"><label>FE (Fuerza en Entrenamiento)</label>
-        <input id="cFE" type="number" min="0" value="0" inputmode="numeric"/></div>
-      <div class="form-group">
-        <label>Género</label>
-        <div class="radio-group">
-          <label><input type="radio" name="cGenero" value="HOMBRE" checked> HOMBRE</label>
-          <label><input type="radio" name="cGenero" value="MUJER"> MUJER</label>
-          <label><input type="radio" name="cGenero" value="Sin definir"> Sin definir</label>
-        </div>
-      </div>
-      <div class="form-group"><label>Ejército</label><input id="cEjercito" type="number" min="0" value="0" inputmode="numeric"/></div>
-      <div class="form-group"><label>Armada</label><input id="cArmada" type="number" min="0" value="0" inputmode="numeric"/></div>
-      <div class="form-group"><label>Fuerza Aérea</label><input id="cAerea" type="number" min="0" value="0" inputmode="numeric"/></div>
-      <div class="form-group"><label>INPEC</label><input id="cInpec" type="number" min="0" value="0" inputmode="numeric"/></div>
-      <div class="form-group"><label>Extranjero – País</label><input id="cExtrPais" placeholder="País"/></div>
-      <div class="form-group"><label>Extranjero – Cantidad</label><input id="cExtrCant" type="number" min="0" value="0" inputmode="numeric"/></div>
-      <div class="form-group"><label>Otro</label><input id="cOtro" type="number" min="0" value="0" inputmode="numeric"/></div>
-      <div class="form-group"><label>Fecha inicio</label><input id="cFechaIni" type="date"/></div>
-      <div class="form-group"><label>Fecha fin *</label><input id="cFechaFin" type="date"/></div>
-      <div class="form-group"><label>Notas</label><textarea id="cNotas" rows="2" placeholder="Observaciones..."></textarea></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modalCurso')">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveCurso()">Guardar</button>
-    </div>
-  </div>
-</div>
+    <div class="toast" id="toast"></div>
+    <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleImport(event)">
 
-<!-- MODAL BARRACA -->
-<div class="overlay" id="modalBarraca">
-  <div class="modal" style="max-width:340px">
-    <div class="modal-hdr">
-      <h2>Seleccionar Barraca</h2>
-      <button class="btn btn-sm btn-danger" onclick="closeModal('modalBarraca')">✕</button>
-    </div>
-    <div id="selectorGrid"></div>
-  </div>
-</div>
+    <script>
+        let courses = JSON.parse(localStorage.getItem('courses') || '[]');
+        let currentDay = '';
+        let currentWeekOffset = 0;
+        let editingCourseId = null;
+        let movingCourseId = null;
+        let expandedCourseId = null;
 
-<!-- MODAL PARTE INDIVIDUAL -->
-<div class="overlay" id="modalParte">
-  <div class="modal" style="max-width:580px">
-    <div class="modal-hdr">
-      <h2 id="parteTitulo">Parte</h2>
-      <button class="btn btn-sm btn-danger" onclick="closeModal('modalParte')">✕</button>
-    </div>
-    <div class="modal-body"><div id="parteOut" class="parte-out"></div></div>
-    <div class="modal-footer">
-      <button class="btn" onclick="copyEl('parteOut')">📋 Copiar</button>
-      <button class="btn" onclick="closeModal('modalParte')">Cerrar</button>
-    </div>
-  </div>
-</div>
+        const days = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+        const dayNames = {
+            'lunes': 'Lunes', 'martes': 'Martes', 'miercoles': 'Miércoles',
+            'jueves': 'Jueves', 'viernes': 'Viernes', 'sabado': 'Sábado'
+        };
+        const dayNumbers = {
+            'lunes': 1, 'martes': 2, 'miercoles': 3, 'jueves': 4, 'viernes': 5, 'sabado': 6
+        };
 
-<!-- MODAL PARTE GENERAL -->
-<div class="overlay" id="modalParteGen">
-  <div class="modal" style="max-width:620px">
-    <div class="modal-hdr">
-      <h2>Parte General — CENOP</h2>
-      <button class="btn btn-sm btn-danger" onclick="closeModal('modalParteGen')">✕</button>
-    </div>
-    <div class="modal-body"><div id="parteGenOut" class="parte-out"></div></div>
-    <div class="modal-footer">
-      <button class="btn" onclick="copyEl('parteGenOut')">📋 Copiar</button>
-      <button class="btn" onclick="closeModal('modalParteGen')">Cerrar</button>
-    </div>
-  </div>
-</div>
+        const timeSlots = [
+            '07:00', '07:30', '08:00', '08:30', '09:00', '09:30',
+            '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+            '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
+            '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
+            '19:00', '19:30', '20:00', '20:30', '21:00'
+        ];
 
-<footer>CENOP · <span>Dios y Patria</span></footer>
-
-<script>
-// ═══════════════════════════════════════
-//  CONSTANTES
-// ═══════════════════════════════════════
-const STORAGE_KEY  = 'barracas-cenop-v5';
-const FALLBACK_KEY = 'barracas-cenop-data';
-const DEFAULT_NOS  = [1,2,3,4,5,11,13,14,15,16,17,18];
-const MAX_CURSOS   = 20;
-const ALERT_DAYS   = 7;
-const CFG={sepX:240,rotY:40,scaleSide:.75,scaleFar:.54,zSide:-60,zFar:-160,opSide:.75,opFar:.40};
-
-// ═══════════════════════════════════════
-//  ESTADO
-// ═══════════════════════════════════════
-let state={alojamientos:[]};
-let carouselIdx=0;
-let _curCtx={aloIdx:null,side:null};
-const cardNodes=new Map();
-let _mv={aloNum:null,side:null,ci:null,destOpt:null,destNum:null,destSide:null};
-
-// ═══════════════════════════════════════
-//  PERSISTENCIA
-// ═══════════════════════════════════════
-function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
-function loadState(){
-  const raw=localStorage.getItem(STORAGE_KEY)||localStorage.getItem(FALLBACK_KEY);
-  if(raw){try{state=normalizeState(JSON.parse(raw));}catch(e){console.warn(e);}}
-}
-function normalizeState(d){
-  if(!d)return{alojamientos:[]};
-  const alos=(d.alojamientos||(d.state&&d.state.alojamientos)||[]).map(normalizeAlo);
-  return{alojamientos:alos};
-}
-function normalizeAlo(a){
-  return{numero:a.numero||1,capacidad:a.capacidad||0,
-    izquierda:normalizeAla(a.izquierda||a.left||{}),
-    derecha:normalizeAla(a.derecha||a.right||{})};
-}
-function normalizeAla(a){return{cursos:Array.isArray(a.cursos)?a.cursos.map(normalizeCurso):[]};}
-function normalizeCurso(c){
-  return{curso:c.curso||c.nombre||c.name||'',cdte:c.cdte||'',tel:c.tel||'',
-    fe:Number(c.fe)||0,genero:c.genero||'Sin definir',
-    ejercito:Number(c.ejercito)||0,armada:Number(c.armada)||0,
-    aerea:Number(c.aerea)||0,inpec:Number(c.inpec)||0,
-    extrPais:c.extrPais||'',extrCant:Number(c.extrCant)||0,otro:Number(c.otro)||0,
-    fechaIni:c.fechaIni||'',fechaFin:c.fechaFin||'',notas:c.notas||''};
-}
-function makeAlo(num){return{numero:num,capacidad:0,izquierda:{cursos:[]},derecha:{cursos:[]}};}
-
-// ═══════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════
-function hoy(){return new Date().toISOString().split('T')[0];}
-function fmtFecha(f){if(!f)return'—';const[y,m,d]=f.split('-');return`${d}/${m}/${y}`;}
-function diasRestantes(ff){
-  if(!ff)return null;
-  return Math.ceil((new Date(ff+'T00:00:00')-new Date())/86400000);
-}
-function cursoStatus(c){
-  const dr=diasRestantes(c.fechaFin);
-  if(dr===null)return'normal';if(dr<0)return'vencido';
-  if(dr<=ALERT_DAYS)return'alerta';return'normal';
-}
-function feTotal(alo){
-  return(alo.izquierda.cursos||[]).reduce((s,c)=>s+Number(c.fe||0),0)
-        +(alo.derecha.cursos||[]).reduce((s,c)=>s+Number(c.fe||0),0);
-}
-function disponibles(alo){return Math.max(0,(alo.capacidad||0)-feTotal(alo));}
-function escHTML(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function otroLado(s){return s==='izquierda'?'derecha':'izquierda';}
-function labelAla(s){return s==='izquierda'?'Ala Izquierda':'Ala Derecha';}
-
-// ═══════════════════════════════════════
-//  ALERTAS
-// ═══════════════════════════════════════
-function recopilarAlertas(){
-  const lista=[];
-  state.alojamientos.forEach(alo=>{
-    ['izquierda','derecha'].forEach(side=>{
-      (alo[side].cursos||[]).forEach(c=>{
-        const st=cursoStatus(c);
-        if(st==='vencido'||st==='alerta')
-          lista.push({alo,side,curso:c,st,dr:diasRestantes(c.fechaFin)});
-      });
-    });
-  });
-  lista.sort((a,b)=>{
-    if(a.st==='vencido'&&b.st!=='vencido')return-1;
-    if(b.st==='vencido'&&a.st!=='vencido')return 1;
-    return(a.dr??0)-(b.dr??0);
-  });
-  return lista;
-}
-function checkAlerts(){
-  const lista=recopilarAlertas(),total=lista.length;
-  const banner=document.getElementById('alertBanner');
-  if(total){
-    banner.style.display='block';
-    const msgs=lista.slice(0,4).map(x=>{
-      const lab=x.side==='izquierda'?'IZQ':'DER';
-      return x.st==='vencido'
-        ?`B${x.alo.numero} ${lab} · ${x.curso.curso||'—'} · VENCIDO`
-        :`B${x.alo.numero} ${lab} · ${x.curso.curso||'—'} · ⚠️ ${x.dr}d`;
-    });
-    banner.textContent='⚠️  '+msgs.join('   |   ')+(total>4?`  ...(+${total-4} más)`:'');
-  }else{banner.style.display='none';}
-  const badge=document.getElementById('alertBadge');
-  if(total){badge.style.display='flex';badge.textContent=total>99?'99+':total;}
-  else{badge.style.display='none';}
-}
-
-// ═══════════════════════════════════════
-//  POR FINALIZAR
-// ═══════════════════════════════════════
-function mostrarPorFinalizar(){
-  document.getElementById('carouselSection').style.display='none';
-  document.getElementById('resumenSection').style.display='none';
-  document.getElementById('porFinalizarSection').style.display='block';
-  renderPorFinalizar();
-}
-function ocultarPorFinalizar(){
-  document.getElementById('porFinalizarSection').style.display='none';
-  document.getElementById('carouselSection').style.display='block';
-}
-function renderPorFinalizar(){
-  const lista=recopilarAlertas();
-  const vencidos=lista.filter(x=>x.st==='vencido').length;
-  const alertas=lista.filter(x=>x.st==='alerta').length;
-  const totalC=state.alojamientos.reduce((s,a)=>
-    s+(a.izquierda.cursos||[]).length+(a.derecha.cursos||[]).length,0);
-  document.getElementById('pfNumVencidos').textContent=vencidos;
-  document.getElementById('pfNumAlertas').textContent=alertas;
-  document.getElementById('pfNumOk').textContent=Math.max(0,totalC-lista.length);
-  document.getElementById('pfFecha').textContent='Actualizado: '+fmtFecha(hoy());
-  const body=document.getElementById('pfBody');
-  if(!lista.length){
-    body.innerHTML=`<div class="pf-empty"><div class="ico">✅</div>
-      <p>¡Todo en orden!</p><small>No hay cursos vencidos ni próximos a vencer.</small></div>`;
-    return;
-  }
-  const grupos=new Map();
-  lista.forEach(item=>{
-    const k=item.alo.numero;
-    if(!grupos.has(k))grupos.set(k,{alo:item.alo,items:[]});
-    grupos.get(k).items.push(item);
-  });
-  let html='';
-  grupos.forEach(({alo,items})=>{
-    const hayVenc=items.some(x=>x.st==='vencido');
-    html+=`<div class="pf-grupo">
-      <div class="pf-grupo-hdr">
-        <span>${hayVenc?'🔴':'🟡'}</span>
-        <span>BARRACA N° ${alo.numero}</span>
-        <span style="margin-left:auto;font-size:.7rem;color:var(--gris)">${items.length} novedad${items.length>1?'es':''}</span>
-      </div>
-      <div class="pf-grupo-body">${items.map(renderPfItem).join('')}</div>
-    </div>`;
-  });
-  body.innerHTML=html;
-}
-function renderPfItem({alo,side,curso,st,dr}){
-  const sideLabel=labelAla(side),ico=st==='vencido'?'🔴':'⚠️';
-  let badgeHTML,diasTxt;
-  if(st==='vencido'){
-    diasTxt=`Venció hace ${Math.abs(dr)} día${Math.abs(dr)!==1?'s':''}`;
-    badgeHTML=`<span class="pf-item-badge badge-vencido">VENCIDO</span>`;
-  }else{
-    diasTxt=dr===0?'Vence HOY':`Vence en ${dr} día${dr!==1?'s':''}`;
-    badgeHTML=`<span class="pf-item-badge badge-alerta">⚠️ ${dr}d</span>`;
-  }
-  return`<div class="pf-item">
-    <div class="pf-item-ico">${ico}</div>
-    <div class="pf-item-body">
-      <div class="pf-item-title">${escHTML(curso.curso||'Sin nombre')}</div>
-      <div class="pf-item-sub">
-        <span>🏛️ ${sideLabel}</span>
-        ${curso.cdte?`<span>👤 ${escHTML(curso.cdte)}</span>`:''}
-        ${curso.tel?`<span>📞 ${escHTML(curso.tel)}</span>`:''}
-        <span>FE: ${curso.fe||0}</span>
-      </div>
-      <div class="pf-item-sub" style="margin-top:4px">
-        ${curso.fechaIni?`<span>📅 ${fmtFecha(curso.fechaIni)}</span>`:''}
-        ${curso.fechaFin?`<span>🏁 ${fmtFecha(curso.fechaFin)}</span>`:''}
-        <span style="color:${st==='vencido'?'#ff6b6b':'#f39c12'};font-weight:700">${diasTxt}</span>
-      </div>
-    </div>${badgeHTML}
-  </div>`;
-}
-
-// ═══════════════════════════════════════
-//  MODAL MOVER
-// ═══════════════════════════════════════
-function openMoverCurso(num,side,ci){
-  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
-  const c=alo[side].cursos[ci];
-  _mv={aloNum:num,side,ci,destOpt:null,destNum:null,destSide:null};
-  document.getElementById('mvNombre').textContent=c.curso||'Sin nombre';
-  document.getElementById('mvOrigen').textContent=
-    `Origen: Barraca N° ${num} — ${labelAla(side)}  ·  FE: ${c.fe||0}`;
-  ['dopt1','dopt2'].forEach(id=>document.getElementById(id).classList.remove('selected'));
-  ['dopt1check','dopt2check'].forEach(id=>document.getElementById(id).textContent='');
-  document.getElementById('panelOpt1').style.display='none';
-  document.getElementById('panelOpt2').style.display='none';
-  document.getElementById('alaDestGrp').style.display='none';
-  document.getElementById('capAviso').style.display='none';
-  const otraSide=otroLado(side);
-  const opt1Dis=alo[otraSide].cursos.length>=MAX_CURSOS;
-  const opt1El=document.getElementById('dopt1');
-  if(opt1Dis){
-    opt1El.classList.add('disabled');
-    document.getElementById('dopt1sub').textContent=`${labelAla(otraSide)} llena (máx ${MAX_CURSOS})`;
-  }else{
-    opt1El.classList.remove('disabled');
-    document.getElementById('dopt1sub').textContent=`Mover a ${labelAla(otraSide)} de la misma barraca`;
-  }
-  openModal('modalMover');
-}
-function selDestino(opt){
-  _mv.destOpt=opt;_mv.destNum=null;_mv.destSide=null;
-  document.getElementById('dopt1').classList.toggle('selected',opt===1);
-  document.getElementById('dopt2').classList.toggle('selected',opt===2);
-  document.getElementById('dopt1check').textContent=opt===1?'✓':'';
-  document.getElementById('dopt2check').textContent=opt===2?'✓':'';
-  document.getElementById('panelOpt1').style.display=opt===1?'block':'none';
-  document.getElementById('panelOpt2').style.display=opt===2?'block':'none';
-  document.getElementById('capAviso').style.display='none';
-  if(opt===1){
-    const otraSide=otroLado(_mv.side);
-    document.getElementById('opt1Info').textContent=
-      `→ Destino: Barraca N° ${_mv.aloNum} — ${labelAla(otraSide)}`;
-    _mv.destNum=_mv.aloNum;_mv.destSide=otraSide;
-    actualizarAvisoCapacidad();
-  }else{construirGridBarracas();}
-}
-function construirGridBarracas(){
-  const grid=document.getElementById('barracasGridMini');grid.innerHTML='';
-  state.alojamientos.forEach(alo=>{
-    const div=document.createElement('div');
-    const esOrigen=alo.numero===_mv.aloNum;
-    div.className='bn'+(esOrigen?' bn-origen':'');
-    div.textContent=alo.numero;
-    if(!esOrigen)div.onclick=()=>selBarracaDest(alo.numero);
-    grid.appendChild(div);
-  });
-  document.getElementById('alaDestGrp').style.display='none';
-}
-function selBarracaDest(num){
-  _mv.destNum=num;_mv.destSide=null;
-  document.querySelectorAll('.bn').forEach(el=>{
-    el.classList.toggle('bn-sel',parseInt(el.textContent)===num);
-  });
-  const aloD=state.alojamientos.find(a=>a.numero===num);
-  document.getElementById('alaDestGrp').style.display='block';
-  const izqLlena=aloD.izquierda.cursos.length>=MAX_CURSOS;
-  const derLlena=aloD.derecha.cursos.length>=MAX_CURSOS;
-  const bi=document.getElementById('alaDestIzq'),bd=document.getElementById('alaDestDer');
-  bi.classList.remove('ala-sel','ala-dis');bd.classList.remove('ala-sel','ala-dis');
-  if(izqLlena)bi.classList.add('ala-dis');
-  if(derLlena)bd.classList.add('ala-dis');
-  document.getElementById('capAviso').style.display='none';
-}
-function selAlaDest(side){
-  _mv.destSide=side;
-  document.getElementById('alaDestIzq').classList.toggle('ala-sel',side==='izquierda');
-  document.getElementById('alaDestDer').classList.toggle('ala-sel',side==='derecha');
-  actualizarAvisoCapacidad();
-}
-function actualizarAvisoCapacidad(){
-  const aviso=document.getElementById('capAviso');
-  if(!_mv.destNum||!_mv.destSide){aviso.style.display='none';return;}
-  const aloD=state.alojamientos.find(a=>a.numero===_mv.destNum);
-  if(!aloD){aviso.style.display='none';return;}
-  const c=state.alojamientos.find(a=>a.numero===_mv.aloNum)[_mv.side].cursos[_mv.ci];
-  const feMover=Number(c.fe||0),feActD=feTotal(aloD),capD=aloD.capacidad||0,dispD=Math.max(0,capD-feActD);
-  aviso.style.display='block';
-  if(_mv.destNum===_mv.aloNum){
-    aviso.className='cap-aviso ok';
-    aviso.textContent=`✅ Misma barraca — capacidad no cambia (Disp: ${disponibles(aloD)})`;
-  }else if(capD===0){
-    aviso.className='cap-aviso warn';
-    aviso.textContent=`⚠️ Barraca ${_mv.destNum} sin capacidad definida. El traslado se realizará.`;
-  }else if(feMover>dispD){
-    aviso.className='cap-aviso warn';
-    aviso.textContent=`⚠️ FE del curso (${feMover}) supera disponibles en B${_mv.destNum} (${dispD}). Se moverá igualmente.`;
-  }else{
-    aviso.className='cap-aviso ok';
-    aviso.textContent=`✅ Disponibles B${_mv.destNum}: ${dispD} → quedarán ${dispD-feMover} tras el traslado.`;
-  }
-}
-function ejecutarMover(){
-  if(!_mv.destOpt){alert('Seleccione un destino');return;}
-  if(!_mv.destNum||!_mv.destSide){alert('Complete la selección de destino');return;}
-  if(_mv.destNum===_mv.aloNum&&_mv.destSide===_mv.side){
-    alert('El destino es igual al origen.');return;
-  }
-  const aloOrig=state.alojamientos.find(a=>a.numero===_mv.aloNum);
-  const aloDest=state.alojamientos.find(a=>a.numero===_mv.destNum);
-  if(!aloOrig||!aloDest){alert('Error: barraca no encontrada');return;}
-  if(aloDest[_mv.destSide].cursos.length>=MAX_CURSOS){
-    alert(`Ala destino llena (máx ${MAX_CURSOS} cursos).`);return;
-  }
-  const[curso]=aloOrig[_mv.side].cursos.splice(_mv.ci,1);
-  aloDest[_mv.destSide].cursos.push(curso);
-  saveState();checkAlerts();closeModal('modalMover');
-  refreshCard(_mv.aloNum);
-  if(_mv.destNum!==_mv.aloNum)refreshCard(_mv.destNum);
-  const origLabel=`Barraca N° ${_mv.aloNum} — ${labelAla(_mv.side)}`;
-  const destLabel=`Barraca N° ${_mv.destNum} — ${labelAla(_mv.destSide)}`;
-  setTimeout(()=>alert(`✅ "${curso.curso||'Curso'}" movido\n\nDe: ${origLabel}\nA:  ${destLabel}`),50);
-}
-
-// ═══════════════════════════════════════
-//  CARRUSEL — DOM
-// ═══════════════════════════════════════
-function buildCardDOM(alo){
-  const wrapper=document.createElement('div');
-  wrapper.className='c-card';wrapper.dataset.num=alo.numero;
-  const inner=document.createElement('div');
-  inner.className='c-card-inner';inner.innerHTML=buildCardHTML(alo);
-  const shield=document.createElement('div');shield.className='c-card-shield';
-  wrapper.appendChild(inner);wrapper.appendChild(shield);
-  return wrapper;
-}
-function buildCardHTML(alo){
-  const fe=feTotal(alo),disp=disponibles(alo),num=alo.numero;
-  return`<div class="card-hdr">
-    <h2>🏛️ BARRACA N° ${num}</h2>
-    <div class="card-hdr-btns">
-      <button class="btn btn-sm" onclick="openParteModal(${num})">📄 Parte</button>
-      <button class="btn btn-sm btn-danger" onclick="confirmarEliminarBarraca(${num})">🗑️</button>
-    </div>
-  </div>
-  <div class="cap-row">
-    <label>Capacidad:</label>
-    <input type="number" min="0" inputmode="numeric" id="cap_${num}" value="${alo.capacidad||0}"
-      onkeydown="if(event.key==='Enter')guardarCap(${num})"/>
-    <button class="btn btn-sm" onclick="guardarCap(${num})">Guardar</button>
-    <span class="cap-badge">FE:${fe} · Disp:${disp}</span>
-  </div>
-  <div class="alas">
-    ${buildAlaHTML(alo,'izquierda')}
-    ${buildAlaHTML(alo,'derecha')}
-  </div>`;
-}
-function buildAlaHTML(alo,side){
-  const ala=alo[side],label=side==='izquierda'?'◀ ALA IZQ':'DER ▶';
-  const cursos=ala.cursos||[],canAdd=cursos.length<MAX_CURSOS;
-  const cursosHTML=cursos.map((c,ci)=>{
-    const st=cursoStatus(c),dr=diasRestantes(c.fechaFin);
-    let badge='';
-    if(st==='vencido')badge='<span style="color:#ff4444;font-weight:700"> VENC.</span>';
-    else if(st==='alerta')badge=`<span style="color:#ffaa00;font-weight:700"> ⚠️${dr}d</span>`;
-    return`<div class="curso-item ${st}">
-      <strong>${escHTML(c.curso||'Sin nombre')}${badge}</strong>
-      <div class="ci-actions">
-        <button class="ci-btn move" title="Mover" onclick="openMoverCurso(${alo.numero},'${side}',${ci})">↕</button>
-        <button class="ci-btn del" title="Eliminar" onclick="deleteCurso(${alo.numero},'${side}',${ci})">✕</button>
-      </div>
-      <div class="ci-row">
-        ${c.cdte?`<span>👤 ${escHTML(c.cdte)}</span>`:''}
-        ${c.tel?`<span>📞 ${escHTML(c.tel)}</span>`:''}
-        <span>FE:${c.fe||0}</span>
-      </div>
-      <div class="ci-row">
-        ${c.fechaIni?`<span>📅 ${fmtFecha(c.fechaIni)}</span>`:''}
-        ${c.fechaFin?`<span>→${fmtFecha(c.fechaFin)}</span>`:''}
-      </div>
-    </div>`;
-  }).join('');
-  const addBtn=canAdd
-    ?`<button class="add-curso-btn" onclick="openAddCurso(${alo.numero},'${side}')">＋ Agregar curso</button>`
-    :`<div style="font-size:.65rem;color:var(--gris);text-align:center;padding:4px">Máx ${MAX_CURSOS}</div>`;
-  return`<div class="ala">
-    <div class="ala-hdr">${label}</div>
-    <div class="ala-body">${cursosHTML}${addBtn}</div>
-  </div>`;
-}
-function refreshCard(num){
-  const alo=state.alojamientos.find(a=>a.numero===num);
-  const entry=cardNodes.get(num);
-  if(!alo||!entry)return;
-  entry.card.querySelector('.c-card-inner').innerHTML=buildCardHTML(alo);
-}
-
-// ═══════════════════════════════════════
-//  CARRUSEL — TRANSFORMS
-// ═══════════════════════════════════════
-function applyCardTransforms(){
-  state.alojamientos.forEach((alo,i)=>{
-    const entry=cardNodes.get(alo.numero);if(!entry)return;
-    const{card,shield}=entry;
-    const offset=i-carouselIdx,abs=Math.abs(offset),sign=Math.sign(offset)||1;
-    let tx,rotY,scale,tz,op,blur,zi;
-    if(offset===0){
-      tx=0;rotY=0;scale=1;tz=0;op=1;blur=0;zi=10;
-      card.classList.add('is-active');
-      shield.style.pointerEvents='none';shield.onclick=null;
-    }else if(abs===1){
-      tx=sign*CFG.sepX;rotY=-sign*CFG.rotY;scale=CFG.scaleSide;
-      tz=CFG.zSide;op=CFG.opSide;blur=1;zi=8;
-      card.classList.remove('is-active');
-      shield.style.pointerEvents='all';shield.onclick=()=>goTo(i);
-    }else if(abs===2){
-      tx=sign*CFG.sepX*1.8;rotY=-sign*CFG.rotY*1.15;scale=CFG.scaleFar;
-      tz=CFG.zFar;op=CFG.opFar;blur=2;zi=6;
-      card.classList.remove('is-active');
-      shield.style.pointerEvents='all';shield.onclick=()=>goTo(i);
-    }else{
-      tx=sign*CFG.sepX*3;rotY=-sign*CFG.rotY*1.3;scale=0.35;
-      tz=-260;op=0;blur=4;zi=1;
-      card.classList.remove('is-active');
-      shield.style.pointerEvents='none';shield.onclick=null;
-    }
-    card.style.zIndex=zi;card.style.opacity=op;
-    card.style.filter=blur?`blur(${blur}px)`:'none';
-    card.style.transform=`translate(calc(-50% + ${tx}px),-50%) rotateY(${rotY}deg) scale(${scale}) translateZ(${tz}px)`;
-  });
-}
-function syncCards(){
-  const track=document.getElementById('carouselTrack');
-  const nums=new Set(state.alojamientos.map(a=>a.numero));
-  cardNodes.forEach((entry,num)=>{
-    if(!nums.has(num)){track.removeChild(entry.card);cardNodes.delete(num);}
-  });
-  state.alojamientos.forEach(alo=>{
-    if(!cardNodes.has(alo.numero)){
-      const card=buildCardDOM(alo);
-      const shield=card.querySelector('.c-card-shield');
-      track.appendChild(card);cardNodes.set(alo.numero,{card,shield});
-    }else{refreshCard(alo.numero);}
-  });
-}
-function syncNav(){
-  const alos=state.alojamientos;
-  const dots=document.getElementById('dotContainer');dots.innerHTML='';
-  alos.forEach((_,i)=>{
-    const d=document.createElement('div');
-    d.className='dot'+(i===carouselIdx?' active':'');
-    d.onclick=()=>goTo(i);dots.appendChild(d);
-  });
-  document.getElementById('btnPrev').disabled=carouselIdx===0;
-  document.getElementById('btnNext').disabled=carouselIdx===alos.length-1;
-  const empty=document.getElementById('emptyState');
-  const vp=document.getElementById('carouselViewport');
-  const nav=document.getElementById('carouselNav');
-  const hint=document.getElementById('swipeHint');
-  if(!alos.length){
-    empty.style.display='block';vp.style.display='none';
-    nav.style.display='none';hint.style.display='none';
-  }else{
-    empty.style.display='none';vp.style.display='block';nav.style.display='flex';
-    hint.style.display=alos.length>1?'block':'none';
-  }
-}
-function renderCarousel(){
-  syncCards();syncNav();
-  requestAnimationFrame(()=>requestAnimationFrame(applyCardTransforms));
-}
-function navigate(dir){
-  const n=state.alojamientos.length;if(!n)return;
-  carouselIdx=Math.max(0,Math.min(n-1,carouselIdx+dir));
-  syncNav();applyCardTransforms();
-}
-function goTo(i){carouselIdx=i;syncNav();applyCardTransforms();}
-
-// ═══════════════════════════════════════════════════════════════
-//  SWIPE TÁCTIL — solución robusta para móvil
-//  Usa touchstart/touchmove/touchend con passive:false
-//  para poder llamar preventDefault y evitar scroll durante swipe
-// ═══════════════════════════════════════════════════════════════
-(function initSwipe(){
-  const vp=document.getElementById('carouselViewport');
-
-  let touchStartX=null;
-  let touchStartY=null;
-  let swipeActivo=false;   // true cuando el gesto es claramente horizontal
-  let bloqueado=false;     // true cuando el gesto es claramente vertical (scroll)
-
-  // ── TOUCH ──
-  vp.addEventListener('touchstart', e=>{
-    // No iniciar si el toque viene de un botón/input
-    if(e.target.closest('button,input,textarea,select,a,.ala-body')){return;}
-    const t=e.touches[0];
-    touchStartX=t.clientX;
-    touchStartY=t.clientY;
-    swipeActivo=false;
-    bloqueado=false;
-  },{passive:true});
-
-  vp.addEventListener('touchmove', e=>{
-    if(touchStartX===null)return;
-    const t=e.touches[0];
-    const dx=t.clientX-touchStartX;
-    const dy=t.clientY-touchStartY;
-    const absDx=Math.abs(dx),absDy=Math.abs(dy);
-
-    // Decidir dirección dominante solo una vez
-    if(!swipeActivo&&!bloqueado){
-      if(absDx>8||absDy>8){
-        if(absDx>absDy){
-          // Gesto horizontal → swipe de carrusel
-          swipeActivo=true;
-        }else{
-          // Gesto vertical → scroll normal, no interferir
-          bloqueado=true;
+        function init() {
+            const today = new Date().getDay();
+            const dayMap = { 0: 'lunes', 1: 'lunes', 2: 'martes', 3: 'miercoles', 4: 'jueves', 5: 'viernes', 6: 'sabado' };
+            currentDay = dayMap[today];
+            updateWeekRange();
+            renderTabs();
+            renderSchedule();
         }
-      }
-    }
 
-    // Solo prevenir scroll cuando hacemos swipe horizontal
-    if(swipeActivo){
-      e.preventDefault();
-    }
-  },{passive:false}); // passive:false es NECESARIO para poder llamar preventDefault
+        function getWeekDates() {
+            const now = new Date();
+            now.setDate(now.getDate() + (currentWeekOffset * 7));
+            const monday = new Date(now);
+            monday.setDate(now.getDate() - (now.getDay() || 7) + 1);
+            const saturday = new Date(monday);
+            saturday.setDate(monday.getDate() + 5);
+            return { monday, saturday };
+        }
 
-  vp.addEventListener('touchend', e=>{
-    if(touchStartX===null){return;}
-    if(swipeActivo){
-      const dx=e.changedTouches[0].clientX-touchStartX;
-      if(Math.abs(dx)>40){
-        navigate(dx<0?1:-1);
-      }
-    }
-    touchStartX=null;touchStartY=null;
-    swipeActivo=false;bloqueado=false;
-  },{passive:true});
+        function updateWeekRange() {
+            const { monday, saturday } = getWeekDates();
+            const opts = { day: 'numeric', month: 'short' };
+            document.getElementById('weekRange').textContent =
+                `${monday.toLocaleDateString('es', opts)} - ${saturday.toLocaleDateString('es', opts)}, ${saturday.getFullYear()}`;
+        }
 
-  vp.addEventListener('touchcancel',()=>{
-    touchStartX=null;touchStartY=null;
-    swipeActivo=false;bloqueado=false;
-  },{passive:true});
+        function changeWeek(dir) {
+            currentWeekOffset += dir;
+            updateWeekRange();
+        }
 
-  // ── MOUSE (escritorio) ──
-  let mouseStartX=null,mouseDragging=false;
-  vp.addEventListener('mousedown',e=>{
-    if(e.target.closest('button,input,textarea,select,a,.ala-body'))return;
-    mouseStartX=e.clientX;mouseDragging=false;
-    vp.style.cursor='grabbing';
-  });
-  vp.addEventListener('mousemove',e=>{
-    if(mouseStartX===null)return;
-    if(Math.abs(e.clientX-mouseStartX)>8)mouseDragging=true;
-  });
-  vp.addEventListener('mouseup',e=>{
-    if(mouseStartX===null){vp.style.cursor='';return;}
-    const dx=e.clientX-mouseStartX;
-    if(mouseDragging&&Math.abs(dx)>40)navigate(dx<0?1:-1);
-    mouseStartX=null;mouseDragging=false;vp.style.cursor='';
-  });
-  vp.addEventListener('mouseleave',()=>{
-    mouseStartX=null;mouseDragging=false;vp.style.cursor='';
-  });
+        function renderTabs() {
+            const container = document.getElementById('tabContainer');
+            container.innerHTML = '';
+            const dayAbbr = { 'lunes': 'LUN', 'martes': 'MAR', 'miercoles': 'MIÉ', 'jueves': 'JUE', 'viernes': 'VIE', 'sabado': 'SÁB' };
+            days.forEach(day => {
+                const tab = document.createElement('div');
+                tab.className = `tab ${day === currentDay ? 'active' : ''}`;
+                const count = courses.filter(c => c.day === day).length;
+                tab.innerHTML = `${dayAbbr[day]}<br><small style="opacity:0.6">${count}</small>`;
+                tab.onclick = () => {
+                    currentDay = day;
+                    collapseCard();
+                    renderTabs();
+                    renderSchedule();
+                };
+                container.appendChild(tab);
+            });
+        }
 
-  // ── TECLADO ──
-  document.addEventListener('keydown',e=>{
-    if(document.querySelector('.overlay.open'))return;
-    if(document.getElementById('porFinalizarSection').style.display!=='none')return;
-    if(e.key==='ArrowLeft')navigate(-1);
-    if(e.key==='ArrowRight')navigate(1);
-  });
-})();
+        function renderSchedule() {
+            const container = document.getElementById('scheduleContainer');
+            const dayCourses = courses.filter(c => c.day === currentDay);
 
-// ═══════════════════════════════════════
-//  ACCIONES
-// ═══════════════════════════════════════
-function guardarCap(num){
-  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
-  const inp=document.getElementById('cap_'+num);if(!inp)return;
-  alo.capacidad=Math.max(0,parseInt(inp.value)||0);
-  saveState();checkAlerts();refreshCard(num);
-}
-function confirmarEliminarBarraca(num){
-  if(!confirm(`¿Eliminar BARRACA N° ${num}?`))return;
-  state.alojamientos=state.alojamientos.filter(a=>a.numero!==num);
-  carouselIdx=Math.min(carouselIdx,Math.max(0,state.alojamientos.length-1));
-  saveState();renderCarousel();checkAlerts();
-}
-function deleteCurso(num,side,ci){
-  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
-  const c=alo[side].cursos[ci];
-  if(!confirm(`¿Eliminar curso "${c.curso||'sin nombre'}"?`))return;
-  alo[side].cursos.splice(ci,1);
-  saveState();checkAlerts();refreshCard(num);
-  if(document.getElementById('porFinalizarSection').style.display!=='none')renderPorFinalizar();
-}
+            if (dayCourses.length === 0) {
+                container.innerHTML = `
+                    <div class="no-courses">
+                        <div class="emoji">📭</div>
+                        <p>No hay cursos para ${dayNames[currentDay]}</p>
+                        <p style="font-size:0.8rem; margin-top:8px;">Toca + para agregar uno</p>
+                    </div>`;
+                return;
+            }
 
-// ═══════════════════════════════════════
-//  MODAL CURSO
-// ═══════════════════════════════════════
-function openAddCurso(num,side){
-  _curCtx={aloIdx:state.alojamientos.findIndex(a=>a.numero===num),side};
-  document.getElementById('modalCursoTitle').textContent=
-    `Agregar Curso — B${num} · ${labelAla(side)}`;
-  ['cNombre','cCdte','cTel','cExtrPais','cNotas'].forEach(id=>document.getElementById(id).value='');
-  ['cFE','cEjercito','cArmada','cAerea','cInpec','cExtrCant','cOtro'].forEach(id=>document.getElementById(id).value=0);
-  document.getElementById('cFechaIni').value='';
-  document.getElementById('cFechaFin').value='';
-  document.querySelector('input[name="cGenero"][value="HOMBRE"]').checked=true;
-  openModal('modalCurso');
-}
-function saveCurso(){
-  const{aloIdx,side}=_curCtx;if(aloIdx<0)return;
-  const alo=state.alojamientos[aloIdx];
-  const nombre=document.getElementById('cNombre').value.trim();
-  if(!nombre){alert('Ingrese el nombre del curso');return;}
-  const fechaFin=document.getElementById('cFechaFin').value;
-  if(!fechaFin){alert('Ingrese la fecha de fin');return;}
-  if(alo[side].cursos.length>=MAX_CURSOS){alert(`Máximo ${MAX_CURSOS} cursos por ala`);return;}
-  const genero=document.querySelector('input[name="cGenero"]:checked').value;
-  alo[side].cursos.push({
-    curso:nombre,cdte:document.getElementById('cCdte').value.trim(),
-    tel:document.getElementById('cTel').value.trim(),
-    fe:parseInt(document.getElementById('cFE').value)||0,genero,
-    ejercito:parseInt(document.getElementById('cEjercito').value)||0,
-    armada:parseInt(document.getElementById('cArmada').value)||0,
-    aerea:parseInt(document.getElementById('cAerea').value)||0,
-    inpec:parseInt(document.getElementById('cInpec').value)||0,
-    extrPais:document.getElementById('cExtrPais').value.trim(),
-    extrCant:parseInt(document.getElementById('cExtrCant').value)||0,
-    otro:parseInt(document.getElementById('cOtro').value)||0,
-    fechaIni:document.getElementById('cFechaIni').value,
-    fechaFin,notas:document.getElementById('cNotas').value.trim()
-  });
-  saveState();checkAlerts();closeModal('modalCurso');refreshCard(alo.numero);
-}
+            const usedSlots = new Set();
+            const slotCourses = {};
 
-// ═══════════════════════════════════════
-//  MODAL BARRACA
-// ═══════════════════════════════════════
-function openAddBarraca(){
-  const usados=new Set(state.alojamientos.map(a=>a.numero));
-  const grid=document.getElementById('selectorGrid');grid.innerHTML='';
-  for(let n=1;n<=20;n++){
-    const div=document.createElement('div');
-    div.className='sel-num'+(usados.has(n)?' usado':'');
-    div.textContent=n;
-    if(!usados.has(n))div.onclick=()=>addBarraca(n);
-    grid.appendChild(div);
-  }
-  openModal('modalBarraca');
-}
-function addBarraca(num){
-  if(state.alojamientos.find(a=>a.numero===num))return;
-  state.alojamientos.push(makeAlo(num));
-  state.alojamientos.sort((a,b)=>a.numero-b.numero);
-  carouselIdx=state.alojamientos.findIndex(a=>a.numero===num);
-  saveState();closeModal('modalBarraca');renderCarousel();
-}
+            dayCourses.forEach(course => {
+                const startIdx = timeSlots.indexOf(course.startTime);
+                if (startIdx === -1) return;
+                const key = course.startTime;
+                if (!slotCourses[key]) slotCourses[key] = { A: [], B: [] };
+                slotCourses[key][course.wing].push(course);
+                usedSlots.add(key);
+            });
 
-// ═══════════════════════════════════════
-//  PARTES
-// ═══════════════════════════════════════
-function parteAlaBloque(alo,side){
-  const ala=alo[side],label=side==='izquierda'?'ALA IZQUIERDA':'ALA DERECHA';
-  const cursos=ala.cursos||[],fe=cursos.reduce((s,c)=>s+Number(c.fe||0),0);
-  let txt=`🛏️ *BARRACA N° ${alo.numero} — ${label}*\nFE esta ala: ${fe}\n`;
-  if(!cursos.length){txt+='(Sin cursos asignados)\n';}
-  else{cursos.forEach((c,i)=>{
-    const st=cursoStatus(c),dr=diasRestantes(c.fechaFin);
-    txt+=`\n  ${i+1}. *${c.curso||'—'}*`;
-    if(st==='vencido')txt+=' [VENCIDO]';else if(st==='alerta')txt+=` [⚠️ ${dr}d]`;
-    txt+='\n';
-    if(c.cdte)txt+=`     CDTE ASIGNACIÓN BARRACA: ${c.cdte}\n`;
-    if(c.tel)txt+=`     • Tel: ${c.tel}\n`;
-    txt+=`     • FE: ${c.fe||0}\n`;
-    txt+=`     • Género: ${c.genero||'—'}\n`;
-    if(c.ejercito)txt+=`     • Ejército: ${c.ejercito}\n`;
-    if(c.armada)txt+=`     • Armada: ${c.armada}\n`;
-    if(c.aerea)txt+=`     • Fuerza Aérea: ${c.aerea}\n`;
-    if(c.inpec)txt+=`     • INPEC: ${c.inpec}\n`;
-    if(c.extrCant)txt+=`     • Extranjero (${c.extrPais||'—'}): ${c.extrCant}\n`;
-    if(c.otro)txt+=`     • Otro: ${c.otro}\n`;
-    if(c.fechaIni)txt+=`     • Inicio: ${fmtFecha(c.fechaIni)}\n`;
-    if(c.fechaFin)txt+=`     • Fin: ${fmtFecha(c.fechaFin)}\n`;
-    if(c.notas)txt+=`     • Nota: ${c.notas}\n`;
-  });}
-  return txt;
-}
-function openParteModal(num){
-  const alo=state.alojamientos.find(a=>a.numero===num);if(!alo)return;
-  document.getElementById('parteOut').textContent=
-    `📋 PARTE — BARRACA N° ${alo.numero}\nFecha: ${fmtFecha(hoy())}\n`+
-    `Capacidad: ${alo.capacidad||0} · FE total: ${feTotal(alo)} · Disponibles: ${disponibles(alo)}\n`+
-    `${'─'.repeat(40)}\n\n`+parteAlaBloque(alo,'izquierda')+'\n'+parteAlaBloque(alo,'derecha');
-  document.getElementById('parteTitulo').textContent=`Parte — Barraca N° ${num}`;
-  openModal('modalParte');
-}
-function openParteGeneral(){
-  let txt=`📋 PARTE GENERAL — CENOP\nFecha: ${fmtFecha(hoy())}\n${'═'.repeat(45)}\n\n`;
-  state.alojamientos.forEach(alo=>{
-    txt+=`${'─'.repeat(40)}\n`;
-    txt+=parteAlaBloque(alo,'izquierda')+'\n'+parteAlaBloque(alo,'derecha')+'\n';
-  });
-  const feG=state.alojamientos.reduce((s,a)=>s+feTotal(a),0);
-  const capG=state.alojamientos.reduce((s,a)=>s+(a.capacidad||0),0);
-  txt+=`${'═'.repeat(45)}\nTOTALES — Capacidad: ${capG} · FE: ${feG} · Disponibles: ${Math.max(0,capG-feG)}\n`;
-  document.getElementById('parteGenOut').textContent=txt;
-  openModal('modalParteGen');
-}
+            const sortedSlots = Array.from(usedSlots).sort();
+            let html = '';
 
-// ═══════════════════════════════════════
-//  RESUMEN
-// ═══════════════════════════════════════
-function toggleResumen(){
-  const sec=document.getElementById('resumenSection');
-  const showing=sec.style.display==='block';
-  sec.style.display=showing?'none':'block';
-  if(!showing){buildResumen();document.getElementById('resumenBody').style.display='block';}
-}
-function collapseResumen(){
-  const body=document.getElementById('resumenBody'),arrow=document.getElementById('resumenArrow');
-  const open=body.style.display!=='none';
-  body.style.display=open?'none':'block';arrow.textContent=open?'▶':'▼';
-  if(!open)buildResumen();
-}
-function buildResumen(){
-  let txt='';
-  state.alojamientos.forEach(alo=>{
-    txt+=`BARRACA ${alo.numero}\n`;
-    ['izquierda','derecha'].forEach(side=>{
-      const cursos=alo[side].cursos||[];
-      if(cursos.length){
-        txt+=`  ${labelAla(side)}:\n`;
-        cursos.forEach((c,i)=>{
-          txt+=`    ${i+1}. ${c.curso||'—'} — ${fmtFecha(c.fechaIni)} al ${fmtFecha(c.fechaFin)}\n`;
-        });
-      }
-    });
-  });
-  document.getElementById('resumenPre').textContent=txt||'(Sin cursos registrados)';
-}
-function copyResumen(){
-  buildResumen();
-  navigator.clipboard.writeText(document.getElementById('resumenPre').textContent)
-    .then(()=>alert('✅ Copiado')).catch(()=>alert('No se pudo copiar'));
-}
+            sortedSlots.forEach(slot => {
+                const data = slotCourses[slot];
+                html += `<div class="time-slot-group">`;
+                html += `<div class="time-label">${slot}</div>`;
+                html += `<div class="wings-container">`;
 
-// ═══════════════════════════════════════
-//  EXPORT / IMPORT
-// ═══════════════════════════════════════
-function exportJSON(){
-  const data={app:'BARRACAS-CENOP',version:5,exportado:new Date().toISOString(),alojamientos:state.alojamientos};
-  const a=Object.assign(document.createElement('a'),{
-    href:URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),
-    download:`barracas-cenop-${hoy()}.json`
-  });
-  a.click();URL.revokeObjectURL(a.href);
-}
-function importJSON(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    try{
-      state=normalizeState(JSON.parse(ev.target.result));
-      carouselIdx=0;cardNodes.clear();
-      document.getElementById('carouselTrack').innerHTML='';
-      saveState();renderCarousel();checkAlerts();
-      alert('✅ Importado correctamente');
-    }catch(err){alert('Error al importar: '+err.message);}
-  };
-  reader.readAsText(file);e.target.value='';
-}
+                // Wing A
+                html += `<div class="wing-column">`;
+                html += `<div class="wing-header wing-a-header">Ala A</div>`;
+                if (data.A.length > 0) {
+                    data.A.forEach(c => {
+                        html += renderCourseCard(c);
+                    });
+                } else {
+                    html += `<div class="empty-slot" onclick="openAddModalPrefilled('${currentDay}','A','${slot}')">+ Ala A</div>`;
+                }
+                html += `</div>`;
 
-// ═══════════════════════════════════════
-//  UTIL
-// ═══════════════════════════════════════
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-function copyEl(id){
-  navigator.clipboard.writeText(document.getElementById(id).textContent)
-    .then(()=>alert('✅ Copiado')).catch(()=>alert('No se pudo copiar'));
-}
-document.querySelectorAll('.overlay').forEach(el=>{
-  el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');});
-});
+                // Wing B
+                html += `<div class="wing-column">`;
+                html += `<div class="wing-header wing-b-header">Ala B</div>`;
+                if (data.B.length > 0) {
+                    data.B.forEach(c => {
+                        html += renderCourseCard(c);
+                    });
+                } else {
+                    html += `<div class="empty-slot" onclick="openAddModalPrefilled('${currentDay}','B','${slot}')">+ Ala B</div>`;
+                }
+                html += `</div>`;
 
-// ═══════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════
-function init(){
-  loadState();
-  if(!state.alojamientos.length){
-    DEFAULT_NOS.forEach(n=>state.alojamientos.push(makeAlo(n)));
-    saveState();
-  }
-  carouselIdx=0;
-  renderCarousel();
-  checkAlerts();
-}
-init();
-</script>
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderCourseCard(course) {
+            const wingClass = course.wing === 'A' ? 'wing-a' : 'wing-b';
+            return `
+                <div class="course-card ${wingClass}" onclick="expandCard('${course.id}')" id="card-${course.id}">
+                    <div class="course-name">${course.name} <span class="wing-badge">${course.wing}</span></div>
+                    <div class="course-teacher">${course.teacher || ''}</div>
+                    <div class="course-room">${course.room || ''} · ${course.startTime}-${course.endTime}</div>
+                </div>`;
+        }
+
+        function expandCard(courseId) {
+            if (expandedCourseId === courseId) {
+                collapseCard();
+                return;
+            }
+
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            expandedCourseId = courseId;
+            const panel = document.getElementById('expandedPanel');
+            const overlay = document.getElementById('expandedOverlay');
+
+            // Set wing class
+            panel.className = `expanded-panel wing-${course.wing.toLowerCase()}`;
+
+            // Title
+            document.getElementById('expTitle').textContent = course.name;
+
+            // Details
+            let detailsHtml = '';
+            detailsHtml += `<div class="detail-row"><span class="icon">👨‍🏫</span><span class="label">Profesor</span><span class="value">${course.teacher || 'No asignado'}</span></div>`;
+            detailsHtml += `<div class="detail-row"><span class="icon">📞</span><span class="label">Teléfono</span><span class="value">${course.phone || 'No registrado'}</span></div>`;
+            detailsHtml += `<div class="detail-row"><span class="icon">🏫</span><span class="label">Aula</span><span class="value">${course.room || 'No asignada'}</span></div>`;
+            detailsHtml += `<div class="detail-row"><span class="icon">🕐</span><span class="label">Horario</span><span class="value">${course.startTime} - ${course.endTime}</span></div>`;
+            detailsHtml += `<div class="detail-row"><span class="icon">📅</span><span class="label">Día</span><span class="value">${dayNames[course.day]}</span></div>`;
+            detailsHtml += `<div class="detail-row"><span class="icon">🏢</span><span class="label">Ala</span><span class="value">Ala ${course.wing}</span></div>`;
+            if (course.notes) {
+                detailsHtml += `<div class="detail-row"><span class="icon">📝</span><span class="label">Notas</span><span class="value">${course.notes}</span></div>`;
+            }
+            document.getElementById('expDetails').innerHTML = detailsHtml;
+
+            // Actions
+            let actionsHtml = '';
+            actionsHtml += `<button class="action-btn btn-edit" onclick="editCourse('${course.id}')"><span class="btn-icon">✏️</span> Editar</button>`;
+            actionsHtml += `<button class="action-btn btn-move" onclick="openMoveModal('${course.id}')"><span class="btn-icon">↕️</span> Mover</button>`;
+            actionsHtml += `<button class="action-btn btn-delete" onclick="deleteCourse('${course.id}')"><span class="btn-icon">🗑️</span> Eliminar</button>`;
+
+            if (course.phone) {
+                actionsHtml += `<button class="action-btn btn-call" onclick="callPhone('${course.phone}')"><span class="btn-icon">📞</span> Llamar</button>`;
+            } else {
+                actionsHtml += `<button class="action-btn btn-call" style="opacity:0.4; cursor:not-allowed;"><span class="btn-icon">📞</span> Sin tel.</button>`;
+            }
+
+            document.getElementById('expActions').innerHTML = actionsHtml;
+
+            overlay.classList.add('show');
+        }
+
+        function collapseCard() {
+            expandedCourseId = null;
+            document.getElementById('expandedOverlay').classList.remove('show');
+        }
+
+        function handleOverlayClick(event) {
+            if (event.target === document.getElementById('expandedOverlay')) {
+                collapseCard();
+            }
+        }
+
+        function callPhone(phone) {
+            window.location.href = `tel:${phone}`;
+        }
+
+        function editCourse(id) {
+            collapseCard();
+            const course = courses.find(c => c.id === id);
+            if (!course) return;
+
+            editingCourseId = id;
+            document.getElementById('modalTitle').textContent = '✏️ Editar Curso';
+            document.getElementById('courseName').value = course.name;
+            document.getElementById('courseTeacher').value = course.teacher || '';
+            document.getElementById('coursePhone').value = course.phone || '';
+            document.getElementById('courseDay').value = course.day;
+            document.getElementById('courseWing').value = course.wing;
+            document.getElementById('courseStart').value = course.startTime;
+            document.getElementById('courseEnd').value = course.endTime;
+            document.getElementById('courseRoom').value = course.room || '';
+            document.getElementById('courseNotes').value = course.notes || '';
+            document.getElementById('courseModal').classList.add('show');
+        }
+
+        function deleteCourse(id) {
+            const course = courses.find(c => c.id === id);
+            if (!course) return;
+            if (confirm(`¿Eliminar "${course.name}"?`)) {
+                courses = courses.filter(c => c.id !== id);
+                saveData();
+                collapseCard();
+                renderTabs();
+                renderSchedule();
+                showToast('Curso eliminado');
+            }
+        }
+
+        function openMoveModal(id) {
+            collapseCard();
+            movingCourseId = id;
+            const course = courses.find(c => c.id === id);
+            if (!course) return;
+
+            document.getElementById('moveCourseName').textContent = `"${course.name}"`;
+            document.getElementById('moveDay').value = course.day;
+            document.getElementById('moveWing').value = course.wing;
+            document.getElementById('moveStart').value = course.startTime;
+            document.getElementById('moveEnd').value = course.endTime;
+            document.getElementById('moveModal').classList.add('show');
+        }
+
+        function closeMoveModal() {
+            document.getElementById('moveModal').classList.remove('show');
+            movingCourseId = null;
+        }
+
+        function confirmMove() {
+            if (!movingCourseId) return;
+            const course = courses.find(c => c.id === movingCourseId);
+            if (!course) return;
+
+            const newDay = document.getElementById('moveDay').value;
+            const newWing = document.getElementById('moveWing').value;
+            const newStart = document.getElementById('moveStart').value;
+            const newEnd = document.getElementById('moveEnd').value;
+
+            if (!newStart || !newEnd) {
+                showToast('Completa las horas');
+                return;
+            }
+
+            course.day = newDay;
+            course.wing = newWing;
+            course.startTime = newStart;
+            course.endTime = newEnd;
+
+            saveData();
+            closeMoveModal();
+            currentDay = newDay;
+            renderTabs();
+            renderSchedule();
+            showToast('Curso movido correctamente');
+        }
+
+        function toggleFab() {
+            const menu = document.getElementById('fabMenu');
+            const btn = document.getElementById('fabMain');
+            menu.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        function openAddModal() {
+            closeFab();
+            editingCourseId = null;
+            document.getElementById('modalTitle').textContent = '📚 Agregar Curso';
+            document.getElementById('courseName').value = '';
+            document.getElementById('courseTeacher').value = '';
+            document.getElementById('coursePhone').value = '';
+            document.getElementById('courseDay').value = currentDay;
+            document.getElementById('courseWing').value = 'A';
+            document.getElementById('courseStart').value = '07:00';
+            document.getElementById('courseEnd').value = '08:30';
+            document.getElementById('courseRoom').value = '';
+            document.getElementById('courseNotes').value = '';
+            document.getElementById('courseModal').classList.add('show');
+        }
+
+        function openAddModalPrefilled(day, wing, time) {
+            closeFab();
+            editingCourseId = null;
+            document.getElementById('modalTitle').textContent = '📚 Agregar Curso';
+            document.getElementById('courseName').value = '';
+            document.getElementById('courseTeacher').value = '';
+            document.getElementById('coursePhone').value = '';
+            document.getElementById('courseDay').value = day;
+            document.getElementById('courseWing').value = wing;
+            document.getElementById('courseStart').value = time;
+
+            const [h, m] = time.split(':').map(Number);
+            const endMinutes = h * 60 + m + 90;
+            const endH = String(Math.floor(endMinutes / 60)).padStart(2, '0');
+            const endM = String(endMinutes % 60).padStart(2, '0');
+            document.getElementById('courseEnd').value = `${endH}:${endM}`;
+
+            document.getElementById('courseRoom').value = '';
+            document.getElementById('courseNotes').value = '';
+            document.getElementById('courseModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').classList.remove('show');
+            editingCourseId = null;
+        }
+
+        function closeFab() {
+            document.getElementById('fabMenu').classList.remove('show');
+            document.getElementById('fabMain').classList.remove('active');
+        }
+
+        function saveCourse() {
+            const name = document.getElementById('courseName').value.trim();
+            const teacher = document.getElementById('courseTeacher').value.trim();
+            const phone = document.getElementById('coursePhone').value.trim();
+            const day = document.getElementById('courseDay').value;
+            const wing = document.getElementById('courseWing').value;
+            const startTime = document.getElementById('courseStart').value;
+            const endTime = document.getElementById('courseEnd').value;
+            const room = document.getElementById('courseRoom').value.trim();
+            const notes = document.getElementById('courseNotes').value.trim();
+
+            if (!name) { showToast('Ingresa el nombre del curso'); return; }
+            if (!startTime || !endTime) { showToast('Ingresa las horas'); return; }
+            if (startTime >= endTime) { showToast('La hora fin debe ser mayor'); return; }
+
+            if (editingCourseId) {
+                const course = courses.find(c => c.id === editingCourseId);
+                Object.assign(course, { name, teacher, phone, day, wing, startTime, endTime, room, notes });
+                showToast('Curso actualizado');
+            } else {
+                courses.push({
+                    id: Date.now().toString(),
+                    name, teacher, phone, day, wing, startTime, endTime, room, notes
+                });
+                showToast('Curso agregado');
+            }
+
+            saveData();
+            closeModal();
+            currentDay = day;
+            renderTabs();
+            renderSchedule();
+        }
+
+        function saveData() {
+            localStorage.setItem('courses', JSON.stringify(courses));
+        }
+
+        function exportData() {
+            closeFab();
+            const blob = new Blob([JSON.stringify(courses, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `horario_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Datos exportados');
+        }
+
+        function importData() {
+            closeFab();
+            document.getElementById('fileInput').click();
+        }
+
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data)) {
+                        courses = data;
+                        saveData();
+                        renderTabs();
+                        renderSchedule();
+                        showToast(`${data.length} cursos importados`);
+                    }
+                } catch {
+                    showToast('Error al importar');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        init();
+    </script>
 </body>
 </html>
